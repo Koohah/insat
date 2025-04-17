@@ -1,0 +1,43 @@
+body {
+    margin: 0;
+}
+
+canvas {
+    display: block;
+}
+
+#hud {
+    position: absolute;
+    top: 2vh;
+    left: 2vh;
+    background-color: rgba(50, 50, 50, 0.6);
+    color: white;
+    padding: 1vh 2vh;
+    border-radius: 2vh;
+    font-family: Arial, sans-serif;
+    backdrop-filter: blur(1vh);
+}
+
+#toggleHUD {
+    position: absolute;
+    bottom: 4vh;
+    left: 4vh;
+    background-color: rgba(50, 50, 50, 0.6);
+    color: white;
+    padding: 1vh;
+    border-radius: 1vh;
+    font-family: Arial, sans-serif;
+    backdrop-filter: blur(1vh);
+    display: block;
+}
+
+#hudToggleButton {
+    margin: 0;
+    margin-top: 2px;
+    border: none;
+    cursor: pointer;
+}
+  
+/* #toggleHUD:hover {
+    background: #666;
+} */

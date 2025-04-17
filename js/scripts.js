@@ -1,0 +1,271 @@
+import * as THREE from './three.module.js';
+import {OrbitControls} from './other/OrbitControls.js';
+import {GLTFLoader} from './other/GLTFLoader.js';
+// import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.144/build/three.module.js';
+// import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.144/examples/jsm/controls/OrbitControls.js';
+// import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.144/examples/jsm/loaders/GLTFLoader.js';
+
+const modelUrl = new URL('../medias/drakkar.glb', import.meta.url);
+
+
+
+// Initialisation de la scene
+
+const renderer = new THREE.WebGLRenderer({ antialias: true  }); // consomme un peu mais c'est plus beau
+renderer.shadowMap.enabled = true;
+renderer.setSize(window.innerWidth, window.innerHeight); // toute la page
+document.body.appendChild(renderer.domElement); // canvas
+
+const scene = new THREE.Scene();    // Creation de la scene
+
+// Camera
+
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // Fov 75, de la taille de la fenetre
+const orbit = new OrbitControls(camera, renderer.domElement);   // On lui donne des commandes de deplacement
+
+// Parametres de Camera
+
+orbit.enableDamping = true; 
+orbit.dampingFactor = 0.035;        // Inertie
+orbit.enablePan = false;            // Pas de deplacements
+orbit.maxDistance = 10;
+orbit.minDistance = 5;              // Zoom
+orbit.maxPolarAngle = 3*Math.PI/4;  
+orbit.minPolarAngle = Math.PI/4;    // Hauteur Max et Min
+camera.position.set(4.5, 2.5, 4.5);
+orbit.update();                     // Toujours update apres
+
+// Aides
+
+const axesHelper = new THREE.AxesHelper(5);
+scene.add(axesHelper);
+
+const gridHelper = new THREE.GridHelper(30, 30);
+scene.add(gridHelper);
+
+
+// Fonction pour orbiter la planete que l'on va creer
+const setupOrbit = (Vec = THREE.Vector3, obj) => {
+    obj.position.copy(Vec);
+    const up = new THREE.Vector3(0, 1, 0);
+    const normal = Vec.clone().normalize();
+    obj.quaternion.setFromUnitVectors(up, normal);
+};
+
+// Creation de la Planete
+
+const planetGeo = new THREE.IcosahedronGeometry(3, 1);  // Geometrie de la planete
+const planetMat = new THREE.MeshStandardMaterial({
+    color: 0x1045c5, // bleu
+    metalness: 0.5,
+    roughness: 1
+}); // Sa texture
+const planet = new THREE.Mesh(planetGeo, planetMat);    // Creation
+scene.add(planet);  // Toujours ajouter a la scene
+planet.receiveShadow = true;    // Recoit des ombres
+
+// "Sharper Edges"
+const pWireGeo = new THREE.IcosahedronGeometry(3.005, 1); // Geometrie des aretes, attention aux clip
+const pWireMat = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.15
+}); // Leur texture
+const pWire = new THREE.Mesh(pWireGeo, pWireMat);   // Creation
+planet.add(pWire);
+
+// Atmosphere
+const atmoGeo = new THREE.SphereGeometry(4);    // Geometrie spherique
+const atmoMat = new THREE.MeshStandardMaterial({
+    color: 0x088ff8,
+    side: THREE.BackSide,
+    transparent: true,
+    opacity: 0.2
+}); // Sa texture, on voit la face interieure
+const atmosphere = new THREE.Mesh(atmoGeo, atmoMat);    // Creation
+scene.add(atmosphere);
+
+//Nuages
+const cloudsGroup = new THREE.Group();
+function rCoords() {   //Coordonnees aleatoires autour de la planete
+    const theta = Math.random() * 2 * Math.PI; // Longitude (0 a 2pi)
+    const phi = Math.acos(2 * Math.random() - 1); // Latitude (0 a pi)
+    const x = 3.4 * Math.sin(phi) * Math.cos(theta);
+    const y = 3.4 * Math.sin(phi) * Math.sin(theta);
+    const z = 3.4 * Math.cos(phi);
+    return new THREE.Vector3(x, y, z);
+}; // Ca marche je n'y touche plus
+const generateClouds = (cNbr) => { // Fonction generer les nuages
+    const vecList = []; // Initialisation de la liste des vecteurs positions autour de la planete
+    const cMat = new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        transparent: true,
+        side: THREE.FrontSide,
+        opacity: 0.6
+    }); // Leur Texture
+    for (let c=0; c<cNbr; c++) {
+        let localCGroup  = new THREE.Group(); // Le groupe des formes d'un nuage
+        for (let n=0; n<7; n++) {   // Le nombre de spheres dans le nuage
+            const cSphereGeo = new THREE.SphereGeometry(0.3);   // Une forme
+            const cSphere = new THREE.Mesh(cSphereGeo, cMat);   // Creation de la forme
+            // Position aleatoire dans le groupe de nuage
+            let factor1 = (Math.random()-0.5)*0.7;
+            let factor2 = (Math.random()-0.5)*0.8;
+            cSphere.position.x = factor1;
+            cSphere.position.y = (factor1-factor2)/4;
+            cSphere.position.z = factor2;
+            localCGroup.add(cSphere)    // Ajout des formes dans le groupe
+        };
+        let vec;    // Initialisation d'un vecteur deplacement
+        let correct = false // Incorect tant que non verifie
+        while (!correct) {
+            vec = rCoords();    // Position aleatoire autour de la planete
+            correct = true; // On suppose qu'il est bon
+            for (let i = 0; i < vecList.length; i++) {
+                if (vec.distanceTo(vecList[i]) < 1) {
+                    correct = false; // Si trop proche d'un autre, on recommence
+                    break;
+                };
+            };
+        };
+        vecList.push(vec);  // Ajout du vecteur dans la liste
+        setupOrbit(vec, localCGroup);   // Orbite des nuages
+        cloudsGroup.add(localCGroup);   // Ajout du nuage dans le groupe des nuages
+    };
+};
+generateClouds(22); // Appel de la fonction
+scene.add(cloudsGroup); // Ajout des nuages a la scene
+cloudsGroup.castShadow = true;  // Cree des ombres
+
+
+// Creation de l'Etoile
+
+const starGeo = new THREE.IcosahedronGeometry(10, 3);
+const starMat = new THREE.MeshBasicMaterial({
+    color: 0xf0ca55,
+    side: THREE.BackSide
+});
+const star = new THREE.Mesh(starGeo, starMat);
+const starObj = new THREE.Object3D();
+starObj.add(star);
+scene.add(starObj);
+star.position.x = 40;
+const sWireMat = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.2
+});
+const sWire = new THREE.Mesh(starGeo, sWireMat);
+star.add(sWire);
+
+// Coeur de l'etoile
+const sHeartGeo = new THREE.IcosahedronGeometry(5, 4);
+const sHeartMat = new THREE.MeshBasicMaterial({
+    color: 0xff3900,
+    side: THREE.FrontSide
+});
+const starHeart = new THREE.Mesh(sHeartGeo, sHeartMat);
+starObj.add(starHeart);
+starHeart.position.x = 40;
+const shWireMat = new THREE.MeshBasicMaterial({
+    color: 0x990000,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.9
+});
+const shWire = new THREE.Mesh(sHeartGeo, shWireMat);
+star.add(shWire);
+
+// Millieu de l'etoile
+const sMiddleGeo = new THREE.IcosahedronGeometry(7.5, 4);
+const sMiddleMat = new THREE.MeshBasicMaterial({
+    color: 0xefaf12,
+    side: THREE.BackSide
+});
+const starMiddle = new THREE.Mesh(sMiddleGeo, sMiddleMat);
+starObj.add(starMiddle);
+starMiddle.position.x = 40;
+const smWireMat = new THREE.MeshBasicMaterial({
+    color: 0xf08c2c,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.6
+});
+const smWire = new THREE.Mesh(sMiddleGeo, smWireMat);
+star.add(smWire);
+
+
+// Lumieres
+
+// Lumiere ambiante
+const ambientLight = new THREE.AmbientLight(0xa9a9a9); // sombre
+scene.add(ambientLight);
+// Lumiere de l'etoile
+const starLight = new THREE.DirectionalLight(0xffffff, 3);
+starLight.castShadow = true;    // Projete des ombres
+star.add(starLight);
+
+
+
+// const spotLight = new THREE.SpotLight(0xffffff, 10);
+// scene.add(spotLight);
+// spotLight.position.set(-100, 100, 0);
+// spotLight.castShadow =  true;
+// spotLight.angle = 0.2;
+
+// const sLightHelper = new THREE.SpotLightHelper(spotLight);
+// scene.add(sLightHelper);
+
+// const directionnalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+// scene.add(directionnalLight);
+// directionnalLight.position.set(-30, 50, 0);
+// directionnalLight.castShadow = true;
+// directionnalLight.shadow.camera.bottom = -12;
+
+// const dLightHelper = new THREE.DirectionalLightHelper(starLight, 5);
+// scene.add(dLightHelper);
+// const dLightShadowHelper = new THREE.CameraHelper(starLight.shadow.camera)
+// scene.add(dLightShadowHelper);
+
+
+// Modeles 3D
+
+const gltfLoader = new GLTFLoader();   // Ce qui charge les modeles 3D
+// Premier modele
+gltfLoader.load(modelUrl.href, (gltf) => {
+    const model1 = gltf.scene;
+    console.log(model1);
+    model1.scale.set(0.1, 0.1, 0.1);
+    const vec = new THREE.Vector3(Math.acos(Math.PI/4)*2.55, Math.asin(Math.PI/4)*2.55, 0)
+    setupOrbit(vec, model1)
+    // model1.position.x = 2.8;
+    // model1.position.y = 2;
+    // model1.rotation.z = -Math.PI/4;
+    scene.add(model1);
+}, undefined, function(error) {
+    console.error(error);
+});
+
+const animate = () => {
+    planet.rotation.y += 0.001;
+    starObj.rotation.y += 0.00015;
+    star.rotation.y += 0.0005;
+    cloudsGroup.rotation.y += 0.00025;
+    renderer.render(scene, camera);
+    orbit.update()
+};
+
+renderer.setAnimationLoop(animate);
+
+
+const hud = document.getElementById('hud');
+const toggleButton = document.getElementById('hudToggleButton');
+let visibleHUD = true;
+
+toggleButton.addEventListener('click', () => {
+    visibleHUD = !visibleHUD;
+    hud.style.display = visibleHUD ? 'block' : 'none';
+    toggleButton.textContent = visibleHUD ? 'Cacher le HUD' : 'Afficher le HUD';
+  });
