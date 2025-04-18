@@ -234,16 +234,21 @@ star.add(starLight);
 
 const gltfLoader = new GLTFLoader();   // Ce qui charge les modeles 3D
 // Premier modele
+let model1 = null;
+let model1Pivot = null;
 gltfLoader.load(modelUrl.href, (gltf) => {
-    const model1 = gltf.scene;
+    model1 = gltf.scene;
     console.log(model1);
     model1.scale.set(0.1, 0.1, 0.1);
-    const vec = new THREE.Vector3(Math.acos(Math.PI/4)*2.55, Math.asin(Math.PI/4)*2.55, 0) // Placement sur la sphere, angle * rayon
-    setupOrbit(vec, model1)
-    // model1.position.x = 2.8;
-    // model1.position.y = 2;
-    // model1.rotation.z = -Math.PI/4;
-    scene.add(model1);
+    const vec = new THREE.Vector3(
+        Math.acos(Math.PI/5)*2.55,
+        Math.asin(Math.PI/5)*2.55,
+        0
+    ); // Placement sur la sphere, angle * rayon
+    setupOrbit(vec, model1);
+    model1Pivot = new THREE.Object3D();
+    model1Pivot.add(model1);
+    planet.add(model1Pivot);
 }, undefined, function(error) {
     console.error(error);
 });
@@ -252,10 +257,10 @@ gltfLoader.load(modelUrl.href, (gltf) => {
 // Animation
 
 const animate = () => {
-    planet.rotation.y += 0.001;
-    starObj.rotation.y += 0.00015;
-    star.rotation.y += 0.0005;
-    cloudsGroup.rotation.y += 0.00025;
+    planet.rotation.y += 0.001; // Rotation du groupe planete sur son axe
+    starObj.rotation.y += 0.00015;  // Revolution de l'etoile autour de la planete
+    star.rotation.y += 0.0005;  // Rotation de l'etoile sur son axe
+    cloudsGroup.rotation.y += 0.00025; // Moins vite que la planete
     renderer.render(scene, camera);
     orbit.update()
 };
