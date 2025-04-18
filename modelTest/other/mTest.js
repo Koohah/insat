@@ -1,10 +1,10 @@
-import * as THREE from '../js/three.module.js';
-import {OrbitControls} from '../js/other/OrbitControls.js';
-import {GLTFLoader} from '../js/other/GLTFLoader.js';
+import * as THREE from '../../js/three.module.js';
+import {OrbitControls} from '../../js/other/OrbitControls.js';
+import {GLTFLoader} from '../../js/other/GLTFLoader.js';
 
-const DrakkarUrl = new URL('../medias/drakkar.glb', import.meta.url);
-const GreksUrl = new URL('../medias/ile_greks_2.glb', import.meta.url);
-const CloudUrl = new URL('../medias/low_poly_cloud.glb', import.meta.url);
+const DrakkarUrl = new URL('../../medias/drakkar.glb', import.meta.url);
+const GreksUrl = new URL('../../medias/ile_greks_2.glb', import.meta.url);
+const CloudUrl = new URL('../../medias/low_poly_cloud.glb', import.meta.url);
 console.log(DrakkarUrl, GreksUrl, CloudUrl);
 
 
