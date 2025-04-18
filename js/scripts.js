@@ -242,8 +242,8 @@ gltfLoader.load(DrakkarUrl.href, (gltf) => {
     Drakkar = gltf.scene;
     Drakkar.scale.set(0.1, 0.1, 0.1);
     const vec = new THREE.Vector3(
-        Math.cos(Math.PI/4.5)*2.9,
-        Math.sin(Math.PI/4.5)*2.9,
+        Math.cos(Math.PI/4.5)*2.85,
+        Math.sin(Math.PI/4.5)*2.85,
         0
     ); // Placement sur la sphere, angle * rayon
     setupOrbit(vec, Drakkar);
@@ -269,12 +269,12 @@ gltfLoader.load(GreksUrl.href, (gltf) => {
     // console.log(vec);
     setupOrbit(vec, Greks);
     // console.log(Greks.position);
+    // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
     Greks.position.x += -1.4;
     Greks.position.y += -1.3;
     Greks.position.z += -1.8;
     Greks.rotation.x += 0.06;
     // console.log(Greks.position);
-    // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
     GreksPivot = new THREE.Object3D();
     GreksPivot.add(Greks);
     planet.add(GreksPivot);
