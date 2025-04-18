@@ -242,7 +242,7 @@ gltfLoader.load(modelUrl.href, (gltf) => {
     setupOrbit(vec, model1)
     // model1.position.x = 2.8;
     // model1.position.y = 2;
-    model1.rotation.z = -Math.PI/4;
+    // model1.rotation.z = -Math.PI/4;
     scene.add(model1);
 }, undefined, function(error) {
     console.error(error);
