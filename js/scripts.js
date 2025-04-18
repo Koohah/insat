@@ -47,11 +47,19 @@ scene.add(gridHelper);
 
 
 // Fonction pour orbiter la planete que l'on va creer
-const setupOrbit = (Vec = THREE.Vector3, obj) => {
-    obj.position.copy(Vec);
+const setupOrbit = (Vec = new THREE.Vector3(), obj, correct = new THREE.Vector3()) => {
+    // Recentrer l'objet sur son centre géométrique
+    const box = new THREE.Box3().setFromObject(obj);
+    const center = box.getCenter(correct);
+    obj.position.sub(center); // recentre localement
+    obj.updateMatrixWorld(true); // applique
+    // Placer l'objet à la position désirée (surface sphère)
     const up = new THREE.Vector3(0, 1, 0);
     const normal = Vec.clone().normalize();
     obj.quaternion.setFromUnitVectors(up, normal);
+    obj.position.copy(Vec);
+    // Faire "regarder" l'objet vers le centre (origine)
+    // obj.lookAt(0, 0, 0);
 };
 const rCoords = () => {   //Coordonnees aleatoires autour de la planete
     const theta = Math.random() * 2 * Math.PI; // Longitude (0 a 2pi)
@@ -245,10 +253,11 @@ gltfLoader.load(GreksUrl.href, (gltf) => {
 const cloudsGroup = new THREE.Group();
 const generateClouds = (cNbr) => { // Fonction generer les nuages
     const vecList = []; // Initialisation de la liste des vecteurs positions autour de la planete
+    const cCorrect = new THREE.Vector3(-1, 0, 1.25);
     for (let c=0; c<cNbr; c++) {
         let Cloud = null;
         let CloudPivot = null;
-        let cVec;    // Initialisation d'un vecteur deplacement
+        let cVec = null;    // Initialisation d'un vecteur deplacement
         let correct = false; // Incorect tant que non verifie
         while (!correct) {
             cVec = rCoords();    // Position aleatoire autour de la planete
@@ -261,11 +270,10 @@ const generateClouds = (cNbr) => { // Fonction generer les nuages
             };
         };
         gltfLoader.load(CloudUrl.href, (gltf) => {
-            gltf.scene.position.set(0, 0, 0);
             Cloud = gltf.scene;
+            Cloud.position.set(0, 0, 0);
             Cloud.scale.set(0.025, 0.025, 0.025);
-            cVec = rCoords();
-            setupOrbit(cVec, Cloud);
+            setupOrbit(cVec, Cloud, cCorrect);
             CloudPivot = new THREE.Object3D();
             CloudPivot.add(Cloud);
             cloudsGroup.add(CloudPivot);   // Ajout du nuage dans le groupe des nuages
