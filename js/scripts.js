@@ -162,9 +162,9 @@ star.add(smWire);
 const ambientLight = new THREE.AmbientLight(0xa9a9a9); // sombre
 scene.add(ambientLight);
 // Lumiere de l'etoile
-// const starLight = new THREE.DirectionalLight(0xffffff, 3);
-// starLight.castShadow = true;    // Projete des ombres
-// star.add(starLight);
+const starLight = new THREE.DirectionalLight(0xffffff, 3);
+starLight.castShadow = true;    // Projete des ombres
+star.add(starLight);
 
 
 
