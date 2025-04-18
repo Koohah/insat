@@ -248,6 +248,9 @@ gltfLoader.load(modelUrl.href, (gltf) => {
     console.error(error);
 });
 
+
+// Animation
+
 const animate = () => {
     planet.rotation.y += 0.001;
     starObj.rotation.y += 0.00015;
