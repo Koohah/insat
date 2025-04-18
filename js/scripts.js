@@ -238,11 +238,11 @@ gltfLoader.load(modelUrl.href, (gltf) => {
     const model1 = gltf.scene;
     console.log(model1);
     model1.scale.set(0.1, 0.1, 0.1);
-    const vec = new THREE.Vector3(Math.acos(Math.PI/4)*2.55, Math.asin(Math.PI/4)*2.55, 0)
+    const vec = new THREE.Vector3(Math.acos(Math.PI/4)*2.55, Math.asin(Math.PI/4)*2.55, 0) // Placement sur la sphere, angle * rayon
     setupOrbit(vec, model1)
     // model1.position.x = 2.8;
     // model1.position.y = 2;
-    // model1.rotation.z = -Math.PI/4;
+    model1.rotation.z = -Math.PI/4;
     scene.add(model1);
 }, undefined, function(error) {
     console.error(error);
