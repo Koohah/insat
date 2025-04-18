@@ -138,7 +138,6 @@ generateClouds(22); // Appel de la fonction
 scene.add(cloudsGroup); // Ajout des nuages a la scene
 cloudsGroup.castShadow = true;  // Cree des ombres
 
-
 // Creation de l'Etoile
 
 const starGeo = new THREE.IcosahedronGeometry(10, 3);

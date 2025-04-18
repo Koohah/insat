@@ -6,16 +6,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>insat</title>
     <link rel="stylesheet" href="./css/styles.css">
-</head>
+    <script src="./js/scripts.js" defer type="module"></script>
+    <style>
+        #splash {
+            position: absolute;
+            background-color: black;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes pulseOpacity {
+            0% {
+                opacity: 0.1;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.1;
+            }
+        }
+
+        .no-show {
+            display: none !important;
+        }
+
+        #splash-content {
+            padding: 4rem 2rem;
+            border: solid 2px black;
+            border-radius: 1rem;
+            color: black;
+            background-color: white;
+            min-width: 50vw;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        #splash-content span {
+            animation: pulseOpacity 0.7s infinite;
+        }
+    </style>
+    <script>
+        window.addEventListener('load', () => {
+            document.getElementById('splash').classList.add('no-show');
+            ['hud', 'toggleHUD'].forEach((id) => document.getElementById(id).classList.remove('no-show'));
+        })
+    </script>
+    </head>
 <body>
-    <div id="hud">
+    <div id="splash">
+        <div id="splash-content"><span>Loading</span></div>
+    </div>
+    <div id="hud" class="no-show">
         <div id="hud-team">
-          <h2>Aucune équipe sélectionnée...</h2>
+            <h2>Aucune équipe sélectionnée...</h2>
         </div>
     </div>
-    <div id="toggleHUD">
+    <div id="toggleHUD" class="no-show">
         <h4 id="hudToggleButton">Cacher le HUD</h4>
-    </div>
-    <script src="./js/scripts.js" type="module"></script>
+    </div>`    
 </body>
 </html>

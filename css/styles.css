@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    background-color: black;
 }
 
 canvas {
@@ -41,3 +42,7 @@ canvas {
 /* #toggleHUD:hover {
     background: #666;
 } */
+
+#splash {
+
+}
