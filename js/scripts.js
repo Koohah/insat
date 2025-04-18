@@ -5,7 +5,7 @@ import {GLTFLoader} from './other/GLTFLoader.js';
 // import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.144/examples/jsm/controls/OrbitControls.js';
 // import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.144/examples/jsm/loaders/GLTFLoader.js';
 
-const modelUrl = new URL('../medias/drakkar.glb', import.meta.url);
+const DrakkarUrl = new URL('../medias/drakkar.glb', import.meta.url);
 
 
 
@@ -234,21 +234,21 @@ star.add(starLight);
 
 const gltfLoader = new GLTFLoader();   // Ce qui charge les modeles 3D
 // Premier modele
-let model1 = null;
-let model1Pivot = null;
-gltfLoader.load(modelUrl.href, (gltf) => {
-    model1 = gltf.scene;
-    console.log(model1);
-    model1.scale.set(0.1, 0.1, 0.1);
+let Drakkar = null;
+let DrakkarPivot = null;
+gltfLoader.load(DrakkarUrl.href, (gltf) => {
+    Drakkar = gltf.scene;
+    console.log(Drakkar);
+    Drakkar.scale.set(0.1, 0.1, 0.1);
     const vec = new THREE.Vector3(
         Math.acos(Math.PI/5)*2.55,
         Math.asin(Math.PI/5)*2.55,
         0
     ); // Placement sur la sphere, angle * rayon
-    setupOrbit(vec, model1);
-    model1Pivot = new THREE.Object3D();
-    model1Pivot.add(model1);
-    planet.add(model1Pivot);
+    setupOrbit(vec, Drakkar);
+    DrakkarPivot = new THREE.Object3D();
+    DrakkarPivot.add(Drakkar);
+    planet.add(DrakkarPivot);
 }, undefined, function(error) {
     console.error(error);
 });
