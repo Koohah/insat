@@ -5,10 +5,17 @@ import {GLTFLoader} from './other/GLTFLoader.js';
 // import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.144/examples/jsm/controls/OrbitControls.js';
 // import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.144/examples/jsm/loaders/GLTFLoader.js';
 
+
 const DrakkarUrl = new URL('../medias/drakkar.glb', import.meta.url);
 const GreksUrl = new URL('../medias/ile_greks_2.glb', import.meta.url);
-const CloudUrl = new URL('../medias/low_poly_cloud.glb', import.meta.url);
-console.log(DrakkarUrl, GreksUrl, CloudUrl);
+const LCloudUrl = [
+    new URL('../medias/low_poly_cloud.glb', import.meta.url),
+    new URL('../medias/cloud1.glb', import.meta.url),
+    new URL('../medias/cloud2.glb', import.meta.url),
+    new URL('../medias/cloud3.glb', import.meta.url),
+    new URL('../medias/cloud4.glb', import.meta.url)
+]; 
+console.log(DrakkarUrl, GreksUrl, LCloudUrl);
 
 
 // Initialisation de la scene
@@ -63,10 +70,10 @@ const setupOrbit = (Vec = new THREE.Vector3(), obj, correct = new THREE.Vector3(
 };
 const rCoords = () => {   //Coordonnees aleatoires autour de la planete
     const theta = Math.random() * 2 * Math.PI; // Longitude (0 a 2pi)
-    const phi = Math.random() * 2 * Math.PI; // Latitude (0 a 2pi)
-    const x = 3*Math.sin(theta);
-    const y = 3*Math.sin(phi);
-    const z = 3*Math.cos(theta);
+    const phi = Math.random() * Math.PI; // Latitude (0 a 2pi)
+    const x = 3.5*Math.sin(phi)*Math.sin(theta);
+    const y = 3.5*Math.cos(phi);
+    const z = 3.5*Math.sin(phi)*Math.cos(theta);
     return new THREE.Vector3(x, y, z);
 }; // Ca marche je n'y touche plus
 
@@ -253,7 +260,7 @@ gltfLoader.load(GreksUrl.href, (gltf) => {
 const cloudsGroup = new THREE.Group();
 const generateClouds = (cNbr) => { // Fonction generer les nuages
     const vecList = []; // Initialisation de la liste des vecteurs positions autour de la planete
-    const cCorrect = new THREE.Vector3(-1, 0, 1.25);
+    const cCorrect = new THREE.Vector3(0, 0, 0);
     for (let c=0; c<cNbr; c++) {
         let Cloud = null;
         let CloudPivot = null;
@@ -263,16 +270,16 @@ const generateClouds = (cNbr) => { // Fonction generer les nuages
             cVec = rCoords();    // Position aleatoire autour de la planete
             correct = true; // On suppose qu'il est bon
             for (let i = 0; i < vecList.length; i++) {
-                if (cVec.distanceTo(vecList[i]) < 1.7) {
+                if (cVec.distanceTo(vecList[i]) < 2) {
                     correct = false; // Si trop proche d'un autre, on recommence
-                    break;
+                    vecList.push(cVec);
                 };
             };
         };
-        gltfLoader.load(CloudUrl.href, (gltf) => {
+        gltfLoader.load(LCloudUrl[c%5].href, (gltf) => {
             Cloud = gltf.scene;
             Cloud.position.set(0, 0, 0);
-            Cloud.scale.set(0.025, 0.025, 0.025);
+            Cloud.scale.set(0.05, 0.05, 0.05);
             setupOrbit(cVec, Cloud, cCorrect);
             CloudPivot = new THREE.Object3D();
             CloudPivot.add(Cloud);
@@ -283,7 +290,7 @@ const generateClouds = (cNbr) => { // Fonction generer les nuages
 
     };
 };
-generateClouds(22); // Appel de la fonction
+generateClouds(30); // Appel de la fonction
 scene.add(cloudsGroup); // Ajout des nuages a la scene
 cloudsGroup.castShadow = true;  // Cree des ombres
 
@@ -314,9 +321,7 @@ toggleButton.addEventListener('click', () => {
     visibleHUD = !visibleHUD;
     hud.style.display = visibleHUD ? 'block' : 'none';
     toggleButton.textContent = visibleHUD ? 'Cacher le HUD' : 'Afficher le HUD';
-  });
-
-
+});
 
 
 
