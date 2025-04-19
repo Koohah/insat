@@ -24,7 +24,6 @@ const renderer = new THREE.WebGLRenderer({ antialias: true  }); // consomme un p
 renderer.shadowMap.enabled = true;
 renderer.setSize(window.innerWidth, window.innerHeight); // toute la page
 document.body.appendChild(renderer.domElement); // canvas
-
 const scene = new THREE.Scene();    // Creation de la scene
 
 // Camera
@@ -68,12 +67,12 @@ const setupOrbit = (Vec = new THREE.Vector3(), obj, correct = new THREE.Vector3(
     // Faire "regarder" l'objet vers le centre (origine)
     // obj.lookAt(0, 0, 0);
 };
-const rCoords = () => {   //Coordonnees aleatoires autour de la planete
+const rCoords = (r) => {   //Coordonnees aleatoires autour de la planete
     const theta = Math.random() * 2 * Math.PI; // Longitude (0 a 2pi)
     const phi = Math.random() * Math.PI; // Latitude (0 a 2pi)
-    const x = 3.5*Math.sin(phi)*Math.sin(theta);
-    const y = 3.5*Math.cos(phi);
-    const z = 3.5*Math.sin(phi)*Math.cos(theta);
+    const x = r*Math.sin(phi)*Math.sin(theta);
+    const y = r*Math.cos(phi);
+    const z = r*Math.sin(phi)*Math.cos(theta);
     return new THREE.Vector3(x, y, z);
 }; // Ca marche je n'y touche plus
 
@@ -267,7 +266,7 @@ const generateClouds = (cNbr) => { // Fonction generer les nuages
         let cVec = null;    // Initialisation d'un vecteur deplacement
         let correct = false; // Incorect tant que non verifie
         while (!correct) {
-            cVec = rCoords();    // Position aleatoire autour de la planete
+            cVec = rCoords(3.5);    // Position aleatoire autour de la planete
             correct = true; // On suppose qu'il est bon
             for (let i = 0; i < vecList.length; i++) {
                 if (cVec.distanceTo(vecList[i]) < 2) {
