@@ -5,8 +5,17 @@ import {GLTFLoader} from './other/GLTFLoader.js';
 // import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.144/examples/jsm/controls/OrbitControls.js';
 // import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.144/examples/jsm/loaders/GLTFLoader.js';
 
-const DrakkarUrl = new URL('../medias/drakkar.glb', import.meta.url);
 
+const DrakkarUrl = new URL('../medias/drakkar.glb', import.meta.url);
+const GreksUrl = new URL('../medias/ile_greks_2.glb', import.meta.url);
+const LCloudUrl = [
+    new URL('../medias/low_poly_cloud.glb', import.meta.url),
+    new URL('../medias/cloud1.glb', import.meta.url),
+    new URL('../medias/cloud2.glb', import.meta.url),
+    new URL('../medias/cloud3.glb', import.meta.url),
+    new URL('../medias/cloud4.glb', import.meta.url)
+]; 
+console.log(DrakkarUrl, GreksUrl, LCloudUrl);
 
 
 // Initialisation de la scene
@@ -15,7 +24,6 @@ const renderer = new THREE.WebGLRenderer({ antialias: true  }); // consomme un p
 renderer.shadowMap.enabled = true;
 renderer.setSize(window.innerWidth, window.innerHeight); // toute la page
 document.body.appendChild(renderer.domElement); // canvas
-
 const scene = new THREE.Scene();    // Creation de la scene
 
 // Camera
@@ -45,12 +53,29 @@ scene.add(gridHelper);
 
 
 // Fonction pour orbiter la planete que l'on va creer
-const setupOrbit = (Vec = THREE.Vector3, obj) => {
-    obj.position.copy(Vec);
+const setupOrbit = (Vec = new THREE.Vector3(), obj, correct = new THREE.Vector3()) => {
+    // Recentrer l'objet sur son centre géométrique
+    const box = new THREE.Box3().setFromObject(obj);
+    const center = box.getCenter(correct);
+    obj.position.sub(center); // recentre localement
+    obj.updateMatrixWorld(true); // applique
+    // Placer l'objet à la position désirée (surface sphère)
     const up = new THREE.Vector3(0, 1, 0);
     const normal = Vec.clone().normalize();
     obj.quaternion.setFromUnitVectors(up, normal);
+    obj.position.copy(Vec);
+    // Faire "regarder" l'objet vers le centre (origine)
+    // obj.lookAt(0, 0, 0);
 };
+const rCoords = (r) => {   //Coordonnees aleatoires autour de la planete
+    const theta = Math.random() * 2 * Math.PI; // Longitude (0 a 2pi)
+    const phi = Math.random() * Math.PI; // Latitude (0 a 2pi)
+    const x = r*Math.sin(phi)*Math.sin(theta);
+    const y = r*Math.cos(phi);
+    const z = r*Math.sin(phi)*Math.cos(theta);
+    return new THREE.Vector3(x, y, z);
+}; // Ca marche je n'y touche plus
+
 
 // Creation de la Planete
 
@@ -85,58 +110,6 @@ const atmoMat = new THREE.MeshStandardMaterial({
 }); // Sa texture, on voit la face interieure
 const atmosphere = new THREE.Mesh(atmoGeo, atmoMat);    // Creation
 scene.add(atmosphere);
-
-//Nuages
-const cloudsGroup = new THREE.Group();
-function rCoords() {   //Coordonnees aleatoires autour de la planete
-    const theta = Math.random() * 2 * Math.PI; // Longitude (0 a 2pi)
-    const phi = Math.acos(2 * Math.random() - 1); // Latitude (0 a pi)
-    const x = 3.4 * Math.sin(phi) * Math.cos(theta);
-    const y = 3.4 * Math.sin(phi) * Math.sin(theta);
-    const z = 3.4 * Math.cos(phi);
-    return new THREE.Vector3(x, y, z);
-}; // Ca marche je n'y touche plus
-const generateClouds = (cNbr) => { // Fonction generer les nuages
-    const vecList = []; // Initialisation de la liste des vecteurs positions autour de la planete
-    const cMat = new THREE.MeshStandardMaterial({
-        color: 0xffffff,
-        transparent: true,
-        side: THREE.FrontSide,
-        opacity: 0.6
-    }); // Leur Texture
-    for (let c=0; c<cNbr; c++) {
-        let localCGroup  = new THREE.Group(); // Le groupe des formes d'un nuage
-        for (let n=0; n<7; n++) {   // Le nombre de spheres dans le nuage
-            const cSphereGeo = new THREE.SphereGeometry(0.3);   // Une forme
-            const cSphere = new THREE.Mesh(cSphereGeo, cMat);   // Creation de la forme
-            // Position aleatoire dans le groupe de nuage
-            let factor1 = (Math.random()-0.5)*0.7;
-            let factor2 = (Math.random()-0.5)*0.8;
-            cSphere.position.x = factor1;
-            cSphere.position.y = (factor1-factor2)/4;
-            cSphere.position.z = factor2;
-            localCGroup.add(cSphere)    // Ajout des formes dans le groupe
-        };
-        let vec;    // Initialisation d'un vecteur deplacement
-        let correct = false // Incorect tant que non verifie
-        while (!correct) {
-            vec = rCoords();    // Position aleatoire autour de la planete
-            correct = true; // On suppose qu'il est bon
-            for (let i = 0; i < vecList.length; i++) {
-                if (vec.distanceTo(vecList[i]) < 1) {
-                    correct = false; // Si trop proche d'un autre, on recommence
-                    break;
-                };
-            };
-        };
-        vecList.push(vec);  // Ajout du vecteur dans la liste
-        setupOrbit(vec, localCGroup);   // Orbite des nuages
-        cloudsGroup.add(localCGroup);   // Ajout du nuage dans le groupe des nuages
-    };
-};
-generateClouds(22); // Appel de la fonction
-scene.add(cloudsGroup); // Ajout des nuages a la scene
-cloudsGroup.castShadow = true;  // Cree des ombres
 
 
 // Creation de l'Etoile
@@ -237,12 +210,12 @@ const gltfLoader = new GLTFLoader();   // Ce qui charge les modeles 3D
 let Drakkar = null;
 let DrakkarPivot = null;
 gltfLoader.load(DrakkarUrl.href, (gltf) => {
+    gltf.scene.position.set(0, 0, 0);
     Drakkar = gltf.scene;
-    console.log(Drakkar);
     Drakkar.scale.set(0.1, 0.1, 0.1);
     const vec = new THREE.Vector3(
-        Math.acos(Math.PI/5)*2.55,
-        Math.asin(Math.PI/5)*2.55,
+        Math.cos(Math.PI/4.5)*2.85,
+        Math.sin(Math.PI/4.5)*2.85,
         0
     ); // Placement sur la sphere, angle * rayon
     setupOrbit(vec, Drakkar);
@@ -252,6 +225,77 @@ gltfLoader.load(DrakkarUrl.href, (gltf) => {
 }, undefined, function(error) {
     console.error(error);
 });
+
+// Deuxieme modele
+let Greks = null;
+let GreksPivot = null;
+gltfLoader.load(GreksUrl.href, (gltf) => {
+    gltf.scene.position.set(0, 0, 0);
+    Greks = gltf.scene;
+    Greks.scale.set(0.5, 0.5, 0.5);
+    const vec = new THREE.Vector3(
+        Math.cos(Math.PI*6.6/8)*3.6,
+        Math.sin(Math.PI*6.6/8)*3.6,
+        0
+    ); // Placement sur la sphere, angle * rayon
+    // console.log(vec);
+    setupOrbit(vec, Greks);
+    // console.log(Greks.position);
+    // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
+    Greks.position.x += -1.4;
+    Greks.position.y += -1.3;
+    Greks.position.z += -1.8;
+    Greks.rotation.z += 0.06;
+    // console.log(Greks.position);
+    GreksPivot = new THREE.Object3D();
+    GreksPivot.add(Greks);
+    planet.add(GreksPivot);
+}, undefined, function(error) {
+    console.error(error);
+});
+
+//Nuages
+
+const cloudsGroup = new THREE.Group();
+const generateClouds = (cNbr) => { // Fonction generer les nuages
+    const vecList = []; // Initialisation de la liste des vecteurs positions autour de la planete
+    const cCorrect = new THREE.Vector3(0, 0, 0);
+    for (let c=0; c<cNbr; c++) {
+        let Cloud = null;
+        let CloudPivot = null;
+        let cVec = null;    // Initialisation d'un vecteur deplacement
+        let correct = false; // Incorect tant que non verifie
+        while (!correct) {
+            cVec = rCoords(3.5);    // Position aleatoire autour de la planete
+            correct = true; // On suppose qu'il est bon
+            for (let i = 0; i < vecList.length; i++) {
+                if (cVec.distanceTo(vecList[i]) < 2) {
+                    correct = false; // Si trop proche d'un autre, on recommence
+                    vecList.push(cVec);
+                };
+            };
+        };
+        gltfLoader.load(LCloudUrl[c%5].href, (gltf) => {
+            Cloud = gltf.scene;
+            Cloud.position.set(0, 0, 0);
+            Cloud.scale.set(0.05, 0.05, 0.05);
+            setupOrbit(cVec, Cloud, cCorrect);
+            CloudPivot = new THREE.Object3D();
+            CloudPivot.add(Cloud);
+            cloudsGroup.add(CloudPivot);   // Ajout du nuage dans le groupe des nuages
+        }, undefined, function(error) {
+            console.error(error);
+        });
+
+    };
+};
+generateClouds(30); // Appel de la fonction
+scene.add(cloudsGroup); // Ajout des nuages a la scene
+cloudsGroup.castShadow = true;  // Cree des ombres
+
+
+
+
 
 
 // Animation
@@ -276,4 +320,52 @@ toggleButton.addEventListener('click', () => {
     visibleHUD = !visibleHUD;
     hud.style.display = visibleHUD ? 'block' : 'none';
     toggleButton.textContent = visibleHUD ? 'Cacher le HUD' : 'Afficher le HUD';
-  });
+});
+
+
+
+
+// Anciens nuages
+
+// const cloudsGroup = new THREE.Group();
+// const generateClouds = (cNbr) => { // Fonction generer les nuages
+//     const vecList = []; // Initialisation de la liste des vecteurs positions autour de la planete
+//     const cMat = new THREE.MeshStandardMaterial({
+//         color: 0xffffff,
+//         transparent: true,
+//         side: THREE.FrontSide,
+//         opacity: 0.6
+//     }); // Leur Texture
+//     for (let c=0; c<cNbr; c++) {
+//         let localCGroup  = new THREE.Group(); // Le groupe des formes d'un nuage
+//         for (let n=0; n<7; n++) {   // Le nombre de spheres dans le nuage
+//             const cSphereGeo = new THREE.SphereGeometry(0.3);   // Une forme
+//             const cSphere = new THREE.Mesh(cSphereGeo, cMat);   // Creation de la forme
+//             // Position aleatoire dans le groupe de nuage
+//             let factor1 = (Math.random()-0.5)*0.7;
+//             let factor2 = (Math.random()-0.5)*0.8;
+//             cSphere.position.x = factor1;
+//             cSphere.position.y = (factor1-factor2)/4;
+//             cSphere.position.z = factor2;
+//             localCGroup.add(cSphere)    // Ajout des formes dans le groupe
+//         };
+//         let vec;    // Initialisation d'un vecteur deplacement
+//         let correct = false // Incorect tant que non verifie
+//         while (!correct) {
+//             vec = rCoords();    // Position aleatoire autour de la planete
+//             correct = true; // On suppose qu'il est bon
+//             for (let i = 0; i < vecList.length; i++) {
+//                 if (vec.distanceTo(vecList[i]) < 1) {
+//                     correct = false; // Si trop proche d'un autre, on recommence
+//                     break;
+//                 };
+//             };
+//         };
+//         vecList.push(vec);  // Ajout du vecteur dans la liste
+//         setupOrbit(vec, localCGroup);   // Orbite des nuages
+//         cloudsGroup.add(localCGroup);   // Ajout du nuage dans le groupe des nuages
+//     };
+// };
+// generateClouds(22); // Appel de la fonction
+// scene.add(cloudsGroup); // Ajout des nuages a la scene
+// cloudsGroup.castShadow = true;  // Cree des ombres
