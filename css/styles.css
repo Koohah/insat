@@ -2,6 +2,30 @@ body {
     margin: 0;
 }
 
+#insaContainer {
+    display: block;
+    padding: 5% 0;
+    background-color: brown;
+}
+
+#theFlex {
+    display: flex;
+    align-content: flex-start;
+    width: 100%;
+    height: 90%;
+    align-items: stretch;
+}
+
+#bureauContainer {
+    width: 25%;
+    height: 77.5%;
+}
+
+#sceneContainer {
+    width: 10%;
+    height: 80%;
+}
+
 canvas {
     display: block;
 }
@@ -41,3 +65,4 @@ canvas {
 /* #toggleHUD:hover {
     background: #666;
 } */
+

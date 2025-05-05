@@ -15,20 +15,23 @@ const LCloudUrl = [
     new URL('../medias/cloud3.glb', import.meta.url),
     new URL('../medias/cloud4.glb', import.meta.url)
 ]; 
-console.log(DrakkarUrl, GreksUrl, LCloudUrl);
 
 
 // Initialisation de la scene
 
 const renderer = new THREE.WebGLRenderer({ antialias: true  }); // consomme un peu mais c'est plus beau
 renderer.shadowMap.enabled = true;
+
+
+document.getElementById("sceneContainer").appendChild(renderer.domElement); // canvas
 renderer.setSize(window.innerWidth, window.innerHeight); // toute la page
-document.body.appendChild(renderer.domElement); // canvas
+renderer.setPixelRatio(window.devicePixelRatio);
 const scene = new THREE.Scene();    // Creation de la scene
+
 
 // Camera
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // Fov 75, de la taille de la fenetre
+const camera = new THREE.PerspectiveCamera(75, renderer.domElement.clientHeight / window.innerHeight, 0.1, 1000); // Fov 75, de la taille de la fenetre
 const orbit = new OrbitControls(camera, renderer.domElement);   // On lui donne des commandes de deplacement
 
 // Parametres de Camera
@@ -42,6 +45,20 @@ orbit.maxPolarAngle = 3*Math.PI/4;
 orbit.minPolarAngle = Math.PI/4;    // Hauteur Max et Min
 camera.position.set(4.5, 2.5, 4.5);
 orbit.update();                     // Toujours update apres
+
+
+function resizeCanvasToDisplaySize() {
+    const canvas = renderer.domElement;
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+
+    if (canvas.width !== width || canvas.height !== height) {
+        renderer.setSize(width, height, false);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+    }
+}
+
 
 // Aides
 
@@ -294,33 +311,36 @@ scene.add(cloudsGroup); // Ajout des nuages a la scene
 cloudsGroup.castShadow = true;  // Cree des ombres
 
 
-
+camera.lookAt(planet.position)
 
 
 
 // Animation
 
-const animate = () => {
+const animate = (time) => {
+    time *= 0.001;
+    resizeCanvasToDisplaySize()
     planet.rotation.y += 0.001; // Rotation du groupe planete sur son axe
     starObj.rotation.y += 0.00015;  // Revolution de l'etoile autour de la planete
     star.rotation.y += 0.0005;  // Rotation de l'etoile sur son axe
     cloudsGroup.rotation.y += 0.00025; // Moins vite que la planete
     renderer.render(scene, camera);
     orbit.update()
+
 };
 
 renderer.setAnimationLoop(animate);
 
 
-const hud = document.getElementById('hud');
-const toggleButton = document.getElementById('hudToggleButton');
-let visibleHUD = true;
+// const hud = document.getElementById('hud');
+// const toggleButton = document.getElementById('hudToggleButton');
+// let visibleHUD = true;
 
-toggleButton.addEventListener('click', () => {
-    visibleHUD = !visibleHUD;
-    hud.style.display = visibleHUD ? 'block' : 'none';
-    toggleButton.textContent = visibleHUD ? 'Cacher le HUD' : 'Afficher le HUD';
-});
+// toggleButton.addEventListener('click', () => {
+//     visibleHUD = !visibleHUD;
+//     hud.style.display = visibleHUD ? 'block' : 'none';
+//     toggleButton.textContent = visibleHUD ? 'Cacher le HUD' : 'Afficher le HUD';
+// });
 
 
 
