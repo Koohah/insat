@@ -22,10 +22,13 @@ const LCloudUrl = [
 const renderer = new THREE.WebGLRenderer({ antialias: true  }); // consomme un peu mais c'est plus beau
 renderer.shadowMap.enabled = true;
 
+const sceneContainer = document.getElementById('sceneContainer');
 
-document.getElementById("sceneContainer").appendChild(renderer.domElement); // canvas
-renderer.setSize(window.innerWidth, window.innerHeight); // toute la page
+
+renderer.setSize(sceneContainer.clientWidth, sceneContainer.clientHeight); // toute la page
 renderer.setPixelRatio(window.devicePixelRatio);
+sceneContainer.appendChild(renderer.domElement); // canvas
+
 const scene = new THREE.Scene();    // Creation de la scene
 
 
@@ -46,19 +49,17 @@ orbit.minPolarAngle = Math.PI/4;    // Hauteur Max et Min
 camera.position.set(4.5, 2.5, 4.5);
 orbit.update();                     // Toujours update apres
 
+window.addEventListener('resize', function() {
+    const containerWidth = sceneContainer.clientWidth;
+    const containerHeight = sceneContainer.clientHeight;
 
-function resizeCanvasToDisplaySize() {
-    const canvas = renderer.domElement;
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
+    // Update camera aspect ratio
+    camera.aspect = containerWidth / containerHeight;
+    camera.updateProjectionMatrix();
 
-    if (canvas.width !== width || canvas.height !== height) {
-        renderer.setSize(width, height, false);
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-    }
-}
-
+    // Update renderer size
+    renderer.setSize(containerWidth, containerHeight);
+});
 
 // Aides
 
@@ -319,7 +320,6 @@ camera.lookAt(planet.position)
 
 const animate = (time) => {
     time *= 0.001;
-    resizeCanvasToDisplaySize()
     planet.rotation.y += 0.001; // Rotation du groupe planete sur son axe
     starObj.rotation.y += 0.00015;  // Revolution de l'etoile autour de la planete
     star.rotation.y += 0.0005;  // Rotation de l'etoile sur son axe
