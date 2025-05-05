@@ -34,7 +34,7 @@ const scene = new THREE.Scene();    // Creation de la scene
 
 // Camera
 
-const camera = new THREE.PerspectiveCamera(75, renderer.domElement.clientHeight / window.innerHeight, 0.1, 1000); // Fov 75, de la taille de la fenetre
+const camera = new THREE.PerspectiveCamera(75, sceneContainer.clientWidth / sceneContainer.clientHeight, 0.1, 1000); // Fov 75, de la taille de la fenetre
 const orbit = new OrbitControls(camera, renderer.domElement);   // On lui donne des commandes de deplacement
 
 // Parametres de Camera
