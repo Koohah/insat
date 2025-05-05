@@ -213,6 +213,7 @@ gltfLoader.load(DrakkarUrl.href, (gltf) => {
     gltf.scene.position.set(0, 0, 0);
     Drakkar = gltf.scene;
     Drakkar.scale.set(0.1, 0.1, 0.1);
+    Drakkar.userData.modelName = "drakkar";
     const vec = new THREE.Vector3(
         Math.cos(Math.PI/4.5)*2.85,
         Math.sin(Math.PI/4.5)*2.85,
@@ -233,6 +234,7 @@ gltfLoader.load(GreksUrl.href, (gltf) => {
     gltf.scene.position.set(0, 0, 0);
     Greks = gltf.scene;
     Greks.scale.set(0.5, 0.5, 0.5);
+    Greks.userData.modelName = "ileGrk";
     const vec = new THREE.Vector3(
         Math.cos(Math.PI*6.6/8)*3.6,
         Math.sin(Math.PI*6.6/8)*3.6,
@@ -294,9 +296,48 @@ scene.add(cloudsGroup); // Ajout des nuages a la scene
 cloudsGroup.castShadow = true;  // Cree des ombres
 
 
+// Clickable items
+
+const mousePosition = new THREE.Vector2();
+
+window.addEventListener('mousemove', function(e) {
+    mousePosition.x = (e.clientX / window.innerWidth) * 2 - 1;
+    mousePosition.y = 1 - (e.clientY / window.innerHeight) * 2;
+});
 
 
+const rayCaster = new THREE.Raycaster();
 
+// Teams
+
+let teamSelected = 0;
+const teamList = [];
+teamList.push('none');
+teamList.push('Vikinsa');
+teamList.push('Grekinsa');
+
+window.addEventListener('click', function() {
+    rayCaster.setFromCamera(mousePosition, camera);
+    const intersects = rayCaster. intersectObjects(scene.children, true);
+
+    for (let i = 0; i < intersects.length; i++) {
+        let obj = intersects[i].object;
+        while (obj) {
+            if (obj.userData && obj.userData.modelName === 'drakkar') {
+                teamSelected = 1; // Drakkar model was clicked
+                break; // Found the clickable model, no need to check parents further
+            }
+            if (obj.userData && obj.userData.modelName === 'ileGrk') {
+                teamSelected = 2; // Drakkar model was clicked
+                break; // Found the clickable model, no need to check parents further
+            }
+            obj = obj.parent; // Move up to the parent
+        }
+        if (teamSelected !== 0) {
+            break; // Found a clickable object, no need to check other intersects
+        };
+    };
+});
 
 // Animation
 
@@ -305,8 +346,11 @@ const animate = () => {
     starObj.rotation.y += 0.00015;  // Revolution de l'etoile autour de la planete
     star.rotation.y += 0.0005;  // Rotation de l'etoile sur son axe
     cloudsGroup.rotation.y += 0.00025; // Moins vite que la planete
+    
+    
+
     renderer.render(scene, camera);
-    orbit.update()
+    orbit.update();
 };
 
 renderer.setAnimationLoop(animate);
