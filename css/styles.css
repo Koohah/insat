@@ -14,12 +14,13 @@ body {
     display: flex;
     height: 10vh;
     background-color: var(--red-insa);
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
 }
 
 #insaLogo {
-    max-height: 9vh;
+    max-height: 7vh;
+    margin-right: 2vh;
 }
 
 #theFlex {
