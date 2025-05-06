@@ -38,6 +38,13 @@ body {
     height: 90vh;
 }
 
+#bureau-header {
+    display: flex;
+    height: 5vh;
+    align-items: center;
+    justify-content: center;
+}
+
 #sceneContainer {
     width: 75vw;
     height: 90vh;
