@@ -351,30 +351,29 @@ cloudsGroup.castShadow = true;  // Cree des ombres
 // Clickable items
 
 const mousePosition = new THREE.Vector2();
-
 const rayCaster = new THREE.Raycaster();
 
-const sceneContainerElement = document.getElementById('sceneContainer');
 
 window.addEventListener('mousemove', function(e) {
-    mousePosition.x = (e.clientX / window.innerWidth) * 2 - 1;
-    mousePosition.y = 1 - (e.clientY / window.innerHeight) * 2;
+    const rect = sceneContainer.getBoundingClientRect();
+    mousePosition.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    mousePosition.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
     rayCaster.setFromCamera(mousePosition, camera);
     const intersects = rayCaster. intersectObjects(scene.children, true);
+
+    console.log('Intersects:', intersects); // Log the intersections
 
     let isHoveringClickable = false;
 
     for (let i = 0; i < intersects.length; i++) {
         let obj = intersects[i].object;
         while (obj) {
-            if (obj.userData && obj.userData.modelName === 'drakkar') {
+            if (obj.userData && (obj.userData.modelName === 'drakkar' || obj.userData.modelName === 'ileGrk')) {
+                console.log('Found clickable object:', obj.userData.modelName); // Log when a clickable object is found
                 isHoveringClickable = true;
                 break; // Found the clickable model, no need to check parents further
-            }
-            if (obj.userData && obj.userData.modelName === 'ileGrk') {
-                isHoveringClickable = true;
-                break; // Found the clickable model, no need to check parents further
+
             }
             obj = obj.parent; // Move up to the parent
         };
@@ -383,10 +382,12 @@ window.addEventListener('mousemove', function(e) {
         };
     };
 
+    console.log('isHoveringClickable:', isHoveringClickable); // Log the final state of the flag
+
     if (isHoveringClickable) {
-        sceneContainerElement.style.cursor = 'pointer';
+        sceneContainer.style.cursor = 'pointer';
     } else {
-        sceneContainerElement.style.cursor = 'default';
+        sceneContainer.style.cursor = 'default';
     };
 });
 
@@ -430,7 +431,7 @@ const animate = (time) => {
     star.rotation.y += 0.0005;  // Rotation de l'etoile sur son axe
     cloudsGroup.rotation.y += 0.00025; // Moins vite que la planete
     
-    document.getElementById('which-team').innerHTML = teamList[teamSelected];
+    // document.getElementById('which-team').innerHTML = teamList[teamSelected];
 
     renderer.render(scene, camera);
     orbit.update();
