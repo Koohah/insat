@@ -20,7 +20,9 @@ body {
 
 #insaLogo {
     max-height: 7vh;
-    margin-right: 2vh;
+    margin-right: 1vw;
+    padding: 0.5vh;
+    background-color: white;
 }
 
 #theFlex {
