@@ -17,20 +17,25 @@ const LCloudUrl = [
     new URL('../medias/cloud3.glb', import.meta.url),
     new URL('../medias/cloud4.glb', import.meta.url)
 ]; 
-console.log(DrakkarUrl, GreksUrl, LCloudUrl);
 
 
 // Initialisation de la scene
 
 const renderer = new THREE.WebGLRenderer({ antialias: true  }); // consomme un peu mais c'est plus beau
 renderer.shadowMap.enabled = true;
-renderer.setSize(window.innerWidth, window.innerHeight); // toute la page
-document.getElementById('sceneContainer').appendChild(renderer.domElement); // canvas
+
+const sceneContainer = document.getElementById('sceneContainer');
+
+renderer.setSize(sceneContainer.clientWidth, sceneContainer.clientHeight); // toute la page
+renderer.setPixelRatio(window.devicePixelRatio);
+sceneContainer.appendChild(renderer.domElement); // canvas
+
 const scene = new THREE.Scene();    // Creation de la scene
+
 
 // Camera
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // Fov 75, de la taille de la fenetre
+const camera = new THREE.PerspectiveCamera(75, sceneContainer.clientWidth / sceneContainer.clientHeight, 0.1, 1000); // Fov 75, de la taille de la fenetre
 const orbit = new OrbitControls(camera, renderer.domElement);   // On lui donne des commandes de deplacement
 
 // Parametres de Camera
@@ -44,6 +49,18 @@ orbit.maxPolarAngle = 3*Math.PI/4;
 orbit.minPolarAngle = Math.PI/4;    // Hauteur Max et Min
 camera.position.set(4.5, 2.5, 4.5);
 orbit.update();                     // Toujours update apres
+
+window.addEventListener('resize', function() {
+    const containerWidth = sceneContainer.clientWidth;
+    const containerHeight = sceneContainer.clientHeight;
+
+    // Update camera aspect ratio
+    camera.aspect = containerWidth / containerHeight;
+    camera.updateProjectionMatrix();
+
+    // Update renderer size
+    renderer.setSize(containerWidth, containerHeight);
+});
 
 // Aides
 
@@ -406,7 +423,8 @@ window.addEventListener('click', function() {
 
 // Animation
 
-const animate = () => {
+const animate = (time) => {
+    time *= 0.001;
     planet.rotation.y += 0.001; // Rotation du groupe planete sur son axe
     starObj.rotation.y += 0.00015;  // Revolution de l'etoile autour de la planete
     star.rotation.y += 0.0005;  // Rotation de l'etoile sur son axe
@@ -421,15 +439,15 @@ const animate = () => {
 renderer.setAnimationLoop(animate);
 
 
-const hud = document.getElementById('hud');
-const toggleButton = document.getElementById('hudToggleButton');
-let visibleHUD = true;
+// const hud = document.getElementById('hud');
+// const toggleButton = document.getElementById('hudToggleButton');
+// let visibleHUD = true;
 
-toggleButton.addEventListener('click', () => {
-    visibleHUD = !visibleHUD;
-    hud.style.display = visibleHUD ? 'block' : 'none';
-    toggleButton.textContent = visibleHUD ? 'Cacher le HUD' : 'Afficher le HUD';
-});
+// toggleButton.addEventListener('click', () => {
+//     visibleHUD = !visibleHUD;
+//     hud.style.display = visibleHUD ? 'block' : 'none';
+//     toggleButton.textContent = visibleHUD ? 'Cacher le HUD' : 'Afficher le HUD';
+// });
 
 
 
