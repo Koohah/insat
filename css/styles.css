@@ -40,7 +40,7 @@ body {
 
 #bureau-header {
     display: flex;
-    height: 5vh;
+    height: 8vh;
     align-items: center;
     justify-content: center;
 }
