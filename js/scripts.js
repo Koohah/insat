@@ -6,6 +6,8 @@ import {GLTFLoader} from './other/GLTFLoader.js';
 // import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.144/examples/jsm/loaders/GLTFLoader.js';
 
 
+const starsUrl = new URL('../medias/stars.jpg', import.meta.url);
+
 const DrakkarUrl = new URL('../medias/drakkar.glb', import.meta.url);
 const GreksUrl = new URL('../medias/ile_greks_2.glb', import.meta.url);
 const LCloudUrl = [
@@ -45,11 +47,11 @@ orbit.update();                     // Toujours update apres
 
 // Aides
 
-const axesHelper = new THREE.AxesHelper(5);
-scene.add(axesHelper);
+// const axesHelper = new THREE.AxesHelper(5);
+// scene.add(axesHelper);
 
-const gridHelper = new THREE.GridHelper(30, 30);
-scene.add(gridHelper);
+// const gridHelper = new THREE.GridHelper(30, 30);
+// scene.add(gridHelper);
 
 
 // Fonction pour orbiter la planete que l'on va creer
@@ -75,6 +77,19 @@ const rCoords = (r) => {   //Coordonnees aleatoires autour de la planete
     const z = r*Math.sin(phi)*Math.cos(theta);
     return new THREE.Vector3(x, y, z);
 }; // Ca marche je n'y touche plus
+
+
+// Fond de la scene
+
+const cubeTextureLoader = new THREE.CubeTextureLoader();
+scene.background = cubeTextureLoader.load([
+    starsUrl,
+    starsUrl,
+    starsUrl,
+    starsUrl,
+    starsUrl,
+    starsUrl
+]);
 
 
 // Creation de la Planete
