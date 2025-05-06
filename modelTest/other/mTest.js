@@ -93,23 +93,46 @@ const gltfLoader = new GLTFLoader();   // Ce qui charge les modeles 3D
 //     DrakkarObj.add(Drakkar);
 //     scene.add(DrakkarObj);
 // });
-let cCorrect = null;
-let cVec = null;
-let Cloud = null;
-let CloudObj = null;
-gltfLoader.load(CloudUrl.href, (gltf) => {
-    cCorrect = new THREE.Vector3(-1, 0, 1.25);
-    Cloud = gltf.scene;
-    Cloud.scale.set(0.025, 0.025, 0.025);
-    cVec = rCoords();
-    console.log(cVec);
-    setupOrbit(cVec, Cloud);
-    CloudObj = new THREE.Object3D();
-    CloudObj.add(Cloud);
-    CloudObj.castShadow = true;
-    scene.add(CloudObj);
-});
 
+
+// let cCorrect = null;
+// let cVec = null;
+// let Cloud = null;
+// let CloudObj = null;
+// gltfLoader.load(CloudUrl.href, (gltf) => {
+//     cCorrect = new THREE.Vector3(-1, 0, 1.25);
+//     Cloud = gltf.scene;
+//     Cloud.scale.set(0.025, 0.025, 0.025);
+//     cVec = rCoords();
+//     console.log(cVec);
+//     setupOrbit(cVec, Cloud);
+//     CloudObj = new THREE.Object3D();
+//     CloudObj.add(Cloud);
+//     CloudObj.castShadow = true;
+//     scene.add(CloudObj);
+// });
+
+let gCorrect = null;
+let gVec = null;
+let Grek = null;
+let GrekObj = null;
+gltfLoader.load(GreksUrl.href, (gltf) => {
+    // gCorrect = new THREE.Vector3(-1, 0, 1.25);
+    Grek = gltf.scene;
+    Grek.scale.set(0.5, 0.5, 0.5);
+
+    Grek.position.x += -1.4;
+    Grek.position.y += -1.3;
+    Grek.position.z += -1.8;
+    Grek.rotation.z += 0.06;
+    // gVec = rCoords();
+    // console.log(gVec);
+    // setupOrbit(gVec, Grek);
+    GrekObj = new THREE.Object3D();
+    GrekObj.add(Grek);
+    GrekObj.castShadow = true;
+    scene.add(GrekObj);
+});
 
 
 const animate = () => {

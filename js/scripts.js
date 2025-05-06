@@ -261,13 +261,16 @@ gltfLoader.load(GreksUrl.href, (gltf) => {
     // console.log(vec);
 
     const gLight = new THREE.PointLight( 0xff0000, 1, 100 );
-    // gLight.position.y += 0.5;
+    
     Greks.add(gLight);
+
     const gLightH = new THREE.PointLightHelper(gLight);
     scene.add(gLightH);
 
     setupOrbit(vec, Greks);
     // console.log(Greks.position);
+
+    // gLight.position.copy(Greks)
 
     // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
     Greks.position.x += -1.4;
