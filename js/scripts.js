@@ -362,7 +362,7 @@ const animate = () => {
     star.rotation.y += 0.0005;  // Rotation de l'etoile sur son axe
     cloudsGroup.rotation.y += 0.00025; // Moins vite que la planete
     
-    
+    document.getElementById('which-team').innerHTML = teamList[teamSelected];
 
     renderer.render(scene, camera);
     orbit.update();
