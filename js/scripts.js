@@ -6,6 +6,8 @@ import {GLTFLoader} from './other/GLTFLoader.js';
 // import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.144/examples/jsm/loaders/GLTFLoader.js';
 
 
+const starsUrl = new URL('../medias/stars.jpg', import.meta.url);
+
 const DrakkarUrl = new URL('../medias/drakkar.glb', import.meta.url);
 const GreksUrl = new URL('../medias/ile_greks_2.glb', import.meta.url);
 const LCloudUrl = [
@@ -23,7 +25,6 @@ const renderer = new THREE.WebGLRenderer({ antialias: true  }); // consomme un p
 renderer.shadowMap.enabled = true;
 
 const sceneContainer = document.getElementById('sceneContainer');
-
 
 renderer.setSize(sceneContainer.clientWidth, sceneContainer.clientHeight); // toute la page
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -63,11 +64,11 @@ window.addEventListener('resize', function() {
 
 // Aides
 
-const axesHelper = new THREE.AxesHelper(5);
-scene.add(axesHelper);
+// const axesHelper = new THREE.AxesHelper(5);
+// scene.add(axesHelper);
 
-const gridHelper = new THREE.GridHelper(30, 30);
-scene.add(gridHelper);
+// const gridHelper = new THREE.GridHelper(30, 30);
+// scene.add(gridHelper);
 
 
 // Fonction pour orbiter la planete que l'on va creer
@@ -93,6 +94,19 @@ const rCoords = (r) => {   //Coordonnees aleatoires autour de la planete
     const z = r*Math.sin(phi)*Math.cos(theta);
     return new THREE.Vector3(x, y, z);
 }; // Ca marche je n'y touche plus
+
+
+// Fond de la scene
+
+const cubeTextureLoader = new THREE.CubeTextureLoader();
+scene.background = cubeTextureLoader.load([
+    starsUrl,
+    starsUrl,
+    starsUrl,
+    starsUrl,
+    starsUrl,
+    starsUrl
+]);
 
 
 // Creation de la Planete
@@ -231,6 +245,7 @@ gltfLoader.load(DrakkarUrl.href, (gltf) => {
     gltf.scene.position.set(0, 0, 0);
     Drakkar = gltf.scene;
     Drakkar.scale.set(0.1, 0.1, 0.1);
+    Drakkar.userData.modelName = "drakkar";
     const vec = new THREE.Vector3(
         Math.cos(Math.PI/4.5)*2.85,
         Math.sin(Math.PI/4.5)*2.85,
@@ -245,29 +260,50 @@ gltfLoader.load(DrakkarUrl.href, (gltf) => {
 });
 
 // Deuxieme modele
+
+
+
 let Greks = null;
 let GreksPivot = null;
 gltfLoader.load(GreksUrl.href, (gltf) => {
     gltf.scene.position.set(0, 0, 0);
     Greks = gltf.scene;
     Greks.scale.set(0.5, 0.5, 0.5);
+    Greks.userData.modelName = "ileGrk";
     const vec = new THREE.Vector3(
         Math.cos(Math.PI*6.6/8)*3.6,
         Math.sin(Math.PI*6.6/8)*3.6,
         0
     ); // Placement sur la sphere, angle * rayon
     // console.log(vec);
+
+    const gLight = new THREE.PointLight( 0xff0000, 1, 100 );
+    
+    Greks.add(gLight);
+
+    const gLightH = new THREE.PointLightHelper(gLight);
+    scene.add(gLightH);
+
     setupOrbit(vec, Greks);
     // console.log(Greks.position);
+
+    // gLight.position.copy(Greks)
+
     // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
     Greks.position.x += -1.4;
     Greks.position.y += -1.3;
     Greks.position.z += -1.8;
     Greks.rotation.z += 0.06;
+
     // console.log(Greks.position);
     GreksPivot = new THREE.Object3D();
     GreksPivot.add(Greks);
+
+    
+    
+    
     planet.add(GreksPivot);
+
 }, undefined, function(error) {
     console.error(error);
 });
@@ -312,9 +348,78 @@ scene.add(cloudsGroup); // Ajout des nuages a la scene
 cloudsGroup.castShadow = true;  // Cree des ombres
 
 
-camera.lookAt(planet.position)
+// Clickable items
 
+const mousePosition = new THREE.Vector2();
 
+const rayCaster = new THREE.Raycaster();
+
+const sceneContainerElement = document.getElementById('sceneContainer');
+
+window.addEventListener('mousemove', function(e) {
+    mousePosition.x = (e.clientX / window.innerWidth) * 2 - 1;
+    mousePosition.y = 1 - (e.clientY / window.innerHeight) * 2;
+
+    rayCaster.setFromCamera(mousePosition, camera);
+    const intersects = rayCaster. intersectObjects(scene.children, true);
+
+    let isHoveringClickable = false;
+
+    for (let i = 0; i < intersects.length; i++) {
+        let obj = intersects[i].object;
+        while (obj) {
+            if (obj.userData && obj.userData.modelName === 'drakkar') {
+                isHoveringClickable = true;
+                break; // Found the clickable model, no need to check parents further
+            }
+            if (obj.userData && obj.userData.modelName === 'ileGrk') {
+                isHoveringClickable = true;
+                break; // Found the clickable model, no need to check parents further
+            }
+            obj = obj.parent; // Move up to the parent
+        };
+        if (isHoveringClickable) {
+            break; // Stop searching if a target object is found
+        };
+    };
+
+    if (isHoveringClickable) {
+        sceneContainerElement.style.cursor = 'pointer';
+    } else {
+        sceneContainerElement.style.cursor = 'default';
+    };
+});
+
+// Teams
+
+let teamSelected = 0;
+const teamList = [];
+teamList.push('none');
+teamList.push('Vikinsa');
+teamList.push('Grekinsa');
+
+window.addEventListener('click', function() {
+    rayCaster.setFromCamera(mousePosition, camera);
+    const intersects = rayCaster. intersectObjects(scene.children, true);
+
+    for (let i = 0; i < intersects.length; i++) {
+        let obj = intersects[i].object;
+        while (obj) {
+            if (obj.userData && obj.userData.modelName === 'drakkar') {
+                teamSelected = 1; // Drakkar model was clicked
+                break; // Found the clickable model, no need to check parents further
+            }
+            if (obj.userData && obj.userData.modelName === 'ileGrk') {
+                teamSelected = 2; // Drakkar model was clicked
+                break; // Found the clickable model, no need to check parents further
+            }
+            obj = obj.parent; // Move up to the parent
+        }
+        if (teamSelected !== 0) {
+            break; // Found a clickable object, no need to check other intersects
+        };
+    };
+});
 
 // Animation
 
@@ -324,9 +429,11 @@ const animate = (time) => {
     starObj.rotation.y += 0.00015;  // Revolution de l'etoile autour de la planete
     star.rotation.y += 0.0005;  // Rotation de l'etoile sur son axe
     cloudsGroup.rotation.y += 0.00025; // Moins vite que la planete
-    renderer.render(scene, camera);
-    orbit.update()
+    
+    document.getElementById('which-team').innerHTML = teamList[teamSelected];
 
+    renderer.render(scene, camera);
+    orbit.update();
 };
 
 renderer.setAnimationLoop(animate);
