@@ -25,7 +25,7 @@ console.log(DrakkarUrl, GreksUrl, LCloudUrl);
 const renderer = new THREE.WebGLRenderer({ antialias: true  }); // consomme un peu mais c'est plus beau
 renderer.shadowMap.enabled = true;
 renderer.setSize(window.innerWidth, window.innerHeight); // toute la page
-document.body.appendChild(renderer.domElement); // canvas
+document.getElementById('sceneContainer').appendChild(renderer.domElement); // canvas
 const scene = new THREE.Scene();    // Creation de la scene
 
 // Camera
@@ -243,6 +243,9 @@ gltfLoader.load(DrakkarUrl.href, (gltf) => {
 });
 
 // Deuxieme modele
+
+
+
 let Greks = null;
 let GreksPivot = null;
 gltfLoader.load(GreksUrl.href, (gltf) => {
@@ -256,17 +259,31 @@ gltfLoader.load(GreksUrl.href, (gltf) => {
         0
     ); // Placement sur la sphere, angle * rayon
     // console.log(vec);
+
+    const gLight = new THREE.PointLight( 0xff0000, 1, 100 );
+    // gLight.position.y += 0.5;
+    Greks.add(gLight);
+    const gLightH = new THREE.PointLightHelper(gLight);
+    scene.add(gLightH);
+
     setupOrbit(vec, Greks);
     // console.log(Greks.position);
+
     // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
     Greks.position.x += -1.4;
     Greks.position.y += -1.3;
     Greks.position.z += -1.8;
     Greks.rotation.z += 0.06;
+
     // console.log(Greks.position);
     GreksPivot = new THREE.Object3D();
     GreksPivot.add(Greks);
+
+    
+    
+    
     planet.add(GreksPivot);
+
 }, undefined, function(error) {
     console.error(error);
 });
@@ -315,13 +332,43 @@ cloudsGroup.castShadow = true;  // Cree des ombres
 
 const mousePosition = new THREE.Vector2();
 
+const rayCaster = new THREE.Raycaster();
+
+const sceneContainerElement = document.getElementById('sceneContainer');
+
 window.addEventListener('mousemove', function(e) {
     mousePosition.x = (e.clientX / window.innerWidth) * 2 - 1;
     mousePosition.y = 1 - (e.clientY / window.innerHeight) * 2;
+
+    rayCaster.setFromCamera(mousePosition, camera);
+    const intersects = rayCaster. intersectObjects(scene.children, true);
+
+    let isHoveringClickable = false;
+
+    for (let i = 0; i < intersects.length; i++) {
+        let obj = intersects[i].object;
+        while (obj) {
+            if (obj.userData && obj.userData.modelName === 'drakkar') {
+                isHoveringClickable = true;
+                break; // Found the clickable model, no need to check parents further
+            }
+            if (obj.userData && obj.userData.modelName === 'ileGrk') {
+                isHoveringClickable = true;
+                break; // Found the clickable model, no need to check parents further
+            }
+            obj = obj.parent; // Move up to the parent
+        };
+        if (isHoveringClickable) {
+            break; // Stop searching if a target object is found
+        };
+    };
+
+    if (isHoveringClickable) {
+        sceneContainerElement.style.cursor = 'pointer';
+    } else {
+        sceneContainerElement.style.cursor = 'default';
+    };
 });
-
-
-const rayCaster = new THREE.Raycaster();
 
 // Teams
 
