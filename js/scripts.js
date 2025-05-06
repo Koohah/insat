@@ -362,32 +362,20 @@ window.addEventListener('mousemove', function(e) {
     rayCaster.setFromCamera(mousePosition, camera);
     const intersects = rayCaster. intersectObjects(scene.children, true);
 
-    console.log('Intersects:', intersects); // Log the intersections
+    // console.log('Intersects:', intersects); // Log the intersections
 
-    let isHoveringClickable = false;
 
     for (let i = 0; i < intersects.length; i++) {
         let obj = intersects[i].object;
+        sceneContainer.style.cursor = 'default';
         while (obj) {
             if (obj.userData && (obj.userData.modelName === 'drakkar' || obj.userData.modelName === 'ileGrk')) {
-                console.log('Found clickable object:', obj.userData.modelName); // Log when a clickable object is found
-                isHoveringClickable = true;
-                break; // Found the clickable model, no need to check parents further
-
+                // console.log('Found clickable object:', obj.userData.modelName); // Log when a clickable object is found
+                sceneContainer.style.cursor = 'pointer';
+                return;                 
             }
             obj = obj.parent; // Move up to the parent
         };
-        if (isHoveringClickable) {
-            break; // Stop searching if a target object is found
-        };
-    };
-
-    console.log('isHoveringClickable:', isHoveringClickable); // Log the final state of the flag
-
-    if (isHoveringClickable) {
-        sceneContainer.style.cursor = 'pointer';
-    } else {
-        sceneContainer.style.cursor = 'default';
     };
 });
 
