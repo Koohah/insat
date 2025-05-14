@@ -10,32 +10,35 @@ body {
     overflow: hidden;
 }
 
-#insaContainer {
+/* #insaContainer {
     display: flex;
     height: 10vh;
     background-color: var(--red-insa);
     justify-content: flex-end;
     align-items: center;
-}
+} */
 
-#insaLogo {
+/* #insaLogo {
     max-height: 7vh;
     margin-right: 1vw;
     padding: 0.5vh;
     background-color: white;
-}
+} */
 
 #theFlex {
     display: flex;
     align-content: flex-start;
     width: 100vw;
-    height: 90vh;
+    height: 100vh;
     align-items: stretch;
 }
 
 #bureauContainer {
-    width: 25vw;
-    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 35vw;
+    height: 100vh;
 }
 
 #bureau-header {
@@ -46,11 +49,13 @@ body {
 }
 
 #sceneContainer {
-    width: 75vw;
-    height: 90vh;
+    width: 65vw;
+    height: 100vh - 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 0.5rem solid;
+    border-color: var(--red-insa);
 }
 
 #sceneContainer canvas {
@@ -59,7 +64,7 @@ body {
     max-height: 100%;
 }
 
-#hud {
+/* #hud {
     position: absolute;
     top: 2vh;
     left: 2vh;
@@ -89,7 +94,7 @@ body {
     margin-top: 2px;
     border: none;
     cursor: pointer;
-}
+} */
   
 /* #toggleHUD:hover {
     background: #666;

@@ -141,7 +141,42 @@ const atmoMat = new THREE.MeshStandardMaterial({
     opacity: 0.2
 }); // Sa texture, on voit la face interieure
 const atmosphere = new THREE.Mesh(atmoGeo, atmoMat);    // Creation
-scene.add(atmosphere);
+planet.add(atmosphere);
+
+
+// Creation de la lune
+
+const luneGeo = new THREE.IcosahedronGeometry(3/4, 1);
+const luneMat = new THREE.MeshStandardMaterial({
+    color: 0xe42418, // rouge insa
+    metalness: 0.5,
+    roughness: 1,
+    side: THREE.FrontSide
+});
+const lune = new THREE.Mesh(luneGeo, luneMat);
+
+const lWireGeo = new THREE.IcosahedronGeometry(3/4 + 0.005, 1); // Geometrie des aretes, attention aux clip
+const lWireMat = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.15
+}); // Leur texture
+const lWire = new THREE.Mesh(lWireGeo, lWireMat);   // Creation
+lune.add(lWire);
+
+const lLight = new THREE.PointLight( 0xe42418, 1, 0, 1);
+    
+lune.add(lLight);
+
+const lLightH = new THREE.PointLightHelper(lLight);
+scene.add(lLightH);
+
+const luneOrbit = new THREE.Object3D();
+
+scene.add(luneOrbit);
+luneOrbit.add(lune);
+lune.position.x += 6;
 
 
 // Creation de l'Etoile
@@ -276,13 +311,6 @@ gltfLoader.load(GreksUrl.href, (gltf) => {
         0
     ); // Placement sur la sphere, angle * rayon
     // console.log(vec);
-
-    const gLight = new THREE.PointLight( 0xff0000, 1, 100 );
-    
-    Greks.add(gLight);
-
-    const gLightH = new THREE.PointLightHelper(gLight);
-    scene.add(gLightH);
 
     setupOrbit(vec, Greks);
     // console.log(Greks.position);
@@ -430,8 +458,8 @@ const animate = (time) => {
     starObj.rotation.y += 0.00015;  // Revolution de l'etoile autour de la planete
     star.rotation.y += 0.0005;  // Rotation de l'etoile sur son axe
     cloudsGroup.rotation.y += 0.00025; // Moins vite que la planete
-    
-    // document.getElementById('which-team').innerHTML = teamList[teamSelected];
+    luneOrbit.rotation.y += 0.0015;
+    luneOrbit.rotation.z += 0.0005;
 
     renderer.render(scene, camera);
     orbit.update();
