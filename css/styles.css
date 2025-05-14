@@ -48,6 +48,13 @@ body {
     justify-content: center;
 }
 
+#bureauLogoBig {
+    max-height: 7vh;
+    margin-right: 1vw;
+    padding: 0.5vh;
+    background-color: white;
+}
+
 #sceneContainer {
     width: 65vw;
     height: 100vh - 1rem;
