@@ -146,7 +146,8 @@ planet.add(atmosphere);
 
 // Creation de la lune
 
-const luneGeo = new THREE.IcosahedronGeometry(3/4, 1);
+const luneGeo = new THREE.OctahedronGeometry(3/4, 1);
+
 const luneMat = new THREE.MeshStandardMaterial({
     color: 0xe42418, // rouge insa
     metalness: 0.5,
@@ -155,7 +156,7 @@ const luneMat = new THREE.MeshStandardMaterial({
 });
 const lune = new THREE.Mesh(luneGeo, luneMat);
 
-const lWireGeo = new THREE.IcosahedronGeometry(3/4 + 0.005, 1); // Geometrie des aretes, attention aux clip
+const lWireGeo = new THREE.OctahedronGeometry(3/4 + 0.005, 1); // Geometrie des aretes, attention aux clip
 const lWireMat = new THREE.MeshStandardMaterial({
     color: 0xffffff,
     wireframe: true,
@@ -165,18 +166,16 @@ const lWireMat = new THREE.MeshStandardMaterial({
 const lWire = new THREE.Mesh(lWireGeo, lWireMat);   // Creation
 lune.add(lWire);
 
-const lLight = new THREE.PointLight( 0xe42418, 1, 0, 1);
+const lLight = new THREE.PointLight( 0xe42418, 1, 0, 1/2);
     
 lune.add(lLight);
-
-const lLightH = new THREE.PointLightHelper(lLight);
-scene.add(lLightH);
 
 const luneOrbit = new THREE.Object3D();
 
 scene.add(luneOrbit);
 luneOrbit.add(lune);
 lune.position.x += 6;
+lune.userData.modelName = "luninsa";
 
 
 // Creation de l'Etoile
@@ -397,7 +396,7 @@ window.addEventListener('mousemove', function(e) {
     for (let i = 0; i < intersects.length; i++) {
         let obj = intersects[i].object;
         while (obj) {
-            if (obj.userData && (obj.userData.modelName === 'drakkar' || obj.userData.modelName === 'ileGrk')) {
+            if (obj.userData && (obj.userData.modelName === 'drakkar' || obj.userData.modelName === 'ileGrk' || obj.userData.modelName === 'luninsa')) {
                 console.log('Found clickable object:', obj.userData.modelName); // Log when a clickable object is found
                 isHoveringClickable = true;
                 break; // Found the clickable model, no need to check parents further
@@ -441,6 +440,9 @@ window.addEventListener('click', function() {
             if (obj.userData && obj.userData.modelName === 'ileGrk') {
                 teamSelected = 2; // Drakkar model was clicked
                 break; // Found the clickable model, no need to check parents further
+            }
+            if (obj.userData.modelName === 'luninsa') {
+                window.open('https://www.insa-toulouse.fr/')
             }
             obj = obj.parent; // Move up to the parent
         }
