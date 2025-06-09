@@ -442,7 +442,7 @@ window.addEventListener('click', function() {
                 break; // Found the clickable model, no need to check parents further
             }
             if (obj.userData.modelName === 'luninsa') {
-                window.open('https://www.insa-toulouse.fr/');
+                window.open('https://www.insa-toulouse.fr/', '_blank');
             }
             obj = obj.parent; // Move up to the parent
         }
