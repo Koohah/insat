@@ -423,8 +423,12 @@ window.addEventListener('mousemove', function(e) {
 let teamSelected = 0;
 const teamList = [];
 teamList.push('none');
-teamList.push('Vikinsa');
+teamList.push('./medias/vikinsa.svg');
 teamList.push('./medias/greks.svg');
+
+
+let teamLogo = document.getElementById('team-logo');
+
 
 window.addEventListener('click', function() {
     rayCaster.setFromCamera(mousePosition, camera);
@@ -447,7 +451,15 @@ window.addEventListener('click', function() {
             obj = obj.parent; // Move up to the parent
         }
         if (teamSelected !== 0) {
-            document.getElementById('team-logo').src = teamList[teamSelected];
+            teamLogo.src = teamList[teamSelected];
+            teamLogo.classList.remove('no-show');
+            if (teamSelected == 1) {
+                teamLogo.classList.add('vikinsize');
+            } else {
+            teamLogo.classList.remove('vikinsize');
+            teamLogo.classList.add('team-logo-Dsize');
+            team
+            }
             break; // Found a clickable object, no need to check other intersects
         };
     };

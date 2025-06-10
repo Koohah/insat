@@ -73,9 +73,14 @@ body {
     left: 2%;
 }
 
-#team-logo {
+.team-logo-Dsize {
     height: 15vh;
-    width: 10vw;
+    width: auto;
+}
+
+.vikinsize {
+    height: 17vh;
+    width: auto;
 }
 
 
@@ -92,6 +97,10 @@ body {
     height: 50%;
     width: 100%;
   }
+}
+
+.no-show {
+    display: none !important;
 }
 
 
