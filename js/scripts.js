@@ -424,7 +424,7 @@ let teamSelected = 0;
 const teamList = [];
 teamList.push('none');
 teamList.push('Vikinsa');
-teamList.push('Grekinsa');
+teamList.push('./medias/greks.svg');
 
 window.addEventListener('click', function() {
     rayCaster.setFromCamera(mousePosition, camera);
@@ -447,6 +447,7 @@ window.addEventListener('click', function() {
             obj = obj.parent; // Move up to the parent
         }
         if (teamSelected !== 0) {
+            document.getElementById('team-logo').src = teamList[teamSelected];
             break; // Found a clickable object, no need to check other intersects
         };
     };

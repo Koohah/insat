@@ -67,14 +67,18 @@ body {
     max-height: 100%;
 }
 
-/* #team {
+#team {
     position: absolute;
+    top: 2%;
+    left: 2%;
 }
 
 #team-logo {
-    max-height: 10vh;
-    margin-left: 2vw;
-} */
+    height: 15vh;
+    width: 10vw;
+}
+
+
 
 @media screen and (orientation: portrait) {
   #theFlex {
