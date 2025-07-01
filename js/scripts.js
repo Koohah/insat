@@ -465,6 +465,14 @@ window.addEventListener('click', function() {
     };
 });
 
+
+// Links
+
+let buttons = document.getElementsByClassName("cat-menu");
+buttons.onclick = function(){
+    window.open('file://../info.html', '_blank');
+};
+
 // Animation
 
 const animate = (time) => {
