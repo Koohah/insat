@@ -1,41 +1,46 @@
+@media screen and (orientation: portrait) {
+  #theFlex {
+    flex-direction: column;
+  }
+}
+
+
 :root {
     --red-insa: #e42418;
 }
 
 body {
     margin: 0;
-    width: 100vw;
-    height: 100vh;
+    padding: 0;
+    width: 100%;
+    height: 100%;
     /* Empeche le scroll */
     overflow: hidden;
+    box-sizing: border-box;
 }
 
-#insaContainer {
-    display: flex;
-    height: 10vh;
-    background-color: var(--red-insa);
-    justify-content: flex-end;
-    align-items: center;
-}
-
-#insaLogo {
-    max-height: 7vh;
-    margin-right: 1vw;
-    padding: 0.5vh;
-    background-color: white;
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
 
 #theFlex {
     display: flex;
     align-content: flex-start;
     width: 100vw;
-    height: 90vh;
+    height: 100vh;
     align-items: stretch;
+    flex-direction: row;
 }
 
 #bureauContainer {
-    width: 25vw;
-    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 35%;
+    height: 100%;
+    position: relative;
 }
 
 #bureau-header {
@@ -45,12 +50,22 @@ body {
     justify-content: center;
 }
 
+#bureauLogoBig {
+    max-height: 7vh;
+    margin-right: 1vw;
+    padding: 0.5vh;
+    background-color: white;
+}
+
 #sceneContainer {
-    width: 75vw;
-    height: 90vh;
+    width: 65%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 0.5rem solid;
+    border-color: var(--red-insa);
+    position: relative;
 }
 
 #sceneContainer canvas {
@@ -59,7 +74,7 @@ body {
     max-height: 100%;
 }
 
-#hud {
+/* #hud {
     position: absolute;
     top: 2vh;
     left: 2vh;
@@ -89,7 +104,7 @@ body {
     margin-top: 2px;
     border: none;
     cursor: pointer;
-}
+} */
   
 /* #toggleHUD:hover {
     background: #666;
