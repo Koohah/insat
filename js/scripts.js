@@ -435,6 +435,7 @@ teamList.push('./medias/greks.svg');
 
 
 let teamLogo = document.getElementById('team-logo');
+let team = document.getElementById('team');
 
 
 window.addEventListener('click', function() {
@@ -460,6 +461,7 @@ window.addEventListener('click', function() {
         if (teamSelected !== 0) {
             teamLogo.src = teamList[teamSelected];
             teamLogo.classList.remove('no-show');
+            team.classList.add('team-border');
             if (teamSelected == 1) {
                 teamLogo.classList.add('vikinsize');
             } else {
