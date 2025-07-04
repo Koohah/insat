@@ -27,6 +27,8 @@ renderer.shadowMap.enabled = true;
 const sceneContainer = document.getElementById('scene-container');
 
 renderer.setSize(sceneContainer.clientWidth, sceneContainer.clientHeight); // toute la page
+
+
 renderer.setPixelRatio(window.devicePixelRatio);
 sceneContainer.appendChild(renderer.domElement); // canvas
 
