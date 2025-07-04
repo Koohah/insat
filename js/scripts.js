@@ -24,7 +24,7 @@ const LCloudUrl = [
 const renderer = new THREE.WebGLRenderer({ antialias: true  }); // consomme un peu mais c'est plus beau
 renderer.shadowMap.enabled = true;
 
-const sceneContainer = document.getElementById('sceneContainer');
+const sceneContainer = document.getElementById('scene-container');
 
 renderer.setSize(sceneContainer.clientWidth, sceneContainer.clientHeight); // toute la page
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -275,6 +275,7 @@ const gltfLoader = new GLTFLoader();   // Ce qui charge les modeles 3D
 // Premier modele
 let Drakkar = null;
 let DrakkarPivot = null;
+const drakLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
 gltfLoader.load(DrakkarUrl.href, (gltf) => {
     gltf.scene.position.set(0, 0, 0);
     Drakkar = gltf.scene;
@@ -286,12 +287,17 @@ gltfLoader.load(DrakkarUrl.href, (gltf) => {
         0
     ); // Placement sur la sphere, angle * rayon
     setupOrbit(vec, Drakkar);
+    drakLight.position.copy(Drakkar.position);
     DrakkarPivot = new THREE.Object3D();
     DrakkarPivot.add(Drakkar);
+    DrakkarPivot.add(drakLight);
     planet.add(DrakkarPivot);
 }, undefined, function(error) {
     console.error(error);
 });
+
+
+
 
 // Deuxieme modele
 
@@ -299,6 +305,7 @@ gltfLoader.load(DrakkarUrl.href, (gltf) => {
 
 let Greks = null;
 let GreksPivot = null;
+const grekLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
 gltfLoader.load(GreksUrl.href, (gltf) => {
     gltf.scene.position.set(0, 0, 0);
     Greks = gltf.scene;
@@ -314,9 +321,10 @@ gltfLoader.load(GreksUrl.href, (gltf) => {
     setupOrbit(vec, Greks);
     // console.log(Greks.position);
 
-    // gLight.position.copy(Greks)
+    grekLight.position.copy(Greks.position);
 
     // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
+    
     Greks.position.x += -1.4;
     Greks.position.y += -1.3;
     Greks.position.z += -1.8;
@@ -325,10 +333,7 @@ gltfLoader.load(GreksUrl.href, (gltf) => {
     // console.log(Greks.position);
     GreksPivot = new THREE.Object3D();
     GreksPivot.add(Greks);
-
-    
-    
-    
+    GreksPivot.add(grekLight);
     planet.add(GreksPivot);
 
 }, undefined, function(error) {
@@ -468,10 +473,27 @@ window.addEventListener('click', function() {
 
 // Links
 
-let buttons = document.getElementsByClassName("cat-menu");
-buttons.onclick = function(){
-    window.open('file://../info.html', '_blank');
-};
+let planning = document.getElementById("planning");
+let blouse = document.getElementById("blouse");
+let guidePpa = document.getElementById("guide-ppa");
+let prevention = document.getElementById("prevention");
+let parrainage = document.getElementById("parrainage");
+
+planning.addEventListener('click', () => {
+    window.open('./info.html', '_self');
+});
+blouse.addEventListener('click', () => {
+    window.open('./info.html', '_self');
+});
+guidePpa.addEventListener('click', () => {
+    window.open('./info.html', '_self');
+});
+prevention.addEventListener('click', () => {
+    window.open('./info.html', '_self');
+});
+parrainage.addEventListener('click', () => {
+    window.open('./info.html', '_self');
+});
 
 // Animation
 
