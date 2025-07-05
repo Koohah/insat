@@ -12,7 +12,8 @@ Equipes :
 */
 
 html:not(.main) #home-flex { display: none; }
-html.main #info { display: none; }
+html.main #info { display: none; } 
+html.info body { overflow-y: scroll; }
 html:not(.planning) #info-planning { display: none; }
 html:not(.blouse) #info-blouse { display: none; }
 html:not(.guide-ppa) #info-guide-ppa { display: none; }
@@ -25,8 +26,7 @@ body {
     padding: 0;
     width: 100%;
     height: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow: hidden;
     box-sizing: border-box;
 }
 
