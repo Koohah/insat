@@ -491,18 +491,22 @@ window.addEventListener('mousemove', function(e) {
 
     // console.log('Intersects:', intersects); // Log the intersections
 
+    let isClickable = false;
 
     for (let i = 0; i < intersects.length; i++) {
         let obj = intersects[i].object;
         sceneContainer.style.cursor = 'default';
         while (obj) {
-            if (obj.userData && (obj.userData.modelName === 'drakkar' || obj.userData.modelName === 'ileGrk' || obj.userData.modelName === 'luninsa')) {
+            if (obj.userData && (obj.userData.modelName === 'drakkar' || obj.userData.modelName === 'ileGrk' || obj.userData.modelName === 'ileInka' || obj.userData.modelName === 'samourai' || obj.userData.modelName === 'luninsa')) {
                 console.log('Found clickable object:', obj.userData.modelName); // Log when a clickable object is found
+                isClickable = true;
                 break; // Found the clickable model, no need to check parents further
             }
             obj = obj.parent; // Move up to the parent
         };
     };
+
+    if (isClickable) {sceneContainer.style.cursor = 'pointer'};
 });
 
 // Teams
@@ -512,6 +516,8 @@ const teamList = [];
 teamList.push('none');
 teamList.push('./medias/vikinsa.svg');
 teamList.push('./medias/greks.svg');
+teamList.push('./medias/inkas.svg');
+teamList.push('./medias/samourai.svg');
 
 
 let teamLogo = document.getElementById('team-logo');
@@ -532,6 +538,14 @@ window.addEventListener('click', function() {
             if (obj.userData && obj.userData.modelName === 'ileGrk') {
                 teamSelected = 2; // Drakkar model was clicked
                 break; // Found the clickable model, no need to check parents further
+            }
+            if (obj.userData && obj.userData.modelName === 'ileInka') {
+                teamSelected = 3;
+                break;
+            }
+            if (obj.userData && obj.userData.modelName === 'samourai') {
+                teamSelected = 4;
+                break;
             }
             if (obj.userData.modelName === 'luninsa') {
                 window.open('https://www.insa-toulouse.fr/', '_blank');
