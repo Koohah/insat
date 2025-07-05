@@ -591,7 +591,7 @@ const nomsEquipe = [ 'samourai', 'viking', 'inka', 'grec' ];
 let equipeChoisi = undefined;
 
 const setEquipeCookie = async (equipe) => {
-    await browser.cookies.set({
+    await navigator.cookies.set({
         expirationDate: Date.now() + equipe !== null && nomsEquipe.includes(equipe) ? 60 * 60 * 24 * 30 * 2 : -10, // 2 mois
         name: "equipe",
         value: equipe ?? "null",
@@ -600,7 +600,7 @@ const setEquipeCookie = async (equipe) => {
 }
 
 const getEquipeCookie = async () => {
-    let cookie = await browser.cookies.get({ name: 'equipe'});
+    let cookie = await navigator.cookies.get({ name: 'equipe'});
     const equipeClasses = [ ...nomsEquipe, 'ss-equipe' ];
     let equipeClass = '';
     if (cookie && nomsEquipe.includes(cookie.value)) {
