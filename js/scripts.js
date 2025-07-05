@@ -479,7 +479,7 @@ let itAmicale = document.getElementById("it-amicale");
 const showInfo = (info) => {
     if ([ ...infos, 'main' ].includes(info)) {
         document.documentElement.classList.remove(...[ ...infos, 'main' ]);
-        document.documentElement.classList.add(info);
+        document.documentElement.classList.add(info, 'info');
     }
 }
 
