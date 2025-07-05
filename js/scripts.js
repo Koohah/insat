@@ -478,8 +478,8 @@ let itAmicale = document.getElementById("it-amicale");
 
 const showInfo = (info) => {
     if ([ ...infos, 'main' ].includes(info)) {
-        documentElement.classList.remove([ ...infos, 'main' ]);
-        documentElement.classList.add(info);
+        document.documentElement.classList.remove([ ...infos, 'main' ]);
+        document.documentElement.classList.add(info);
     }
 }
 
