@@ -24,9 +24,11 @@ const LCloudUrl = [
 const renderer = new THREE.WebGLRenderer({ antialias: true  }); // consomme un peu mais c'est plus beau
 renderer.shadowMap.enabled = true;
 
-const sceneContainer = document.getElementById('sceneContainer');
+const sceneContainer = document.getElementById('scene-container');
 
 renderer.setSize(sceneContainer.clientWidth, sceneContainer.clientHeight); // toute la page
+
+
 renderer.setPixelRatio(window.devicePixelRatio);
 sceneContainer.appendChild(renderer.domElement); // canvas
 
@@ -275,6 +277,7 @@ const gltfLoader = new GLTFLoader();   // Ce qui charge les modeles 3D
 // Premier modele
 let Drakkar = null;
 let DrakkarPivot = null;
+const drakLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
 gltfLoader.load(DrakkarUrl.href, (gltf) => {
     gltf.scene.position.set(0, 0, 0);
     Drakkar = gltf.scene;
@@ -286,12 +289,17 @@ gltfLoader.load(DrakkarUrl.href, (gltf) => {
         0
     ); // Placement sur la sphere, angle * rayon
     setupOrbit(vec, Drakkar);
+    drakLight.position.copy(Drakkar.position);
     DrakkarPivot = new THREE.Object3D();
     DrakkarPivot.add(Drakkar);
+    DrakkarPivot.add(drakLight);
     planet.add(DrakkarPivot);
 }, undefined, function(error) {
     console.error(error);
 });
+
+
+
 
 // Deuxieme modele
 
@@ -299,6 +307,7 @@ gltfLoader.load(DrakkarUrl.href, (gltf) => {
 
 let Greks = null;
 let GreksPivot = null;
+const grekLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
 gltfLoader.load(GreksUrl.href, (gltf) => {
     gltf.scene.position.set(0, 0, 0);
     Greks = gltf.scene;
@@ -314,9 +323,10 @@ gltfLoader.load(GreksUrl.href, (gltf) => {
     setupOrbit(vec, Greks);
     // console.log(Greks.position);
 
-    // gLight.position.copy(Greks)
+    grekLight.position.copy(Greks.position);
 
     // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
+    
     Greks.position.x += -1.4;
     Greks.position.y += -1.3;
     Greks.position.z += -1.8;
@@ -325,10 +335,7 @@ gltfLoader.load(GreksUrl.href, (gltf) => {
     // console.log(Greks.position);
     GreksPivot = new THREE.Object3D();
     GreksPivot.add(Greks);
-
-    
-    
-    
+    GreksPivot.add(grekLight);
     planet.add(GreksPivot);
 
 }, undefined, function(error) {
@@ -412,8 +419,13 @@ window.addEventListener('mousemove', function(e) {
 let teamSelected = 0;
 const teamList = [];
 teamList.push('none');
-teamList.push('Vikinsa');
-teamList.push('Grekinsa');
+teamList.push('./medias/vikinsa.svg');
+teamList.push('./medias/greks.svg');
+
+
+let teamLogo = document.getElementById('team-logo');
+let team = document.getElementById('team');
+
 
 window.addEventListener('click', function() {
     rayCaster.setFromCamera(mousePosition, camera);
@@ -436,9 +448,51 @@ window.addEventListener('click', function() {
             obj = obj.parent; // Move up to the parent
         }
         if (teamSelected !== 0) {
+            teamLogo.src = teamList[teamSelected];
+            teamLogo.classList.remove('no-show');
+            team.classList.add('team-border');
+            if (teamSelected == 1) {
+                teamLogo.classList.add('vikinsize');
+            } else {
+            teamLogo.classList.remove('vikinsize');
+            teamLogo.classList.add('team-logo-Dsize');
+            team
+            }
             break; // Found a clickable object, no need to check other intersects
         };
     };
+});
+
+
+// Links
+
+let planning = document.getElementById("planning");
+let blouse = document.getElementById("blouse");
+let guidePpa = document.getElementById("guide-ppa");
+let prevention = document.getElementById("prevention");
+let parrainage = document.getElementById("parrainage");
+
+let itBureau = document.getElementById("it-bureau");
+let itInsa = document.getElementById("it-insa");
+let itAmicale = document.getElementById("it-amicale");
+
+planning.addEventListener('click', () => {
+    window.open('./info.html', '_self');
+    // itBureau.classList.remove('no-show');
+    // itAmicale.classList.remove('no-show');
+    // console.log(itBureau.classList);
+});
+blouse.addEventListener('click', () => {
+    window.open('./info.html', '_self');
+});
+guidePpa.addEventListener('click', () => {
+    window.open('./info.html', '_self');
+});
+prevention.addEventListener('click', () => {
+    window.open('./info.html', '_self');
+});
+parrainage.addEventListener('click', () => {
+    window.open('./info.html', '_self');
 });
 
 // Animation
