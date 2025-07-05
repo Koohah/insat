@@ -9,7 +9,7 @@ import {GLTFLoader} from './other/GLTFLoader.js';
 const nomsEquipe = [ 'samourai', 'viking', 'inka', 'grec' ];
 let equipeChoisi = undefined;
 
-equipeLogo = {
+const equipeLogo = {
     'samourai': '',
     'viking': './medias/vikinsa.svg',
     'inka': '',
