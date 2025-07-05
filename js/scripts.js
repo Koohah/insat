@@ -9,6 +9,13 @@ import {GLTFLoader} from './other/GLTFLoader.js';
 const nomsEquipe = [ 'samourai', 'viking', 'inka', 'grec' ];
 let equipeChoisi = undefined;
 
+equipeLogo = {
+    'samourai': '',
+    'viking': './medias/vikinsa.svg',
+    'inka': '',
+    'grec': './medias/greks.svg',
+}
+
 const getCookie = (name) => {
     let cookieArr = document.cookie.split(";");
     for (let i = 0; i < cookieArr.length; i++) {
@@ -43,6 +50,7 @@ const getEquipeCookie = async () => {
     if (nomsEquipe.includes(nomEquipe)) {
         equipeChoisi = nomEquipe;
         equipeClass = equipeChoisi;
+        document.getElementById('team-logo').src = equipeLogo[equipeChoisi];
     } else {
         equipeChoisi = undefined;
         equipeClass = 'ss-equipe';
