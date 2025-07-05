@@ -422,7 +422,6 @@ teamList.push('none');
 teamList.push('./medias/vikinsa.svg');
 teamList.push('./medias/greks.svg');
 
-
 let teamLogo = document.getElementById('team-logo');
 let team = document.getElementById('team');
 
@@ -439,7 +438,7 @@ window.addEventListener('click', function() {
                 break; // Found the clickable model, no need to check parents further
             }
             if (obj.userData && obj.userData.modelName === 'ileGrk') {
-                teamSelected = 2; // Drakkar model was clicked
+                teamSelected = 2; // ileGrk model was clicked
                 break; // Found the clickable model, no need to check parents further
             }
             if (obj.userData.modelName === 'luninsa') {
@@ -449,7 +448,6 @@ window.addEventListener('click', function() {
         }
         if (teamSelected !== 0) {
             teamLogo.src = teamList[teamSelected];
-            teamLogo.classList.remove('no-show');
             team.classList.add('team-border');
             if (teamSelected == 1) {
                 teamLogo.classList.add('vikinsize');
@@ -465,7 +463,7 @@ window.addEventListener('click', function() {
 
 
 // Links
-
+const infos = [ "planning", "blouse", "guide-ppa", "prevention" ]
 let planning = document.getElementById("planning");
 let blouse = document.getElementById("blouse");
 let guidePpa = document.getElementById("guide-ppa");
@@ -475,6 +473,13 @@ let parrainage = document.getElementById("parrainage");
 let itBureau = document.getElementById("it-bureau");
 let itInsa = document.getElementById("it-insa");
 let itAmicale = document.getElementById("it-amicale");
+
+const showInfo = (info) => {
+    if ([ ...infos, 'main' ].includes(info)) {
+        documentElement.classList.remove([ ...infos, 'main' ]);
+        documentElement.classList.add(info);
+    }
+}
 
 planning.addEventListener('click', () => {
     window.open('./info.html', '_self');
@@ -570,3 +575,30 @@ renderer.setAnimationLoop(animate);
 // generateClouds(22); // Appel de la fonction
 // scene.add(cloudsGroup); // Ajout des nuages a la scene
 // cloudsGroup.castShadow = true;  // Cree des ombres
+
+const nomsEquipe = [ 'samourai', 'viking', 'inka', 'grec' ];
+let equipeChoisi = undefined;
+
+const setEquipeCookie = async (equipe) => {
+    await browser.cookies.set({
+        expirationDate: Date.now() + equipe !== null && nomsEquipe.includes(equipe) ? 60 * 60 * 24 * 30 * 2 : -10, // 2 mois
+        name: "equipe",
+        value: equipe ?? "null",
+    });
+    getEquipeCookie()
+}
+
+const getEquipeCookie = async () => {
+    let cookie = await browser.cookies.get({ name: 'equipe'});
+    const equipeClasses = [ ...nomsEquipe, 'ss-equipe' ];
+    let equipeClass = '';
+    if (cookie && nomsEquipe.includes(cookie.value)) {
+        equipeChoisi = cookie.value;
+        equipeClass = equipeChoisi;
+    } else {
+        equipeChoisi = undefined;
+        equipeClass = 'ss-equipe';
+    }
+    document.documentElement.classList.remove(equipeClasses.filter(value => value !== equipeClass));
+    document.documentElement.classList.add(equipeClass);
+}
