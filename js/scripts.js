@@ -11,6 +11,7 @@ const starsUrl = new URL('../medias/stars.jpg', import.meta.url);
 const DrakkarUrl = new URL('../medias/drakkar.glb', import.meta.url);
 const GreksUrl = new URL('../medias/ile_greks_2.glb', import.meta.url);
 const InkasUrl = new URL('../medias/ile_inkas.glb', import.meta.url);
+const SamUrl = new URL('../medias/samourais.glb', import.meta.url);
 const LCloudUrl = [
     new URL('../medias/low_poly_cloud.glb', import.meta.url),
     new URL('../medias/cloud1.glb', import.meta.url),
@@ -293,7 +294,15 @@ gltfLoader.load(DrakkarUrl.href, (gltf) => {
         0
     ); // Placement sur la sphere, angle * rayon
     setupOrbit(vec, Drakkar);
-    drakLight.position.copy(Drakkar.position);
+
+    const lightVec = new THREE.Vector3(
+        Math.cos(Math.PI/4.5)*3.2,
+        Math.sin(Math.PI/4.5)*3.2,
+        0
+    )
+
+    drakLight.position.copy(lightVec);
+
     DrakkarPivot = new THREE.Object3D();
     DrakkarPivot.add(Drakkar);
     DrakkarPivot.add(drakLight);
@@ -323,7 +332,13 @@ gltfLoader.load(GreksUrl.href, (gltf) => {
     setupOrbit(vec, Greks);
     // console.log(Greks.position);
 
-    grekLight.position.copy(Greks.position);
+    const lightVec = new THREE.Vector3(
+        Math.cos(Math.PI*6.8/8)*3.2,
+        Math.sin(Math.PI*6.8/8)*3.2,
+        0
+    )
+
+    grekLight.position.copy(lightVec);
 
     // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
     
@@ -358,12 +373,19 @@ gltfLoader.load(InkasUrl.href, (gltf) => {
         Math.sin(Math.PI*2.3/4)*2.85
 
     ); // Placement sur la sphere, angle * rayon
-    console.log(vec);
+    // console.log(vec);
 
     setupOrbit(vec, Inkas);
-    console.log(Inkas.position);
+    // console.log(Inkas.position);
 
-    inkasLight.position.copy(Inkas.position);
+    const lightVec = new THREE.Vector3(
+        0,
+        Math.cos(Math.PI*2.3/4)*3.2,
+        Math.sin(Math.PI*2.3/4)*3.2
+
+    )
+
+    inkasLight.position.copy(lightVec);
 
     InkasPivot = new THREE.Object3D();
     InkasPivot.add(Inkas);
@@ -373,6 +395,45 @@ gltfLoader.load(InkasUrl.href, (gltf) => {
 }, undefined, function(error) {
     console.error(error);
 });
+
+// Quatrième modele
+
+let Sam = null;
+let SamPivot = null;
+const samLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
+gltfLoader.load(SamUrl.href, (gltf) => {
+    gltf.scene.position.set(0, 0, 0);
+    Sam = gltf.scene;
+    Sam.scale.set(0.02, 0.02, 0.02);
+    Sam.userData.modelName = "samourai";
+    const vec = new THREE.Vector3(
+        0,
+        Math.cos(-2*Math.PI/5)*2.8,
+        Math.sin(-2*Math.PI/5)*2.8
+    ); // Placement sur la sphere, angle * rayon
+    console.log(vec);
+
+    setupOrbit(vec, Sam);
+    console.log(Sam.position);
+
+    const lightVec = new THREE.Vector3(
+        0,
+        Math.cos(-2*Math.PI/5)*3.2,
+        Math.sin(-2*Math.PI/5)*3.2
+    )
+
+    samLight.position.copy(lightVec);
+
+    SamPivot = new THREE.Object3D();
+    SamPivot.add(Sam);
+    SamPivot.add(samLight);
+    planet.add(SamPivot);
+
+}, undefined, function(error) {
+    console.error(error);
+});
+
+
 
 //Nuages
 

@@ -6,7 +6,8 @@ const DrakkarUrl = new URL('../../medias/drakkar.glb', import.meta.url);
 const GreksUrl = new URL('../../medias/ile_greks_2.glb', import.meta.url);
 const CloudUrl = new URL('../../medias/low_poly_cloud.glb', import.meta.url);
 const InkasUrl = new URL('../../medias/ile_inkas.glb', import.meta.url);
-console.log(DrakkarUrl, GreksUrl, CloudUrl);
+const SamUrl = new URL('../../medias/samourais.glb', import.meta.url);
+console.log(DrakkarUrl, GreksUrl, CloudUrl, InkasUrl, SamUrl);
 
 
 
@@ -137,44 +138,76 @@ const gltfLoader = new GLTFLoader();   // Ce qui charge les modeles 3D
 
 // Troisième modele
 
-let Inkas = null;
-let InkasPivot = null;
-const inkasLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
-gltfLoader.load(InkasUrl.href, (gltf) => {
+// let Inkas = null;
+// let InkasPivot = null;
+// const inkasLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
+// gltfLoader.load(InkasUrl.href, (gltf) => {
+//     gltf.scene.position.set(0, 0, 0);
+//     Inkas = gltf.scene;
+//     Inkas.scale.set(0.02, 0.02, 0.02);
+//     Inkas.userData.modelName = "ileInka";
+//     const vec = new THREE.Vector3(
+//         0,
+//         Math.cos(Math.PI*2.7/4)*3,
+//         Math.sin(Math.PI*2.7/4)*3
+
+//     ); // Placement sur la sphere, angle * rayon
+//     console.log(vec);
+
+//     setupOrbit(vec, Inkas);
+//     console.log(Inkas.position);
+
+//     inkasLight.position.copy(Inkas.position);
+
+//     // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
+    
+//     // Greks.position.x += -1.4;
+//     // Greks.position.y += -1.3;
+//     // Greks.position.z += -1.8;
+//     // Greks.rotation.z += 0.06;
+
+//     // console.log(Greks.position);
+//     InkasPivot = new THREE.Object3D();
+//     InkasPivot.add(Inkas);
+//     InkasPivot.add(inkasLight);
+//     scene.add(InkasPivot);
+
+// }, undefined, function(error) {
+//     console.error(error);
+// });
+
+
+// Quatrième modele
+
+let Sam = null;
+let SamPivot = null;
+const samLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
+gltfLoader.load(SamUrl.href, (gltf) => {
     gltf.scene.position.set(0, 0, 0);
-    Inkas = gltf.scene;
-    Inkas.scale.set(0.02, 0.02, 0.02);
-    Inkas.userData.modelName = "ileInka";
+    Sam = gltf.scene;
+    Sam.scale.set(0.02, 0.02, 0.02);
+    Sam.userData.modelName = "samourai";
     const vec = new THREE.Vector3(
         0,
-        Math.cos(Math.PI*2.7/4)*3,
-        Math.sin(Math.PI*2.7/4)*3
+        Math.cos(-Math.PI/2)*2.9,
+        Math.sin(-Math.PI/2)*2.9
 
     ); // Placement sur la sphere, angle * rayon
     console.log(vec);
 
-    setupOrbit(vec, Inkas);
-    console.log(Inkas.position);
+    setupOrbit(vec, Sam);
+    console.log(Sam.position);
 
-    inkasLight.position.copy(Inkas.position);
+    samLight.position.copy(Sam.position);
 
-    // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
-    
-    // Greks.position.x += -1.4;
-    // Greks.position.y += -1.3;
-    // Greks.position.z += -1.8;
-    // Greks.rotation.z += 0.06;
-
-    // console.log(Greks.position);
-    InkasPivot = new THREE.Object3D();
-    InkasPivot.add(Inkas);
-    InkasPivot.add(inkasLight);
-    scene.add(InkasPivot);
+    SamPivot = new THREE.Object3D();
+    SamPivot.add(Sam);
+    SamPivot.add(samLight);
+    scene.add(SamPivot);
 
 }, undefined, function(error) {
     console.error(error);
 });
-
 
 const animate = () => {
     renderer.render(scene, camera);
