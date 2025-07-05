@@ -435,10 +435,12 @@ window.addEventListener('click', function() {
         while (obj) {
             if (obj.userData && obj.userData.modelName === 'drakkar') {
                 teamSelected = 1; // Drakkar model was clicked
+                setEquipeCookie('viking');
                 break; // Found the clickable model, no need to check parents further
             }
             if (obj.userData && obj.userData.modelName === 'ileGrk') {
                 teamSelected = 2; // ileGrk model was clicked
+                setEquipeCookie('grec');
                 break; // Found the clickable model, no need to check parents further
             }
             if (obj.userData.modelName === 'luninsa') {
