@@ -50,7 +50,13 @@ const getEquipeCookie = async () => {
     if (nomsEquipe.includes(nomEquipe)) {
         equipeChoisi = nomEquipe;
         equipeClass = equipeChoisi;
-        document.getElementById('team-logo').src = equipeLogo[equipeChoisi];
+        const logoEl = document.getElementById('team-logo')
+        logoEl.src = equipeLogo[equipeChoisi];
+        if (equipeChoisi === 'viking') {
+            logoEl.classList.add('vikinsize')
+        } else {
+            logoEl.classList.remove('vikinsize')
+        }
     } else {
         equipeChoisi = undefined;
         equipeClass = 'ss-equipe';
