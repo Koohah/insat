@@ -590,21 +590,39 @@ renderer.setAnimationLoop(animate);
 const nomsEquipe = [ 'samourai', 'viking', 'inka', 'grec' ];
 let equipeChoisi = undefined;
 
+const getCookie = (name) => {
+    let cookieArr = document.cookie.split(";");
+    for (let i = 0; i < cookieArr.length; i++) {
+        let cookie = cookieArr[i].trim();
+        if (cookie.startsWith(name + "=")) {
+            return cookie.substring(name.length + 1);
+        }
+    }
+    return null;
+}
+
 const setEquipeCookie = async (equipe) => {
-    await navigator.cookies.set({
-        expirationDate: Date.now() + equipe !== null && nomsEquipe.includes(equipe) ? 60 * 60 * 24 * 30 * 2 : -10, // 2 mois
-        name: "equipe",
-        value: equipe ?? "null",
-    });
+    let date = new Date();
+    if (equipe !== null && nomsEquipe.includes(equipe)) {
+        date.setTime(date.getTime() + (60 * 24 * 60 * 60 * 1000));
+    } else {
+        date.setTime(date.getTime() - 20);
+    }
+    let expires = "expires=" + date.toUTCString();
+    document.cookie = 'equipe' + "=" + equipe + ";" + expires + ";path=/";
     getEquipeCookie()
 }
 
 const getEquipeCookie = async () => {
-    let cookie = await navigator.cookies.get({ name: 'equipe'});
-    const equipeClasses = [ ...nomsEquipe, 'ss-equipe' ];
+    let cookie = getCookie('equipe');
+    let nomEquipe = ''
     let equipeClass = '';
-    if (cookie && nomsEquipe.includes(cookie.value)) {
-        equipeChoisi = cookie.value;
+    if (cookie !== null) {
+        nomEquipe = cookie.split(';')[0];
+    }
+    const equipeClasses = [ ...nomsEquipe, 'ss-equipe' ];
+    if (nomsEquipe.includes(nomEquipe)) {
+        equipeChoisi = nomEquipe;
         equipeClass = equipeChoisi;
     } else {
         equipeChoisi = undefined;
