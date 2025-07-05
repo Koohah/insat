@@ -47,7 +47,8 @@ const getEquipeCookie = async () => {
         equipeChoisi = undefined;
         equipeClass = 'ss-equipe';
     }
-    document.documentElement.classList.remove(equipeClasses.filter(value => value !== equipeClass));
+    const classesToRemove = equipeClasses.filter(value => value !== equipeClass)
+    document.documentElement.classList.remove(...classesToRemove);
     document.documentElement.classList.add(equipeClass);
 }
 
