@@ -464,10 +464,12 @@ window.addEventListener('click', function() {
 
 // Links
 const infos = [ "planning", "blouse", "guide-ppa", "prevention" ]
-let planning = document.getElementById("planning");
+/* let planning = document.getElementById("planning");
 let blouse = document.getElementById("blouse");
 let guidePpa = document.getElementById("guide-ppa");
 let prevention = document.getElementById("prevention");
+*/
+
 let parrainage = document.getElementById("parrainage");
 
 let itBureau = document.getElementById("it-bureau");
@@ -481,6 +483,11 @@ const showInfo = (info) => {
     }
 }
 
+infos.forEach(id => { 
+    document.getElementById(id).addEventListener('click', () => showInfo(id));
+});
+
+/*
 planning.addEventListener('click', () => {
     window.open('./info.html', '_self');
     // itBureau.classList.remove('no-show');
@@ -496,6 +503,8 @@ guidePpa.addEventListener('click', () => {
 prevention.addEventListener('click', () => {
     window.open('./info.html', '_self');
 });
+*/
+
 parrainage.addEventListener('click', () => {
     window.open('./info.html', '_self');
 });
