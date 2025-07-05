@@ -11,7 +11,7 @@ Equipes :
 
 */
 
-html:not(.main) .home-flex { display: none; }
+html:not(.main) #home-flex { display: none; }
 html.main #info { display: none; }
 html:not(.planning) #info-planning { display: none; }
 html:not(.blouse) #info-blouse { display: none; }
