@@ -7,9 +7,37 @@ body {
     padding: 0;
     width: 100%;
     height: 100%;
-    /* Empeche le scroll */
-    overflow: hidden;
+    overflow-y: scroll;
+    overflow-x: hidden;
     box-sizing: border-box;
+}
+
+
+.pf-d-bureau-title {
+  font-family: "Playfair Display", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.lato-regular {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.lato-bold {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+h1 {
+    margin: 0;
+}
+
+h4 {
+    margin: 0;
 }
 
 *,
@@ -18,7 +46,7 @@ body {
   box-sizing: inherit;
 }
 
-#theFlex {
+#home-flex {
     display: flex;
     align-content: flex-start;
     width: 100vw;
@@ -27,7 +55,7 @@ body {
     flex-direction: row;
 }
 
-#bureauContainer {
+#bureau-container {
     display: flex;
     flex-direction: column;
     width: 35%;
@@ -42,7 +70,7 @@ body {
     justify-content: center;
 }
 
-#bureauLogoBig {
+#bureau-header img {
     max-height: 7vh;
     margin-right: 1vw;
     padding: 0.5vh;
@@ -60,7 +88,7 @@ body {
 
 
 
-.cat-menu {
+.menu-item {
     display: flex;
     flex-wrap: nowrap;
     /* border: #000;
@@ -74,11 +102,11 @@ body {
     cursor: pointer;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
-.cat-menu:hover {
+.menu-item:hover {
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
 
-#sceneContainer {
+#scene-container {
     width: 65%;
     height: 100%;
     display: flex;
@@ -89,48 +117,122 @@ body {
     position: relative;
 }
 
-
-#sceneContainer canvas {
+#scene-container canvas {
     display: block; /* Ensure it's a block element */
     max-width: 100%;
     max-height: 100%;
+}
+
+
+#fs-img {
+    position: absolute;
+    bottom: 2%;
+    right: 2%;
+    display: none;
 }
 
 #team {
     position: absolute;
     top: 2%;
     left: 2%;
+    height: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.team-border {
+    border-style: solid;
+    border-color: #fff;
+    border-radius: 3px;
 }
 
 .team-logo-Dsize {
-    height: 15vh;
+    height: 100%;
     width: auto;
+    padding: 2px;
 }
 
 .vikinsize {
-    height: 17vh;
+    height: 100%;
     width: auto;
 }
 
 
 
-@media screen and (orientation: portrait) {
-  #theFlex {
-    flex-direction: column;
-  }
-  #bureauContainer {
-    height: 50%;
-    width: 100%;
-  }
-  #sceneContainer {
-    height: 50%;
-    width: 100%;
-  }
+
+#info-top {
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-content: center;
+    padding: 5%;
+}
+
+.it-logo {
+    width: 35%;
+    height: auto;
+}
+
+#cross-img {
+    height: 10%;
+    width: auto;
+    align-self: center;
+}
+
+#junction {
+    height: 10vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 2vh;
+}
+
+#down-arrow {
+    height: 100%;
+    width: auto;
+}
+
+#info-mid {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    background-image: url('../medias/Pattern_SA.jpg');
 }
 
 .no-show {
     display: none !important;
 }
+
+
+
+@media screen and (orientation: portrait) {
+  #home-flex {
+    flex-direction: column;
+  }
+  #bureau-container {
+    height: 50%;
+    width: 100%;
+  }
+  #scene-container {
+    height: 50%;
+    width: 100%;
+  }
+  #fs-img {
+    display: block;
+  }
+  #info-top {
+    flex-direction: column;
+  }
+  .it-logo {
+    height: 35%;
+    width: auto;
+}
+}
+
+
 
 
 /* #hud {
