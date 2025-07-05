@@ -6,6 +6,54 @@ import {GLTFLoader} from './other/GLTFLoader.js';
 // import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.144/examples/jsm/loaders/GLTFLoader.js';
 
 
+const nomsEquipe = [ 'samourai', 'viking', 'inka', 'grec' ];
+let equipeChoisi = undefined;
+
+const getCookie = (name) => {
+    let cookieArr = document.cookie.split(";");
+    for (let i = 0; i < cookieArr.length; i++) {
+        let cookie = cookieArr[i].trim();
+        if (cookie.startsWith(name + "=")) {
+            return cookie.substring(name.length + 1);
+        }
+    }
+    return null;
+}
+
+const setEquipeCookie = async (equipe) => {
+    let date = new Date();
+    if (equipe !== null && nomsEquipe.includes(equipe)) {
+        date.setTime(date.getTime() + (60 * 24 * 60 * 60 * 1000));
+    } else {
+        date.setTime(date.getTime() - 20);
+    }
+    let expires = "expires=" + date.toUTCString();
+    document.cookie = 'equipe' + "=" + equipe + ";" + expires + ";path=/";
+    getEquipeCookie()
+}
+
+const getEquipeCookie = async () => {
+    let cookie = getCookie('equipe');
+    let nomEquipe = ''
+    let equipeClass = '';
+    if (cookie !== null) {
+        nomEquipe = cookie.split(';')[0];
+    }
+    const equipeClasses = [ ...nomsEquipe, 'ss-equipe' ];
+    if (nomsEquipe.includes(nomEquipe)) {
+        equipeChoisi = nomEquipe;
+        equipeClass = equipeChoisi;
+    } else {
+        equipeChoisi = undefined;
+        equipeClass = 'ss-equipe';
+    }
+    document.documentElement.classList.remove(equipeClasses.filter(value => value !== equipeClass));
+    document.documentElement.classList.add(equipeClass);
+}
+
+getEquipeCookie();
+
+
 const starsUrl = new URL('../medias/stars.jpg', import.meta.url);
 
 const DrakkarUrl = new URL('../medias/drakkar.glb', import.meta.url);
@@ -587,47 +635,3 @@ renderer.setAnimationLoop(animate);
 // scene.add(cloudsGroup); // Ajout des nuages a la scene
 // cloudsGroup.castShadow = true;  // Cree des ombres
 
-const nomsEquipe = [ 'samourai', 'viking', 'inka', 'grec' ];
-let equipeChoisi = undefined;
-
-const getCookie = (name) => {
-    let cookieArr = document.cookie.split(";");
-    for (let i = 0; i < cookieArr.length; i++) {
-        let cookie = cookieArr[i].trim();
-        if (cookie.startsWith(name + "=")) {
-            return cookie.substring(name.length + 1);
-        }
-    }
-    return null;
-}
-
-const setEquipeCookie = async (equipe) => {
-    let date = new Date();
-    if (equipe !== null && nomsEquipe.includes(equipe)) {
-        date.setTime(date.getTime() + (60 * 24 * 60 * 60 * 1000));
-    } else {
-        date.setTime(date.getTime() - 20);
-    }
-    let expires = "expires=" + date.toUTCString();
-    document.cookie = 'equipe' + "=" + equipe + ";" + expires + ";path=/";
-    getEquipeCookie()
-}
-
-const getEquipeCookie = async () => {
-    let cookie = getCookie('equipe');
-    let nomEquipe = ''
-    let equipeClass = '';
-    if (cookie !== null) {
-        nomEquipe = cookie.split(';')[0];
-    }
-    const equipeClasses = [ ...nomsEquipe, 'ss-equipe' ];
-    if (nomsEquipe.includes(nomEquipe)) {
-        equipeChoisi = nomEquipe;
-        equipeClass = equipeChoisi;
-    } else {
-        equipeChoisi = undefined;
-        equipeClass = 'ss-equipe';
-    }
-    document.documentElement.classList.remove(equipeClasses.filter(value => value !== equipeClass));
-    document.documentElement.classList.add(equipeClass);
-}
