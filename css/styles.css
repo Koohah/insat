@@ -13,10 +13,10 @@ Equipes :
 
 html:not(.main) .home-flex { display: none; }
 html.main #info { display: none; }
-html:not(.planning) #planning { display: none; }
-html:not(.blouse) #blouse { display: none; }
-html:not(.guide-ppa) #guide-ppa { display: none; }
-html:not(.prevention) #prevention { display: none; }
+html:not(.planning) #info-planning { display: none; }
+html:not(.blouse) #info-blouse { display: none; }
+html:not(.guide-ppa) #info-guide-ppa { display: none; }
+html:not(.prevention) #info-prevention { display: none; }
 html.ss-equipe #team { display: none; }
 /* html:not(.ss-equipe) #team-logo { display: none; } */
 
