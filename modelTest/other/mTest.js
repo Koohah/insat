@@ -5,6 +5,7 @@ import {GLTFLoader} from '../../js/other/GLTFLoader.js';
 const DrakkarUrl = new URL('../../medias/drakkar.glb', import.meta.url);
 const GreksUrl = new URL('../../medias/ile_greks_2.glb', import.meta.url);
 const CloudUrl = new URL('../../medias/low_poly_cloud.glb', import.meta.url);
+const InkasUrl = new URL('../../medias/ile_inkas.glb', import.meta.url);
 console.log(DrakkarUrl, GreksUrl, CloudUrl);
 
 
@@ -112,26 +113,66 @@ const gltfLoader = new GLTFLoader();   // Ce qui charge les modeles 3D
 //     scene.add(CloudObj);
 // });
 
-let gCorrect = null;
-let gVec = null;
-let Grek = null;
-let GrekObj = null;
-gltfLoader.load(GreksUrl.href, (gltf) => {
-    // gCorrect = new THREE.Vector3(-1, 0, 1.25);
-    Grek = gltf.scene;
-    Grek.scale.set(0.5, 0.5, 0.5);
+// let gCorrect = null;
+// let gVec = null;
+// let Grek = null;
+// let GrekObj = null;
+// gltfLoader.load(GreksUrl.href, (gltf) => {
+//     // gCorrect = new THREE.Vector3(-1, 0, 1.25);
+//     Grek = gltf.scene;
+//     Grek.scale.set(0.5, 0.5, 0.5);
 
-    Grek.position.x += -1.4;
-    Grek.position.y += -1.3;
-    Grek.position.z += -1.8;
-    Grek.rotation.z += 0.06;
-    // gVec = rCoords();
-    // console.log(gVec);
-    // setupOrbit(gVec, Grek);
-    GrekObj = new THREE.Object3D();
-    GrekObj.add(Grek);
-    GrekObj.castShadow = true;
-    scene.add(GrekObj);
+//     Grek.position.x += -1.4;
+//     Grek.position.y += -1.3;
+//     Grek.position.z += -1.8;
+//     Grek.rotation.z += 0.06;
+//     // gVec = rCoords();
+//     // console.log(gVec);
+//     // setupOrbit(gVec, Grek);
+//     GrekObj = new THREE.Object3D();
+//     GrekObj.add(Grek);
+//     GrekObj.castShadow = true;
+//     scene.add(GrekObj);
+// });
+
+// Troisième modele
+
+let Inkas = null;
+let InkasPivot = null;
+const inkasLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
+gltfLoader.load(InkasUrl.href, (gltf) => {
+    gltf.scene.position.set(0, 0, 0);
+    Inkas = gltf.scene;
+    Inkas.scale.set(0.02, 0.02, 0.02);
+    Inkas.userData.modelName = "ileInka";
+    const vec = new THREE.Vector3(
+        0,
+        Math.cos(Math.PI*2.7/4)*3,
+        Math.sin(Math.PI*2.7/4)*3
+
+    ); // Placement sur la sphere, angle * rayon
+    console.log(vec);
+
+    setupOrbit(vec, Inkas);
+    console.log(Inkas.position);
+
+    inkasLight.position.copy(Inkas.position);
+
+    // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
+    
+    // Greks.position.x += -1.4;
+    // Greks.position.y += -1.3;
+    // Greks.position.z += -1.8;
+    // Greks.rotation.z += 0.06;
+
+    // console.log(Greks.position);
+    InkasPivot = new THREE.Object3D();
+    InkasPivot.add(Inkas);
+    InkasPivot.add(inkasLight);
+    scene.add(InkasPivot);
+
+}, undefined, function(error) {
+    console.error(error);
 });
 
 

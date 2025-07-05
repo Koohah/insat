@@ -10,6 +10,7 @@ const starsUrl = new URL('../medias/stars.jpg', import.meta.url);
 
 const DrakkarUrl = new URL('../medias/drakkar.glb', import.meta.url);
 const GreksUrl = new URL('../medias/ile_greks_2.glb', import.meta.url);
+const InkasUrl = new URL('../medias/ile_inkas.glb', import.meta.url);
 const LCloudUrl = [
     new URL('../medias/low_poly_cloud.glb', import.meta.url),
     new URL('../medias/cloud1.glb', import.meta.url),
@@ -274,7 +275,10 @@ star.add(starLight);
 // Modeles 3D
 
 const gltfLoader = new GLTFLoader();   // Ce qui charge les modeles 3D
+
+
 // Premier modele
+
 let Drakkar = null;
 let DrakkarPivot = null;
 const drakLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
@@ -299,11 +303,7 @@ gltfLoader.load(DrakkarUrl.href, (gltf) => {
 });
 
 
-
-
 // Deuxieme modele
-
-
 
 let Greks = null;
 let GreksPivot = null;
@@ -337,6 +337,38 @@ gltfLoader.load(GreksUrl.href, (gltf) => {
     GreksPivot.add(Greks);
     GreksPivot.add(grekLight);
     planet.add(GreksPivot);
+
+}, undefined, function(error) {
+    console.error(error);
+});
+
+// Troisième modele
+
+let Inkas = null;
+let InkasPivot = null;
+const inkasLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
+gltfLoader.load(InkasUrl.href, (gltf) => {
+    gltf.scene.position.set(0, 0, 0);
+    Inkas = gltf.scene;
+    Inkas.scale.set(0.02, 0.02, 0.02);
+    Inkas.userData.modelName = "ileInka";
+    const vec = new THREE.Vector3(
+        0,
+        Math.cos(Math.PI*2.3/4)*2.85,
+        Math.sin(Math.PI*2.3/4)*2.85
+
+    ); // Placement sur la sphere, angle * rayon
+    console.log(vec);
+
+    setupOrbit(vec, Inkas);
+    console.log(Inkas.position);
+
+    inkasLight.position.copy(Inkas.position);
+
+    InkasPivot = new THREE.Object3D();
+    InkasPivot.add(Inkas);
+    InkasPivot.add(inkasLight);
+    planet.add(InkasPivot);
 
 }, undefined, function(error) {
     console.error(error);
