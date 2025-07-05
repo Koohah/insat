@@ -6,6 +6,69 @@ import {GLTFLoader} from './other/GLTFLoader.js';
 // import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.144/examples/jsm/loaders/GLTFLoader.js';
 
 
+const nomsEquipe = [ 'samourai', 'viking', 'inka', 'grec' ];
+let equipeChoisi = undefined;
+
+const equipeLogo = {
+    'samourai': '',
+    'viking': './medias/vikinsa.svg',
+    'inka': '',
+    'grec': './medias/greks.svg',
+}
+
+const getCookie = (name) => {
+    let cookieArr = document.cookie.split(";");
+    for (let i = 0; i < cookieArr.length; i++) {
+        let cookie = cookieArr[i].trim();
+        if (cookie.startsWith(name + "=")) {
+            return cookie.substring(name.length + 1);
+        }
+    }
+    return null;
+}
+
+const setEquipeCookie = async (equipe) => {
+    let date = new Date();
+    if (equipe !== null && nomsEquipe.includes(equipe)) {
+        date.setTime(date.getTime() + (60 * 24 * 60 * 60 * 1000));
+    } else {
+        date.setTime(date.getTime() - 20);
+    }
+    let expires = "expires=" + date.toUTCString();
+    document.cookie = 'equipe' + "=" + equipe + ";" + expires + ";path=/";
+    getEquipeCookie()
+}
+
+const getEquipeCookie = async () => {
+    let cookie = getCookie('equipe');
+    let nomEquipe = ''
+    let equipeClass = '';
+    if (cookie !== null) {
+        nomEquipe = cookie.split(';')[0];
+    }
+    const equipeClasses = [ ...nomsEquipe, 'ss-equipe' ];
+    if (nomsEquipe.includes(nomEquipe)) {
+        equipeChoisi = nomEquipe;
+        equipeClass = equipeChoisi;
+        const logoEl = document.getElementById('team-logo')
+        logoEl.src = equipeLogo[equipeChoisi];
+        if (equipeChoisi === 'viking') {
+            logoEl.classList.add('vikinsize')
+        } else {
+            logoEl.classList.remove('vikinsize')
+        }
+    } else {
+        equipeChoisi = undefined;
+        equipeClass = 'ss-equipe';
+    }
+    const classesToRemove = equipeClasses.filter(value => value !== equipeClass)
+    document.documentElement.classList.remove(...classesToRemove);
+    document.documentElement.classList.add(equipeClass);
+}
+
+getEquipeCookie();
+
+
 const starsUrl = new URL('../medias/stars.jpg', import.meta.url);
 
 const DrakkarUrl = new URL('../medias/drakkar.glb', import.meta.url);
@@ -519,7 +582,6 @@ teamList.push('./medias/greks.svg');
 teamList.push('./medias/inkas.svg');
 teamList.push('./medias/samourai.svg');
 
-
 let teamLogo = document.getElementById('team-logo');
 let team = document.getElementById('team');
 
@@ -533,10 +595,12 @@ window.addEventListener('click', function() {
         while (obj) {
             if (obj.userData && obj.userData.modelName === 'drakkar') {
                 teamSelected = 1; // Drakkar model was clicked
+                setEquipeCookie('viking');
                 break; // Found the clickable model, no need to check parents further
             }
             if (obj.userData && obj.userData.modelName === 'ileGrk') {
-                teamSelected = 2; // Drakkar model was clicked
+                teamSelected = 2; // ileGrk model was clicked
+                setEquipeCookie('grec');
                 break; // Found the clickable model, no need to check parents further
             }
             if (obj.userData && obj.userData.modelName === 'ileInka') {
@@ -554,7 +618,6 @@ window.addEventListener('click', function() {
         }
         if (teamSelected !== 0) {
             teamLogo.src = teamList[teamSelected];
-            teamLogo.classList.remove('no-show');
             team.classList.add('team-border');
             if (teamSelected == 1) {
                 teamLogo.classList.add('vikinsize');
@@ -570,17 +633,31 @@ window.addEventListener('click', function() {
 
 
 // Links
-
-let planning = document.getElementById("planning");
+const infos = [ "planning", "blouse", "guide-ppa", "prevention" ]
+/* let planning = document.getElementById("planning");
 let blouse = document.getElementById("blouse");
 let guidePpa = document.getElementById("guide-ppa");
 let prevention = document.getElementById("prevention");
+*/
+
 let parrainage = document.getElementById("parrainage");
 
 let itBureau = document.getElementById("it-bureau");
 let itInsa = document.getElementById("it-insa");
 let itAmicale = document.getElementById("it-amicale");
 
+const showInfo = (info) => {
+    if ([ ...infos, 'main' ].includes(info)) {
+        document.documentElement.classList.remove(...[ ...infos, 'main' ]);
+        document.documentElement.classList.add(info, 'info');
+    }
+}
+
+infos.forEach(id => { 
+    document.getElementById(id).addEventListener('click', () => showInfo(id));
+});
+
+/*
 planning.addEventListener('click', () => {
     window.open('./info.html', '_self');
     // itBureau.classList.remove('no-show');
@@ -596,6 +673,8 @@ guidePpa.addEventListener('click', () => {
 prevention.addEventListener('click', () => {
     window.open('./info.html', '_self');
 });
+*/
+
 parrainage.addEventListener('click', () => {
     window.open('./info.html', '_self');
 });
@@ -675,3 +754,4 @@ renderer.setAnimationLoop(animate);
 // generateClouds(22); // Appel de la fonction
 // scene.add(cloudsGroup); // Ajout des nuages a la scene
 // cloudsGroup.castShadow = true;  // Cree des ombres
+

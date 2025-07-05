@@ -2,6 +2,24 @@
     --red-insa: #e42418;
 }
 
+/* Gestion équipes
+Equipes :
+- samourai
+- viking
+- inka
+- grec
+
+*/
+
+html:not(.main) #home-flex { display: none; }
+html.main #info { display: none; }
+html:not(.planning) #info-planning { display: none; }
+html:not(.blouse) #info-blouse { display: none; }
+html:not(.guide-ppa) #info-guide-ppa { display: none; }
+html:not(.prevention) #info-prevention { display: none; }
+html.ss-equipe #team { display: none; }
+/* html:not(.ss-equipe) #team-logo { display: none; } */
+
 body {
     margin: 0;
     padding: 0;
@@ -157,8 +175,6 @@ h4 {
     height: 100%;
     width: auto;
 }
-
-
 
 
 #info-top {
