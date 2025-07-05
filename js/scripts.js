@@ -483,8 +483,15 @@ let guidePpa = document.getElementById("guide-ppa");
 let prevention = document.getElementById("prevention");
 let parrainage = document.getElementById("parrainage");
 
+let itBureau = document.getElementById("it-bureau");
+let itInsa = document.getElementById("it-insa");
+let itAmicale = document.getElementById("it-amicale");
+
 planning.addEventListener('click', () => {
     window.open('./info.html', '_self');
+    // itBureau.classList.remove('no-show');
+    // itAmicale.classList.remove('no-show');
+    // console.log(itBureau.classList);
 });
 blouse.addEventListener('click', () => {
     window.open('./info.html', '_self');
