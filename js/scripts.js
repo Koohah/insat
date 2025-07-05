@@ -405,9 +405,7 @@ window.addEventListener('mousemove', function(e) {
         while (obj) {
             if (obj.userData && (obj.userData.modelName === 'drakkar' || obj.userData.modelName === 'ileGrk' || obj.userData.modelName === 'luninsa')) {
                 console.log('Found clickable object:', obj.userData.modelName); // Log when a clickable object is found
-                isHoveringClickable = true;
                 break; // Found the clickable model, no need to check parents further
-
             }
             obj = obj.parent; // Move up to the parent
         };
