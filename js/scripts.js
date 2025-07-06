@@ -10,9 +10,9 @@ const nomsEquipe = [ 'samourai', 'viking', 'inka', 'grec' ];
 let equipeChoisi = undefined;
 
 const equipeLogo = {
-    'samourai': '',
+    'samourai': './medias/samourai.svg',
     'viking': './medias/vikinsa.svg',
-    'inka': '',
+    'inka': './medias/inkas.svg',
     'grec': './medias/greks.svg',
 }
 
@@ -574,14 +574,6 @@ window.addEventListener('mousemove', function(e) {
 
 // Teams
 
-let teamSelected = 0;
-const teamList = [];
-teamList.push('none');
-teamList.push('./medias/vikinsa.svg');
-teamList.push('./medias/greks.svg');
-teamList.push('./medias/inkas.svg');
-teamList.push('./medias/samourai.svg');
-
 let teamLogo = document.getElementById('team-logo');
 let team = document.getElementById('team');
 
@@ -594,39 +586,25 @@ window.addEventListener('click', function() {
         let obj = intersects[i].object;
         while (obj) {
             if (obj.userData && obj.userData.modelName === 'drakkar') {
-                teamSelected = 1; // Drakkar model was clicked
                 setEquipeCookie('viking');
                 break; // Found the clickable model, no need to check parents further
             }
             if (obj.userData && obj.userData.modelName === 'ileGrk') {
-                teamSelected = 2; // ileGrk model was clicked
                 setEquipeCookie('grec');
                 break; // Found the clickable model, no need to check parents further
             }
             if (obj.userData && obj.userData.modelName === 'ileInka') {
-                teamSelected = 3;
+                setEquipeCookie('inka');
                 break;
             }
             if (obj.userData && obj.userData.modelName === 'samourai') {
-                teamSelected = 4;
+                setEquipeCookie('samourai');
                 break;
             }
             if (obj.userData.modelName === 'luninsa') {
                 window.open('https://www.insa-toulouse.fr/', '_blank');
             }
             obj = obj.parent; // Move up to the parent
-        }
-        if (teamSelected !== 0) {
-            teamLogo.src = teamList[teamSelected];
-            team.classList.add('team-border');
-            if (teamSelected == 1) {
-                teamLogo.classList.add('vikinsize');
-            } else {
-            teamLogo.classList.remove('vikinsize');
-            teamLogo.classList.add('team-logo-Dsize');
-            team
-            }
-            break; // Found a clickable object, no need to check other intersects
         };
     };
 });
@@ -653,31 +631,30 @@ const showInfo = (info) => {
     }
 }
 
+const showMain = () => {
+    document.documentElement.classList.remove(...[ ...infos, 'info' ]);
+    document.documentElement.classList.add('main');
+}
+
 infos.forEach(id => { 
     document.getElementById(id).addEventListener('click', () => showInfo(id));
 });
 
-/*
-planning.addEventListener('click', () => {
-    window.open('./info.html', '_self');
-    // itBureau.classList.remove('no-show');
-    // itAmicale.classList.remove('no-show');
-    // console.log(itBureau.classList);
-});
-blouse.addEventListener('click', () => {
-    window.open('./info.html', '_self');
-});
-guidePpa.addEventListener('click', () => {
-    window.open('./info.html', '_self');
-});
-prevention.addEventListener('click', () => {
-    window.open('./info.html', '_self');
-});
-*/
-
 parrainage.addEventListener('click', () => {
     window.open('./info.html', '_self');
 });
+
+
+const mainButton = (element) => {
+    element.addEventListener('click', () => showMain());
+    element.addEventListener('mouseover', () => {
+    element.style.cursor = 'pointer';
+    });
+} ;
+
+mainButton(document.getElementById("back-arrow"));
+mainButton(document.getElementById("back-arrow-4"));
+
 
 // Animation
 
@@ -695,63 +672,3 @@ const animate = (time) => {
 };
 
 renderer.setAnimationLoop(animate);
-
-
-// const hud = document.getElementById('hud');
-// const toggleButton = document.getElementById('hudToggleButton');
-// let visibleHUD = true;
-
-// toggleButton.addEventListener('click', () => {
-//     visibleHUD = !visibleHUD;
-//     hud.style.display = visibleHUD ? 'block' : 'none';
-//     toggleButton.textContent = visibleHUD ? 'Cacher le HUD' : 'Afficher le HUD';
-// });
-
-
-
-
-// Anciens nuages
-
-// const cloudsGroup = new THREE.Group();
-// const generateClouds = (cNbr) => { // Fonction generer les nuages
-//     const vecList = []; // Initialisation de la liste des vecteurs positions autour de la planete
-//     const cMat = new THREE.MeshStandardMaterial({
-//         color: 0xffffff,
-//         transparent: true,
-//         side: THREE.FrontSide,
-//         opacity: 0.6
-//     }); // Leur Texture
-//     for (let c=0; c<cNbr; c++) {
-//         let localCGroup  = new THREE.Group(); // Le groupe des formes d'un nuage
-//         for (let n=0; n<7; n++) {   // Le nombre de spheres dans le nuage
-//             const cSphereGeo = new THREE.SphereGeometry(0.3);   // Une forme
-//             const cSphere = new THREE.Mesh(cSphereGeo, cMat);   // Creation de la forme
-//             // Position aleatoire dans le groupe de nuage
-//             let factor1 = (Math.random()-0.5)*0.7;
-//             let factor2 = (Math.random()-0.5)*0.8;
-//             cSphere.position.x = factor1;
-//             cSphere.position.y = (factor1-factor2)/4;
-//             cSphere.position.z = factor2;
-//             localCGroup.add(cSphere)    // Ajout des formes dans le groupe
-//         };
-//         let vec;    // Initialisation d'un vecteur deplacement
-//         let correct = false // Incorect tant que non verifie
-//         while (!correct) {
-//             vec = rCoords();    // Position aleatoire autour de la planete
-//             correct = true; // On suppose qu'il est bon
-//             for (let i = 0; i < vecList.length; i++) {
-//                 if (vec.distanceTo(vecList[i]) < 1) {
-//                     correct = false; // Si trop proche d'un autre, on recommence
-//                     break;
-//                 };
-//             };
-//         };
-//         vecList.push(vec);  // Ajout du vecteur dans la liste
-//         setupOrbit(vec, localCGroup);   // Orbite des nuages
-//         cloudsGroup.add(localCGroup);   // Ajout du nuage dans le groupe des nuages
-//     };
-// };
-// generateClouds(22); // Appel de la fonction
-// scene.add(cloudsGroup); // Ajout des nuages a la scene
-// cloudsGroup.castShadow = true;  // Cree des ombres
-

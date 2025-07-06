@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">    
+    <link href="https://fonts.googleapis.com/css2?family=Chokokutai&family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     <script src="./js/scripts.js" type="module" defer></script>
 </head>
 <body>
@@ -19,11 +19,11 @@
                 <h1 class ="pf-d-bureau-title">Le bureau</h1>
             </header>
             <div id="menu">
-                <div id="planning" class="menu-item"><h4 class="lato-regular">Au planning</h4></div>
-                <div id="blouse" class="menu-item"><h4 class="lato-regular">La blouse</h4></div>
-                <div id="guide-ppa" class="menu-item"><h4 class="lato-regular">Le guide du PPA</h4></div>
-                <div id="prevention" class="menu-item"><h4 class="lato-regular">La prev'</h4></div>
-                <div id="parrainage" class="menu-item"><h4 class="lato-regular">Le parrainage</h4></div>
+                <div id="planning" class="menu-item"><h4 class="chokokutai-regular">Au planning</h4></div>
+                <div id="blouse" class="menu-item"><h4 class="chokokutai-regular">La blouse</h4></div>
+                <div id="guide-ppa" class="menu-item"><h4 class="chokokutai-regular">Le guide du PPA</h4></div>
+                <div id="prevention" class="menu-item"><h4 class="chokokutai-regular">La Com'Prev</h4></div>
+                <div id="parrainage" class="menu-item"><h4 class="chokokutai-regular">Le parrainage</h4></div>
             </div>
         </div>
         <div id="scene-container">
@@ -33,14 +33,14 @@
     </div>
     <div id="info">
         <div id="info-planning">
+            <img id="back-arrow" src="./medias/back.svg"/>
+            <div id="ba-tip">
+                <span id="tip-text" class="pf-d-tip">Home</span>
+            </div>
             <div id="info-top">
-                <img id="it-bureau"class="it-logo" src="./medias/logo-bureau.svg"/>
-                <!-- <img id="it-bureau"class="it-logo no-show" src="./medias/logo-bureau.svg"/> -->
+                <img id="it-bureau" class="it-logo" src="./medias/logo-bureau.svg"/>
                 <img id="cross-img" src="./medias/cross.svg"/>
-                <img id="it-insa" class="it-logo" src="./medias/insa-logo.svg"/>
-                <!-- <img id="it-insa" class="it-logo no-show" src="./medias/insa-logo.svg"/> -->
-                <!-- <img id="it-amicale" class="it-logo" src="./medias/amicale.png"/> -->
-                <!-- <img id="it-amicale" class="it-logo no-show" src="./medias/amicale.png"/> -->
+                <img id="it-amicale" class="it-logo" src="./medias/amicale.png"/>
             </div>
             <div id="junction">
                 <img id="down-arrow" src="./medias/down-arrow.svg"/>
@@ -90,19 +90,23 @@
             </div>
         </div>
         <div id="info-prevention">
+            <img id="back-arrow-4" src="./medias/back.svg"/>
+            <div id="ba-tip">
+                <span id="tip-text" class="pf-d-tip">Home</span>
+            </div>
             <div id="info-top">
                 <img id="it-bureau"class="it-logo" src="./medias/logo-bureau.svg"/>
                 <!-- <img id="it-bureau"class="it-logo no-show" src="./medias/logo-bureau.svg"/> -->
                 <img id="cross-img" src="./medias/cross.svg"/>
-                <img id="it-insa" class="it-logo" src="./medias/insa-logo.svg"/>
+                <img id="it-prev" class="it-logo" src="./medias/Com_Prev_v2.svg"/>
                 <!-- <img id="it-insa" class="it-logo no-show" src="./medias/insa-logo.svg"/> -->
                 <!-- <img id="it-amicale" class="it-logo" src="./medias/amicale.png"/> -->
                 <!-- <img id="it-amicale" class="it-logo no-show" src="./medias/amicale.png"/> -->
             </div>
             <div id="junction">
-                <img id="down-arrow" src="./medias/down-arrow.svg"/>
+                <img id="down-arrow" onclick="document.getElementById('info-mid-4').scrollIntoView();" src="./medias/down-arrow.svg"/>
             </div>
-            <div id="info-mid">
+            <div id="info-mid-4">
                 <div>
                     <p>Vous voyez ?</p>
                 </div>
