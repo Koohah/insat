@@ -111,7 +111,7 @@ orbit.enableDamping = true;
 orbit.dampingFactor = 0.035;        // Inertie
 orbit.enablePan = false;            // Pas de deplacements
 orbit.maxDistance = 10;
-orbit.minDistance = 5;              // Zoom
+orbit.minDistance = 4;              // Zoom
 orbit.maxPolarAngle = 3*Math.PI/4;  
 orbit.minPolarAngle = Math.PI/4;    // Hauteur Max et Min
 camera.position.set(4.5, 2.5, 4.5);
@@ -585,18 +585,22 @@ window.addEventListener('click', function() {
         while (obj) {
             if (obj.userData && obj.userData.modelName === 'drakkar') {
                 setEquipeCookie('viking');
+                resizeCanva();
                 break; // Found the clickable model, no need to check parents further
             }
             if (obj.userData && obj.userData.modelName === 'ileGrk') {
                 setEquipeCookie('grec');
+                resizeCanva();
                 break; // Found the clickable model, no need to check parents further
             }
             if (obj.userData && obj.userData.modelName === 'ileInka') {
                 setEquipeCookie('inka');
+                resizeCanva();
                 break;
             }
             if (obj.userData && obj.userData.modelName === 'samourai') {
                 setEquipeCookie('samourai');
+                resizeCanva();
                 break;
             }
             if (obj.userData.modelName === 'luninsa') {
@@ -631,11 +635,11 @@ const showMain = () => {
 }
 
 infos.forEach(id => { 
-    document.getElementById(id).addEventListener('click', () => showInfo(id));
+    document.getElementById(id).addEventListener('click', () => showInfo(id) );
 });
 
 parrainage.addEventListener('click', () => {
-    window.open('./info.html', '_self');
+    window.open('404', '_blank');
 });
 
 
@@ -660,6 +664,8 @@ document.getElementById('full-screen').addEventListener('click', () => {
     }};
     resizeCanva();
 });
+
+sceneContainer.addEventListener('resize', () => resizeCanva() );
 
 
 // Animation

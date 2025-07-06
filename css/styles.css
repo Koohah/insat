@@ -19,6 +19,14 @@ html:not(.blouse) #info-blouse { display: none; }
 html:not(.guide-ppa) #info-guide-ppa { display: none; }
 html:not(.prevention) #info-prevention { display: none; }
 html.ss-equipe #team { display: none; }
+html.ss-equipe #menu { display: none; }
+html.ss-equipe #scene-container { height: 65% }
+html.ss-equipe #bureau-container { height: 35% }
+html:not(.ss-equipe) #no-team { display: none; }
+html:not(.viking) #it-vik { display: none; }
+html:not(.grec) #it-grec { display: none; }
+html:not(.inka) #it-inka { display:none; }
+html:not(.samourai) #it-sam { display:none; }
 /* html:not(.ss-equipe) #team-logo { display: none; } */
 
 body {
@@ -137,6 +145,11 @@ h4 {
 }
 .menu-item:hover {
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+#no-t-text {
+    color: #fff;
+    font-size: 3rem;
 }
 
 #scene-container {
@@ -278,8 +291,8 @@ height: 100%;
     min-width: 100vw;
 }
 
-#info-mid { background-image: url('../medias/Pattern_SA.jpg'); }
-#info-mid-4 { background-image: url('../medias/Pattern_prev.jpg'); }
+#info-mid { background-image: url('../medias/pattern_sa.jpg'); }
+#info-mid-4 { background-image: url('../medias/pattern_prev.jpg'); }
 
 #corpus-title {
     margin-top: 7vh;
@@ -336,6 +349,10 @@ height: 100%;
   }
   .menu-item {
     font-size: 1.1rem;
+  }
+  #no-t-text {
+    color: #fff;
+    font-size: 2rem;
   }
   #full-screen {
     display: block;
