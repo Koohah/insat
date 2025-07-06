@@ -117,7 +117,7 @@ orbit.minPolarAngle = Math.PI/4;    // Hauteur Max et Min
 camera.position.set(4.5, 2.5, 4.5);
 orbit.update();                     // Toujours update apres
 
-window.addEventListener('resize', function() {
+const resizeCanva = () => {
     const containerWidth = sceneContainer.clientWidth;
     const containerHeight = sceneContainer.clientHeight;
 
@@ -127,7 +127,9 @@ window.addEventListener('resize', function() {
 
     // Update renderer size
     renderer.setSize(containerWidth, containerHeight);
-});
+};
+
+window.addEventListener('resize', () => { resizeCanva() });
 
 // Aides
 
@@ -474,10 +476,10 @@ gltfLoader.load(SamUrl.href, (gltf) => {
         Math.cos(-2*Math.PI/5)*2.8,
         Math.sin(-2*Math.PI/5)*2.8
     ); // Placement sur la sphere, angle * rayon
-    console.log(vec);
+    // console.log(vec);
 
     setupOrbit(vec, Sam);
-    console.log(Sam.position);
+    // console.log(Sam.position);
 
     const lightVec = new THREE.Vector3(
         0,
@@ -574,10 +576,6 @@ window.addEventListener('mousemove', function(e) {
 
 // Teams
 
-let teamLogo = document.getElementById('team-logo');
-let team = document.getElementById('team');
-
-
 window.addEventListener('click', function() {
     rayCaster.setFromCamera(mousePosition, camera);
     const intersects = rayCaster. intersectObjects(scene.children, true);
@@ -620,10 +618,6 @@ let prevention = document.getElementById("prevention");
 
 let parrainage = document.getElementById("parrainage");
 
-let itBureau = document.getElementById("it-bureau");
-let itInsa = document.getElementById("it-insa");
-let itAmicale = document.getElementById("it-amicale");
-
 const showInfo = (info) => {
     if ([ ...infos, 'main' ].includes(info)) {
         document.documentElement.classList.remove(...[ ...infos, 'main' ]);
@@ -654,6 +648,18 @@ const mainButton = (element) => {
 
 mainButton(document.getElementById("back-arrow"));
 mainButton(document.getElementById("back-arrow-4"));
+
+let toggleFS = -1;
+
+document.getElementById('full-screen').addEventListener('click', () => {
+    toggleFS = -toggleFS;
+    if ( toggleFS === 1 ) {
+    document.documentElement.classList.add('fs');
+    } else { if ( toggleFS === -1 ) {
+    document.documentElement.classList.remove('fs');
+    }};
+    resizeCanva();
+});
 
 
 // Animation
