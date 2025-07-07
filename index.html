@@ -10,6 +10,48 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chokokutai&family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     <script src="./js/scripts.js" type="module" defer></script>
+    <style>
+        #splash {
+            position: absolute;
+            background-color: black;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes pulseOpacity {
+            0% {
+                opacity: 0.1;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.1;
+            }
+        }
+
+        .no-show {
+            display: none !important;
+        }
+
+        #splash-content {
+            padding: 4rem 2rem;
+            border: solid 2px black;
+            border-radius: 1rem;
+            color: black;
+            background-color: white;
+            min-width: 50vw;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        #splash-content span {
+            animation: pulseOpacity 0.7s infinite;
+        }
+    </style>
     <script>
         window.addEventListener('load', () => {
             document.getElementById('splash').classList.add('no-show');
