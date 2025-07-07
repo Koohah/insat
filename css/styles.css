@@ -246,7 +246,7 @@ h4 {
     padding: 5%;
 }
 
-#back-arrow, #back-arrow-2, #back-arrow-4 {
+#back-arrow, #back-arrow-2, #back-arrow-3, #back-arrow-4 {
     width: 8vw;
     height: auto;
     position: fixed;
@@ -304,7 +304,7 @@ h4 {
     width: auto;
 }
 
-#info-mid, #info-mid-2, #info-mid-4 {
+#info-mid, #info-mid-2, #info-mid-3 #info-mid-4 {
     display: flex;
     background-size: cover;
     background-repeat: repeat;
@@ -314,7 +314,8 @@ h4 {
 }
 
 #info-mid { background-image: url('../medias/pattern_sa.jpg'); }
-#info-mid-2 {background-image: url('../medias/pattern_sa.jpg'); }
+#info-mid-2 { background-image: url('../medias/pattern_sa.jpg'); }
+#info-mid-3 { background-image: url('../medias/pattern_sa.jpg'); }
 #info-mid-4 { background-image: url('../medias/pattern_prev.jpg'); }
 
 #corpus-title {
@@ -391,7 +392,7 @@ h4 {
     width: auto;
     max-width: 70%;
   }
-  #back-arrow, #back-arrow-2, #back-arrow-4{
+  #back-arrow, #back-arrow-2, #back-arrow-3 #back-arrow-4{
     height: 8vh;
     width: auto;
   }

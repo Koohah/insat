@@ -652,6 +652,7 @@ const mainButton = (element) => {
 
 mainButton(document.getElementById("back-arrow"));
 mainButton(document.getElementById("back-arrow-2"));
+mainButton(document.getElementById("back-arrow-3"));
 mainButton(document.getElementById("back-arrow-4"));
 
 let toggleFS = -1;
