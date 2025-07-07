@@ -404,6 +404,9 @@ h4 {
     height: 50vh;
     width: 100%;
   }
+  #menu {
+    height: 84%;
+  }
   .menu-item {
     font-size: 1.15rem;
   }
