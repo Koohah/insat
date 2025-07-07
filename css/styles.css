@@ -225,7 +225,7 @@ height: 100%;
     padding: 5%;
 }
 
-#back-arrow, #back-arrow-4 {
+#back-arrow, #back-arrow-2, #back-arrow-4 {
     width: 8vw;
     height: auto;
     position: fixed;
@@ -257,6 +257,7 @@ height: 100%;
     width: 35%;
     height: auto;
     margin: auto;
+    max-height: 100%;
 }
 
 #it-amicale {
@@ -364,7 +365,7 @@ height: 100%;
     height: 35%;
     width: auto;
   }
-  #back-arrow, #back-arrow-4{
+  #back-arrow, #back-arrow-2, #back-arrow-4{
     height: 8vh;
     width: auto;
   }
