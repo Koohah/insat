@@ -466,6 +466,24 @@ gltfLoader.load(InkasUrl.href, (gltf) => {
 let Sam = null;
 let SamPivot = null;
 const samLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
+
+async function getSam() {
+  let myPromise = new Promise(function(resolve) {
+    let req = new XMLHttpRequest();
+    req.open('GET', "samourais.glb");
+    req.onload = function() {
+      if (req.status == 200) {
+        resolve(req.response);
+      } else {
+        resolve("File not Found");
+      }
+    };
+    req.send();
+  });
+   loadSam() = await myPromise;
+}
+
+const loadSam = () => {
 gltfLoader.load(SamUrl.href, (gltf) => {
     gltf.scene.position.set(0, 0, 0);
     Sam = gltf.scene;
@@ -497,7 +515,9 @@ gltfLoader.load(SamUrl.href, (gltf) => {
 }, undefined, function(error) {
     console.error(error);
 });
+};
 
+getSam();
 
 
 //Nuages

@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chokokutai&family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     <script src="./js/scripts.js" type="module" defer></script>
+    
     <style>
         #splash {
             position: absolute;
@@ -52,15 +53,21 @@
             animation: pulseOpacity 0.7s infinite;
         }
     </style>
+
     <script>
         window.addEventListener('load', () => {
             document.getElementById('splash').classList.add('no-show');
             document.getElementById('home-flex').classList.remove('no-show');
         })
     </script>
+
 </head>
 <body>
     
+    <div id="splash">
+        <div id="splash-content"><span>Loading</span></div>
+    </div>
+
     <div id="home-flex" class="no-show">
         <div id="bureau-container">
             <header id="bureau-header">
@@ -83,6 +90,7 @@
             <div id="full-screen"><img id="fs-img" src="./medias/fullscreen.svg"/></div>
         </div>
     </div>
+
     <div id="info" class="no-show">
         <div id="info-planning">
             <img id="back-arrow" src="./medias/back.svg"/>
@@ -193,5 +201,6 @@
             </div>
         </div>
     </div>
+
 </body>
 </html>
