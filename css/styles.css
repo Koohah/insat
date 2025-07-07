@@ -64,6 +64,12 @@ body {
   font-style: normal;
 }
 
+.lato-bold-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
 .chokokutai-regular {
   font-family: "Chokokutai", system-ui;
   font-weight: 400;
@@ -303,7 +309,7 @@ height: 100%;
     justify-content: end;
 }
 
-#title-content {
+.title-content {
     max-width: 70%;
     font-size: 3.5rem;
     text-align: right;
@@ -314,7 +320,7 @@ height: 100%;
     margin: 6vh 20vw;
 }
 
-#corpus-content {
+.corpus-content {
     display: block;
     font-size: 1.4rem;
     text-align: justify;
@@ -326,7 +332,7 @@ height: 100%;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    max-height: 60vh;
+    max-height: 70vh;
 }
 
 #planning-img {
@@ -382,14 +388,14 @@ height: 100%;
     margin-top: 5vh;
     margin-right: 4vh;
   }
-  #title-content {
+  .title-content {
     font-size: 2rem;
   }
   #corpus {
     margin: 6vh 13vw;
   }
-  #corpus-content {
-    font-size: 1rem;
+  .corpus-content {
+    font-size: 1.1rem;
   }
   #plan-img-container {
     max-height: none;
