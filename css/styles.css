@@ -1,5 +1,6 @@
 :root {
     --red-insa: #e42418;
+    --sumeria: 5, 64, 62;
 }
 
 /* Gestion équipes
@@ -388,6 +389,7 @@ h4 {
   .it-logo {
     height: 35%;
     width: auto;
+    max-width: 70%;
   }
   #back-arrow, #back-arrow-2, #back-arrow-4{
     height: 8vh;
