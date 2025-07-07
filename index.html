@@ -13,13 +13,13 @@
     <script>
         window.addEventListener('load', () => {
             document.getElementById('splash').classList.add('no-show');
-            ['hud', 'toggleHUD'].forEach((id) => document.getElementById(id).classList.remove('no-show'));
+            ['home-flex', 'info'].forEach((id) => document.getElementById(id).classList.remove('no-show'));
         })
     </script>
 </head>
 <body>
     
-    <div id="home-flex">
+    <div id="home-flex" class="no-show">
         <div id="bureau-container">
             <header id="bureau-header">
                 <img src="./medias/logo-bureau.svg"/>
@@ -41,7 +41,7 @@
             <div id="full-screen"><img id="fs-img" src="./medias/fullscreen.svg"/></div>
         </div>
     </div>
-    <div id="info">
+    <div id="info" class="no-show">
         <div id="info-planning">
             <img id="back-arrow" src="./medias/back.svg"/>
             <div id="ba-tip">
