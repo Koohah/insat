@@ -667,12 +667,19 @@ document.getElementById('full-screen').addEventListener('click', () => {
     resizeCanva();
 });
 
+let map = document.getElementById("map");
+
+map.addEventListener('mouseover', () => {
+    map.style.cursor = 'pointer';    
+});
+
 sceneContainer.addEventListener('resize', () => resizeCanva() );
 
 
 window.addEventListener('load', () => {
             resizeCanva();
 }, { once:true});
+
 
 // Animation
 

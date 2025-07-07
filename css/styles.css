@@ -208,6 +208,18 @@ h4 {
     width: auto;
 }
 
+#map {
+  display: block;
+  position: absolute;
+  top: 2%;
+  right: 2%;
+}
+
+#map-img {
+  height: 7vh;
+  width: auto;
+}
+
 #team {
     position: absolute;
     top: 2%;
@@ -335,6 +347,7 @@ h4 {
 
 #corpus {
     margin: 6vh 20vw;
+    padding-bottom: 4vh;
 }
 
 .corpus-content {
@@ -392,7 +405,7 @@ h4 {
     width: auto;
     max-width: 70%;
   }
-  #back-arrow, #back-arrow-2, #back-arrow-3 #back-arrow-4{
+  #back-arrow, #back-arrow-2, #back-arrow-3, #back-arrow-4{
     height: 8vh;
     width: auto;
   }
@@ -403,7 +416,7 @@ h4 {
     width: 8vh;
   }
   #tip-text {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
   #corpus-title {
     margin-top: 5vh;
