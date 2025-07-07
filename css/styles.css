@@ -27,6 +27,10 @@ html:not(.viking) #it-vik { display: none; }
 html:not(.grec) #it-grec { display: none; }
 html:not(.inka) #it-inka { display:none; }
 html:not(.samourai) #it-sam { display:none; }
+html.viking #info-mid-2 {background-image: url('../medias/pattern_sa.jpg'); }
+html.samourai #info-mid-2 {background-image: url('../medias/pattern_sa.jpg'); }
+html.grec #info-mid-2 {background-image: url('../medias/pattern_sa.jpg'); }
+html.inka #info-mid-2 {background-image: url('../medias/pattern_sa.jpg'); }
 /* html:not(.ss-equipe) #team-logo { display: none; } */
 
 body {
@@ -289,7 +293,7 @@ height: 100%;
     width: auto;
 }
 
-#info-mid, #info-mid-4 {
+#info-mid, #info-mid-2, #info-mid-4 {
     display: flex;
     background-size: cover;
     background-repeat: repeat;
@@ -299,6 +303,7 @@ height: 100%;
 }
 
 #info-mid { background-image: url('../medias/pattern_sa.jpg'); }
+#info-mid-2 {background-image: url('../medias/pattern_sa.jpg'); }
 #info-mid-4 { background-image: url('../medias/pattern_prev.jpg'); }
 
 #corpus-title {
@@ -332,6 +337,7 @@ height: 100%;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin: 3vh 0 3vh 0;
     max-height: 70vh;
 }
 
@@ -400,6 +406,7 @@ height: 100%;
   #plan-img-container {
     max-height: none;
     align-items: start;
+    margin: 0;
   }
   #planning-img {
     transform: rotate(90deg);
