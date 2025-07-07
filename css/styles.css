@@ -20,17 +20,18 @@ html:not(.guide-ppa) #info-guide-ppa { display: none; }
 html:not(.prevention) #info-prevention { display: none; }
 html.ss-equipe #team { display: none; }
 html.ss-equipe #menu { display: none; }
-html.ss-equipe #scene-container { height: 65% }
-html.ss-equipe #bureau-container { height: 35% }
 html:not(.ss-equipe) #no-team { display: none; }
 html:not(.viking) #it-vik { display: none; }
 html:not(.grec) #it-grec { display: none; }
 html:not(.inka) #it-inka { display:none; }
 html:not(.samourai) #it-sam { display:none; }
-html.viking #info-mid-2 {background-image: url('../medias/pattern_sa.jpg'); }
-html.samourai #info-mid-2 {background-image: url('../medias/pattern_sa.jpg'); }
-html.grec #info-mid-2 {background-image: url('../medias/pattern_sa.jpg'); }
-html.inka #info-mid-2 {background-image: url('../medias/pattern_sa.jpg'); }
+html.viking #info-mid-2 { background-image: url('../medias/pattern_sa.jpg'); }
+html.samourai #info-mid-2 { background-image: url('../medias/pattern_sa.jpg'); }
+html.grec #info-mid-2 { background-image: url('../medias/pattern_sa.jpg'); }
+html.inka #info-mid-2 { background-image: url('../medias/pattern_sa.jpg'); }
+html.loading #home-flex { display: none; }
+html.loading #info { display: none; }
+html:not(.loading) #splash { display: none; }
 /* html:not(.ss-equipe) #team-logo { display: none; } */
 
 body {
@@ -106,8 +107,8 @@ h4 {
 #bureau-container {
     display: flex;
     flex-direction: column;
-    width: 35%;
-    height: 100%;
+    width: 35vw;
+    height: 100vh;
     position: relative;
     background-color: var(--red-insa);
 }
@@ -157,14 +158,23 @@ h4 {
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
 
+#no-team {
+  height: 100%;
+  width: 100%;
+}
+
 #no-t-text {
     color: #fff;
-    font-size: 3rem;
+    font-size: 2.3rem;
+    max-width: 100%;
+    max-height: 100%;
+    text-align: justify;
+    text-justify: auto;
 }
 
 #scene-container {
-    width: 65%;
-    height: 100%;
+    width: 65vw;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -182,7 +192,7 @@ h4 {
 
 
 .fs #scene-container {
-height: 100%;
+    height: 100%;
 }
 
 #full-screen {
@@ -348,6 +358,8 @@ height: 100%;
 @media screen and (orientation: portrait) {
   html.fs #bureau-container { display: none; }
   html.fs #scene-container, #scene-container #canvas { height: 100vh; }
+  html.ss-equipe #scene-container { height: 65% }
+  html.ss-equipe #bureau-container { height: 35% }
 
   #home-flex {
     flex-direction: column;
@@ -365,7 +377,7 @@ height: 100%;
   }
   #no-t-text {
     color: #fff;
-    font-size: 2rem;
+    font-size: 4vh;
   }
   #full-screen {
     display: block;
