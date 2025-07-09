@@ -628,6 +628,8 @@ const showInfo = (info) => {
         document.documentElement.classList.add(info, 'info');
         document.querySelectorAll('#down-arrow').forEach(el => el.classList.remove('animate-down-arrow'));
         const downErrorEl = document.querySelector(`#${info} #down-arrow`);
+        console.log(`#${info} #down-arrow`);
+        console.log(downErrorEl);
         if (downErrorEl) {
             downErrorEl.classList.add('animate-down-arrow');
         }
