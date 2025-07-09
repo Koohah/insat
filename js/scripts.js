@@ -626,6 +626,11 @@ const showInfo = (info) => {
     if ([ ...infos, 'main' ].includes(info)) {
         document.documentElement.classList.remove(...[ ...infos, 'main' ]);
         document.documentElement.classList.add(info, 'info');
+        document.querySelectorAll('#down-arrow').forEach(el => el.classList.remove('animate-down-arrow'));
+        const downErrorEl = document.getElementById(info).getElementById('down-arrow');
+        if (downErrorEl) {
+            downErrorEl.classList.add('animate-down-arrow');
+        }
     }
 }
 
