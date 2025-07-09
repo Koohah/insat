@@ -627,13 +627,13 @@ const showInfo = (info) => {
         document.documentElement.classList.remove(...[ ...infos, 'main' ]);
         document.documentElement.classList.add(info, 'info');
         document.querySelectorAll('#down-arrow').forEach(el => el.classList.remove('animate-down-arrow'));
-        document.querySelector(`#info-${info}`).scrollTo(0, 0);
-        const downErrorEl = document.querySelector(`#info-${info} #down-arrow`);
+        const downArrowEl = document.querySelector(`#info-${info} #down-arrow`);
         console.log(`#${info} #down-arrow`);
-        console.log(downErrorEl);
-        if (downErrorEl) {
-            downErrorEl.classList.add('animate-down-arrow');
+        console.log(downArrowEl);
+        if (downArrowEl) {
+            downArrowEl.classList.add('animate-down-arrow');
         }
+        document.querySelector(`#info-${info}`).scrollTo(0, 0);
     }
 }
 
