@@ -470,14 +470,14 @@ window.addEventListener('mousemove', function(e) {
         let obj = intersects[i].object;
         while (obj) {
             if (obj.userData && [ 'drakkar', 'ileGrk', 'ileInka', 'samourai', 'luninsa' ].includes(obj.userData.modelName)) {
-                console.log('Found clickable object:', obj.userData.modelName); // Log when a clickable object is found
+                // console.log('Found clickable object:', obj.userData.modelName); // Log when a clickable object is found
                 isClickable = true;
                 break; // Found the clickable model, no need to check parents further
             }
             obj = obj.parent; // Move up to the parent
         };
     };
-    sceneContainer.style.cursor = isClickable ? 'ponter' : 'default';
+    sceneContainer.style.cursor = isClickable ? 'pointer' : 'default';
 });
 
 // Teams
