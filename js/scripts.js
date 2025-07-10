@@ -383,7 +383,7 @@ const AddModel = (modelObj) => {
         // console.log(scene.position);
         
         const light = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
-        light.position.copy(modelObj.lightVec);
+        light.position.copy(modelObj.lightVector);
 
         // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
         scene.position.x += modelObj.ajusteDeMerde.posX;
