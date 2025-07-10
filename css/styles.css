@@ -98,9 +98,10 @@ h4 {
 
 #popup {
     width: calc(min(500px, 100vw - 2rem));
+    height: auto;
     z-index: 20;
     position: fixed;
-    background-color: blue;
+    background-color: var(--red-insa);
     color: white;
     border-radius: 30px;
     padding: 1rem;
