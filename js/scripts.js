@@ -129,7 +129,7 @@ const resizeCanva = () => {
     renderer.setSize(containerWidth, containerHeight);
 };
 
-window.addEventListener('resize', () => { resizeCanva() });
+window.addEventListener('resize', () => resizeCanva());
 
 // Aides
 
@@ -447,7 +447,6 @@ gltfLoader.load(InkasUrl.href, (gltf) => {
         0,
         Math.cos(Math.PI*2.3/4)*3.2,
         Math.sin(Math.PI*2.3/4)*3.2
-
     )
 
     inkasLight.position.copy(lightVec);
@@ -552,7 +551,7 @@ window.addEventListener('mousemove', function(e) {
     mousePosition.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
     rayCaster.setFromCamera(mousePosition, camera);
-    const intersects = rayCaster. intersectObjects(scene.children, true);
+    const intersects = rayCaster.intersectObjects(scene.children, true);
 
     // console.log('Intersects:', intersects); // Log the intersections
 
@@ -560,9 +559,8 @@ window.addEventListener('mousemove', function(e) {
 
     for (let i = 0; i < intersects.length; i++) {
         let obj = intersects[i].object;
-        sceneContainer.style.cursor = 'default';
         while (obj) {
-            if (obj.userData && (obj.userData.modelName === 'drakkar' || obj.userData.modelName === 'ileGrk' || obj.userData.modelName === 'ileInka' || obj.userData.modelName === 'samourai' || obj.userData.modelName === 'luninsa')) {
+            if (obj.userData && [ 'drakkar', 'ileGrk', 'ileInka', 'samourai', 'luninsa' ].includes(obj.userData.modelName)) {
                 console.log('Found clickable object:', obj.userData.modelName); // Log when a clickable object is found
                 isClickable = true;
                 break; // Found the clickable model, no need to check parents further
@@ -570,41 +568,34 @@ window.addEventListener('mousemove', function(e) {
             obj = obj.parent; // Move up to the parent
         };
     };
-
-    if (isClickable) {sceneContainer.style.cursor = 'pointer'};
+    sceneContainer.style.cursor = isClickable ? 'ponter' : 'default';
 });
 
 // Teams
 
 window.addEventListener('click', function() {
     rayCaster.setFromCamera(mousePosition, camera);
-    const intersects = rayCaster. intersectObjects(scene.children, true);
+    const intersects = rayCaster.intersectObjects(scene.children, true);
+    const changeEquipeObj = { // valeur du cookie "equipe" en fonction du nom de l'objet
+        'drakkar': 'viking',
+        'ileGrk': 'grec',
+        'ileInka': 'inka',
+        'samourai': 'samourai',
+    }
 
     for (let i = 0; i < intersects.length; i++) {
         let obj = intersects[i].object;
         while (obj) {
-            if (obj.userData && obj.userData.modelName === 'drakkar') {
-                setEquipeCookie('viking');
-                resizeCanva();
-                break; // Found the clickable model, no need to check parents further
-            }
-            if (obj.userData && obj.userData.modelName === 'ileGrk') {
-                setEquipeCookie('grec');
-                resizeCanva();
-                break; // Found the clickable model, no need to check parents further
-            }
-            if (obj.userData && obj.userData.modelName === 'ileInka') {
-                setEquipeCookie('inka');
-                resizeCanva();
-                break;
-            }
-            if (obj.userData && obj.userData.modelName === 'samourai') {
-                setEquipeCookie('samourai');
-                resizeCanva();
-                break;
-            }
-            if (obj.userData.modelName === 'luninsa') {
-                window.open('https://www.insa-toulouse.fr/', '_blank');
+            if (obj.userData) {
+                if (obj.userData.modelName in changeEquipeObj) {
+                    setEquipeCookie(changeEquipeObj[obj.userData.modelName]);
+                    resizeCanva();
+                    break; // Found the clickable model, no need to check parents further
+                }
+                if (obj.userData.modelName === 'luninsa') {
+                    window.open('https://www.insa-toulouse.fr/', '_blank');
+                    break;
+                }
             }
             obj = obj.parent; // Move up to the parent
         };
@@ -629,8 +620,6 @@ const showInfo = (info) => {
         document.documentElement.classList.add(info, 'info');
         document.querySelectorAll('#down-arrow').forEach(el => el.classList.remove('animate-down-arrow'));
         const downArrowEl = document.querySelector(`#info-${info} #down-arrow`);
-        console.log(`#${info} #down-arrow`);
-        console.log(downArrowEl);
         if (downArrowEl) {
             downArrowEl.classList.add('animate-down-arrow');
         }
@@ -683,16 +672,11 @@ map.addEventListener('mouseover', () => {
     map.style.cursor = 'pointer';    
 });
 
-sceneContainer.addEventListener('resize', () => resizeCanva() );
+sceneContainer.addEventListener('resize', () => resizeCanva());
 
-
-window.addEventListener('load', () => {
-            resizeCanva();
-}, { once:true});
-
+window.addEventListener('load', () => resizeCanva(), { once: true });
 
 // Animation
-// let animId = null;
 const animate = (time) => {
     time *= 0.001;
     planet.rotation.y += 0.001; // Rotation du groupe planete sur son axe
@@ -707,11 +691,3 @@ const animate = (time) => {
 };
 
 renderer.setAnimationLoop(animate);
-
-//const stopAnimation = () => {
-  //  if (animId) {
-    //    cancelAnimationFrame(animId);
-  //  }
-//}
-
-
