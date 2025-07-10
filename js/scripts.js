@@ -349,7 +349,7 @@ const modeles = [
         scale: 0.1,
         vector: new THREE.Vector3(Math.cos(Math.PI/4.5)*2.85, Math.sin(Math.PI/4.5)*2.85, 0), // Placement sur la sphere, angle * rayon
         lightVector: new THREE.Vector3(Math.cos(Math.PI/4.5)*3.2, Math.sin(Math.PI/4.5)*3.2, 0),
-        ajusteDeMerde: { posX: 0, posY: 0, posZ: 0, rotZ: 0, }
+        ajusteDeMerde: null
     },
     {
         nom: 'ileGrk',
@@ -365,7 +365,7 @@ const modeles = [
         scale: 0.02,
         vector: new THREE.Vector3(0, Math.cos(Math.PI*2.3/4)*2.85, Math.sin(Math.PI*2.3/4)*2.85),
         lightVector: new THREE.Vector3(0, Math.cos(Math.PI*2.3/4)*3.2, Math.sin(Math.PI*2.3/4)*3.2),
-        ajusteDeMerde: { posX: 0, posY: 0, posZ: 0, rotZ: 0, }
+        ajusteDeMerde: null
     },
     {
         nom: 'samourai',
@@ -373,7 +373,7 @@ const modeles = [
         scale: 0.02,
         vector: new THREE.Vector3(0, Math.cos(-2*Math.PI/5)*2.8, Math.sin(-2*Math.PI/5)*2.8),
         lightVector: new THREE.Vector3(0, Math.cos(-2*Math.PI/5)*3.2, Math.sin(-2*Math.PI/5)*3.2),
-        ajusteDeMerde: { posX: 0, posY: 0, posZ: 0, rotZ: 0, }
+        ajusteDeMerde: null
     },
 ]
 
@@ -390,10 +390,12 @@ const AddModel = (modelObj) => {
         light.position.copy(modelObj.lightVector);
 
         // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
-        scene.position.x += modelObj.ajusteDeMerde.posX;
-        scene.position.y += modelObj.ajusteDeMerde.posY;
-        scene.position.z += modelObj.ajusteDeMerde.posZ;
-        scene.rotation.z += modelObj.ajusteDeMerde.rotZ;
+        if (modelObj.ajusteDeMerde) {
+            scene.position.x += modelObj.ajusteDeMerde.posX;
+            scene.position.y += modelObj.ajusteDeMerde.posY;
+            scene.position.z += modelObj.ajusteDeMerde.posZ;
+            scene.rotation.z += modelObj.ajusteDeMerde.rotZ;
+        }
 
         const scenePivot = new THREE.Object3D();
         scenePivot.add(scene);
