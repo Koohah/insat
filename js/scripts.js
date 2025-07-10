@@ -342,163 +342,66 @@ star.add(starLight);
 
 const gltfLoader = new GLTFLoader();   // Ce qui charge les modeles 3D
 
+const modeles = [
+    {
+        nom: 'drakkar',
+        url: DrakkarUrl,
+        vector: new THREE.Vector3(Math.cos(Math.PI/4.5)*2.85, Math.sin(Math.PI/4.5)*2.85, 0), // Placement sur la sphere, angle * rayon
+        lightVector: new THREE.Vector3(Math.cos(Math.PI/4.5)*3.2, Math.sin(Math.PI/4.5)*3.2, 0),
+        ajusteDeMerde: { posX: 0, posY: 0, posZ: 0, rotZ: 0, }
+    },
+    {
+        nom: 'ileGrk',
+        url: GreksUrl,
+        vector: new THREE.Vector3(Math.cos(Math.PI*6.6/8)*3.6, Math.sin(Math.PI*6.6/8)*3.6, 0),
+        lightVector: new THREE.Vector3(Math.cos(Math.PI*6.8/8)*3.2, Math.sin(Math.PI*6.8/8)*3.2, 0),
+        ajusteDeMerde: { posX: -1.4, posY: -1.3, posZ: -1.8, rotZ: 0.06, }
+    },
+    {
+        nom: 'ileInka',
+        url: InkasUrl,
+        vector: new THREE.Vector3(0, Math.cos(Math.PI*2.3/4)*2.85, Math.sin(Math.PI*2.3/4)*2.85),
+        lightVector: new THREE.Vector3(0, Math.cos(Math.PI*2.3/4)*3.2, Math.sin(Math.PI*2.3/4)*3.2),
+        ajusteDeMerde: { posX: 0, posY: 0, posZ: 0, rotZ: 0, }
+    },
+    {
+        nom: 'samourai',
+        url: SamUrl,
+        vector: new THREE.Vector3(0, Math.cos(-2*Math.PI/5)*2.8, Math.sin(-2*Math.PI/5)*2.8),
+        lightVector: new THREE.Vector3(0, Math.cos(-2*Math.PI/5)*3.2, Math.sin(-2*Math.PI/5)*3.2),
+        ajusteDeMerde: { posX: 0, posY: 0, posZ: 0, rotZ: 0, }
+    },
+]
 
-// Premier modele
+const AddModel = (modelObj) => {
+    gltfLoader.load(modelObj.url.href, (gltf) => {
+        gltf.scene.position.set(0, 0, 0);
+        const scene = gltf.scene;
+        scene.scale.set(0.02, 0.02, 0.02);
+        scene.userData.modelName = modelObj.nom;
+        setupOrbit(modelObj.vector, scene);
+        // console.log(scene.position);
+        
+        const light = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
+        light.position.copy(modelObj.lightVec);
 
-let Drakkar = null;
-let DrakkarPivot = null;
-const drakLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
-gltfLoader.load(DrakkarUrl.href, (gltf) => {
-    gltf.scene.position.set(0, 0, 0);
-    Drakkar = gltf.scene;
-    Drakkar.scale.set(0.1, 0.1, 0.1);
-    Drakkar.userData.modelName = "drakkar";
-    const vec = new THREE.Vector3(
-        Math.cos(Math.PI/4.5)*2.85,
-        Math.sin(Math.PI/4.5)*2.85,
-        0
-    ); // Placement sur la sphere, angle * rayon
-    setupOrbit(vec, Drakkar);
+        // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
+        scene.position.x += modelObj.ajusteDeMerde.posX;
+        scene.position.y += modelObj.ajusteDeMerde.posY;
+        scene.position.z += modelObj.ajusteDeMerde.posZ;
+        scene.rotation.z += modelObj.ajusteDeMerde.rotZ;
 
-    const lightVec = new THREE.Vector3(
-        Math.cos(Math.PI/4.5)*3.2,
-        Math.sin(Math.PI/4.5)*3.2,
-        0
-    )
+        const scenePivot = new THREE.Object3D();
+        scenePivot.add(scene);
+        scenePivot.add(light);
+        planet.add(scenePivot);
 
-    drakLight.position.copy(lightVec);
+    }, undefined, function(error) {
+        console.error(error);
+    });
+}
 
-    DrakkarPivot = new THREE.Object3D();
-    DrakkarPivot.add(Drakkar);
-    DrakkarPivot.add(drakLight);
-    planet.add(DrakkarPivot);
-}, undefined, function(error) {
-    console.error(error);
-});
-
-
-// Deuxieme modele
-
-let Greks = null;
-let GreksPivot = null;
-const grekLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
-gltfLoader.load(GreksUrl.href, (gltf) => {
-    gltf.scene.position.set(0, 0, 0);
-    Greks = gltf.scene;
-    Greks.scale.set(0.5, 0.5, 0.5);
-    Greks.userData.modelName = "ileGrk";
-    const vec = new THREE.Vector3(
-        Math.cos(Math.PI*6.6/8)*3.6,
-        Math.sin(Math.PI*6.6/8)*3.6,
-        0
-    ); // Placement sur la sphere, angle * rayon
-    // console.log(vec);
-
-    setupOrbit(vec, Greks);
-    // console.log(Greks.position);
-
-    const lightVec = new THREE.Vector3(
-        Math.cos(Math.PI*6.8/8)*3.2,
-        Math.sin(Math.PI*6.8/8)*3.2,
-        0
-    )
-
-    grekLight.position.copy(lightVec);
-
-    // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
-    
-    Greks.position.x += -1.4;
-    Greks.position.y += -1.3;
-    Greks.position.z += -1.8;
-    Greks.rotation.z += 0.06;
-
-    // console.log(Greks.position);
-    GreksPivot = new THREE.Object3D();
-    GreksPivot.add(Greks);
-    GreksPivot.add(grekLight);
-    planet.add(GreksPivot);
-
-}, undefined, function(error) {
-    console.error(error);
-});
-
-// Troisième modele
-
-let Inkas = null;
-let InkasPivot = null;
-const inkasLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
-gltfLoader.load(InkasUrl.href, (gltf) => {
-    gltf.scene.position.set(0, 0, 0);
-    Inkas = gltf.scene;
-    Inkas.scale.set(0.02, 0.02, 0.02);
-    Inkas.userData.modelName = "ileInka";
-    const vec = new THREE.Vector3(
-        0,
-        Math.cos(Math.PI*2.3/4)*2.85,
-        Math.sin(Math.PI*2.3/4)*2.85
-
-    ); // Placement sur la sphere, angle * rayon
-    // console.log(vec);
-
-    setupOrbit(vec, Inkas);
-    // console.log(Inkas.position);
-
-    const lightVec = new THREE.Vector3(
-        0,
-        Math.cos(Math.PI*2.3/4)*3.2,
-        Math.sin(Math.PI*2.3/4)*3.2
-    )
-
-    inkasLight.position.copy(lightVec);
-
-    InkasPivot = new THREE.Object3D();
-    InkasPivot.add(Inkas);
-    InkasPivot.add(inkasLight);
-    planet.add(InkasPivot);
-
-}, undefined, function(error) {
-    console.error(error);
-});
-
-// Quatrième modele
-
-let Sam = null;
-let SamPivot = null;
-const samLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
-gltfLoader.load(SamUrl.href, (gltf) => {
-    gltf.scene.position.set(0, 0, 0);
-    Sam = gltf.scene;
-    Sam.scale.set(0.02, 0.02, 0.02);
-    Sam.userData.modelName = "samourai";
-    const vec = new THREE.Vector3(
-        0,
-        Math.cos(-2*Math.PI/5)*2.8,
-        Math.sin(-2*Math.PI/5)*2.8
-    ); // Placement sur la sphere, angle * rayon
-    // console.log(vec);
-
-    setupOrbit(vec, Sam);
-    // console.log(Sam.position);
-
-    const lightVec = new THREE.Vector3(
-        0,
-        Math.cos(-2*Math.PI/5)*3.2,
-        Math.sin(-2*Math.PI/5)*3.2
-    )
-
-    samLight.position.copy(lightVec);
-
-    SamPivot = new THREE.Object3D();
-    SamPivot.add(Sam);
-    SamPivot.add(samLight);
-    planet.add(SamPivot);
-
-}, undefined, function(error) {
-    console.error(error);
-});
-
-
-
+modeles.forEach(obj => AddModel(obj));
 //Nuages
 
 const cloudsGroup = new THREE.Group();
