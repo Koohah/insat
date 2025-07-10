@@ -624,6 +624,7 @@ let parrainage = document.getElementById("parrainage");
 
 const showInfo = (info) => {
     if ([ ...infos, 'main' ].includes(info)) {
+        renderer.setAnimationLoop(() => null);
         document.documentElement.classList.remove(...[ ...infos, 'main' ]);
         document.documentElement.classList.add(info, 'info');
         document.querySelectorAll('#down-arrow').forEach(el => el.classList.remove('animate-down-arrow'));
@@ -640,6 +641,7 @@ const showInfo = (info) => {
 const showMain = () => {
     document.documentElement.classList.remove(...[ ...infos, 'info' ]);
     document.documentElement.classList.add('main');
+    renderer.setAnimationLoop(animate);
 }
 
 infos.forEach(id => { 
@@ -705,3 +707,5 @@ const animate = (time) => {
 };
 
 renderer.setAnimationLoop(animate);
+
+
