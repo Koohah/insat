@@ -585,6 +585,28 @@ sceneContainer.addEventListener('resize', () => resizeCanva());
 
 window.addEventListener('load', () => resizeCanva(), { once: true });
 
+
+const hidePopup = () => [ 'popup', 'backdrop' ].forEach(id => document.getElementById(id).classList.add('no-show'));
+
+const showPopup = (text, tout=0) => {
+            // tout est en secondes, il s'affiche est disparait au bout de x secondes
+            // si tout = 0, reste en permanence 
+    document.getElementById('popup').innerHTML = text;
+    [ 'popup', 'backdrop' ].forEach(id => document.getElementById(id).classList.remove('no-show'));
+    if (tout !== 0) {
+        setTimeout(hidePopup, tout * 1000);
+    }
+}
+
+window.addEventListener('load', () => {
+    document.getElementById('backdrop').addEventListener('click', hidePopup);
+    showPopup(
+        '',
+        0
+    );
+    document.getElementById('bureau-header').addEventListener('click', () => showPopup('Message ne disparait pas sauf si tu clique à côté (sur le backdrop)'));
+});
+
 // Animation
 const animate = (time) => {
     time *= 0.001;
