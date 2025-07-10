@@ -624,7 +624,7 @@ let parrainage = document.getElementById("parrainage");
 
 const showInfo = (info) => {
     if ([ ...infos, 'main' ].includes(info)) {
-        renderer.setAnimationLoop(() => null);
+        renderer.setAnimationLoop(null);
         document.documentElement.classList.remove(...[ ...infos, 'main' ]);
         document.documentElement.classList.add(info, 'info');
         document.querySelectorAll('#down-arrow').forEach(el => el.classList.remove('animate-down-arrow'));
@@ -692,7 +692,7 @@ window.addEventListener('load', () => {
 
 
 // Animation
-
+// let animId = null;
 const animate = (time) => {
     time *= 0.001;
     planet.rotation.y += 0.001; // Rotation du groupe planete sur son axe
@@ -707,5 +707,11 @@ const animate = (time) => {
 };
 
 renderer.setAnimationLoop(animate);
+
+//const stopAnimation = () => {
+  //  if (animId) {
+    //    cancelAnimationFrame(animId);
+  //  }
+//}
 
 
