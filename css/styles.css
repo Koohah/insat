@@ -323,7 +323,7 @@ h4 {
 }
 
 .animate-down-arrow {
-  animation: bounceAnim 0.5s ease-in-out 4;
+  animation: bounceAnim 0.5s ease-in-out 3;
 }
 
 @keyframes bounceAnim {
