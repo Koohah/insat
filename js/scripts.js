@@ -477,7 +477,7 @@ window.addEventListener('mousemove', function(e) {
             obj = obj.parent; // Move up to the parent
         };
     };
-    sceneContainer.style.cursor = isClickable ? 'ponter' : 'default';
+    sceneContainer.style.cursor = isClickable ? 'pointer' : 'default';
 });
 
 // Teams
@@ -601,7 +601,7 @@ const showPopup = (text, tout=0) => {
 window.addEventListener('load', () => {
     document.getElementById('backdrop').addEventListener('click', hidePopup);
     showPopup(
-        '',
+        "Bonjour ! Ceci est une bulle d'aide ! Vous pouvez l'ouvrir en cliquant sur <b> l'en-tête du bureau </b>.<br><br>- Il est recommandé de naviguer sur ce site avec un ordinateur. Merci également d'utiliser Chrome ou Firefox. En cas de problème quelconque, rechargez la page.<br>- Pour commencer, choisissez une équipe ! Pour ce faire il suffit de chercher la votre sur la planète, puis de cliquer dessus.<br>- Cliquez sur <img src='./medias/map.svg' style='height:1rem;'/> pour ouvrir une carte de l'INSA faite par le club info.<br><br>Bonne navigation !",
         0
     );
     document.getElementById('bureau-header').addEventListener('click', () => showPopup('Message ne disparait pas sauf si tu clique à côté (sur le backdrop)'));
