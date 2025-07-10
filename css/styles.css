@@ -43,7 +43,7 @@ body {
          env(safe-area-inset-bottom, 16px) 
          env(safe-area-inset-left, 16px);
     width: 100%;
-    height: 100%;
+    height: 0px;
     overflow: hidden;
     box-sizing: border-box;
 }
@@ -251,6 +251,9 @@ h4 {
     width: auto;
 }
 
+[id^="info-"] {
+  min-height: 100vh;
+}
 
 #info-top {
     width: 100vw;
