@@ -346,6 +346,7 @@ const modeles = [
     {
         nom: 'drakkar',
         url: DrakkarUrl,
+        scale: 0.1,
         vector: new THREE.Vector3(Math.cos(Math.PI/4.5)*2.85, Math.sin(Math.PI/4.5)*2.85, 0), // Placement sur la sphere, angle * rayon
         lightVector: new THREE.Vector3(Math.cos(Math.PI/4.5)*3.2, Math.sin(Math.PI/4.5)*3.2, 0),
         ajusteDeMerde: { posX: 0, posY: 0, posZ: 0, rotZ: 0, }
@@ -353,6 +354,7 @@ const modeles = [
     {
         nom: 'ileGrk',
         url: GreksUrl,
+        scale: 0.5,
         vector: new THREE.Vector3(Math.cos(Math.PI*6.6/8)*3.6, Math.sin(Math.PI*6.6/8)*3.6, 0),
         lightVector: new THREE.Vector3(Math.cos(Math.PI*6.8/8)*3.2, Math.sin(Math.PI*6.8/8)*3.2, 0),
         ajusteDeMerde: { posX: -1.4, posY: -1.3, posZ: -1.8, rotZ: 0.06, }
@@ -360,6 +362,7 @@ const modeles = [
     {
         nom: 'ileInka',
         url: InkasUrl,
+        scale: 0.02,
         vector: new THREE.Vector3(0, Math.cos(Math.PI*2.3/4)*2.85, Math.sin(Math.PI*2.3/4)*2.85),
         lightVector: new THREE.Vector3(0, Math.cos(Math.PI*2.3/4)*3.2, Math.sin(Math.PI*2.3/4)*3.2),
         ajusteDeMerde: { posX: 0, posY: 0, posZ: 0, rotZ: 0, }
@@ -367,6 +370,7 @@ const modeles = [
     {
         nom: 'samourai',
         url: SamUrl,
+        scale: 0.02,
         vector: new THREE.Vector3(0, Math.cos(-2*Math.PI/5)*2.8, Math.sin(-2*Math.PI/5)*2.8),
         lightVector: new THREE.Vector3(0, Math.cos(-2*Math.PI/5)*3.2, Math.sin(-2*Math.PI/5)*3.2),
         ajusteDeMerde: { posX: 0, posY: 0, posZ: 0, rotZ: 0, }
@@ -377,7 +381,7 @@ const AddModel = (modelObj) => {
     gltfLoader.load(modelObj.url.href, (gltf) => {
         gltf.scene.position.set(0, 0, 0);
         const scene = gltf.scene;
-        scene.scale.set(0.02, 0.02, 0.02);
+        scene.scale.set(modelObj.scale, modelObj.scale, modelObj.scale);
         scene.userData.modelName = modelObj.nom;
         setupOrbit(modelObj.vector, scene);
         // console.log(scene.position);
