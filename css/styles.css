@@ -457,8 +457,9 @@ div.blur {
     scale: 0.35;
 }
 
-#info-bot {
+#bottom {
   height: 5vh;
+  max-height: 5vh;
   font-size: 1rem;
   text-align: center;
 }
@@ -541,7 +542,7 @@ div.blur {
   #planning-img {
     transform: rotate(90deg);
   }
-  #info-bot {
+  #bottom {
     font-size: 2rem;
   }
 }
