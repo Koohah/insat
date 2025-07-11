@@ -33,6 +33,7 @@ html.inka #info-mid-2 { background-image: url('../medias/pattern_sa.jpg'); }
 html.loading #home-flex { display: none; }
 html.loading #info { display: none; }
 html:not(.loading) #splash { display: none; }
+html.loading #full-screen { display: none; }
 /* html:not(.ss-equipe) #team-logo { display: none; } */
 
 body {
@@ -99,6 +100,46 @@ h4 {
 *::after {
   box-sizing: inherit;
 }
+
+#popup {
+    width: calc(min(500px, 100vw - 2rem));
+    z-index: 20;
+    position: fixed;
+    background-color: var(--red-insa);
+    color: white;
+    border-radius: 30px;
+    padding: 1rem;
+    text-align: center;
+    margin: 1rem;
+    border-style: solid;
+    border-color: #fff;
+    border-width: 2px;
+    font-size: 1rem;
+}
+
+#backdrop {
+    position: fixed;
+    z-index: 5;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    /* display: block; */
+    background: rgba(0, 0, 0, 0, 0.5);
+    display: none;
+}
+
+#backdrop:not(.no-show) {
+    display: block;
+}
+
+div.blur {
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
+}
+
 
 #home-flex {
     display: flex;
@@ -222,6 +263,14 @@ h4 {
 #map-img {
   height: 7vh;
   width: auto;
+}
+
+#credit-main {
+  color: #fff;
+  position: absolute;
+  bottom: 2%;
+  left: 2%;
+  font-size: 1rem;
 }
 
 #team {
@@ -367,7 +416,7 @@ h4 {
 }
 
 #corpus {
-    margin: 6vh 20vw;
+    margin: 6vh 20vw 0 20vw;
     padding-bottom: 4vh;
 }
 
@@ -408,12 +457,21 @@ h4 {
     scale: 0.35;
 }
 
+#info-bot {
+  height: 5vh;
+  font-size: 1rem;
+  text-align: center;
+}
+
 @media screen and (orientation: portrait) {
   html.fs #bureau-container { display: none; }
   html.fs #scene-container, #scene-container #canvas { height: 100vh; }
   html.ss-equipe #scene-container { height: 65% }
   html.ss-equipe #bureau-container { height: 35% }
 
+  #popup {
+    font-size: 2rem;
+  }
   #home-flex {
     flex-direction: column;
   }
@@ -437,6 +495,9 @@ h4 {
   }
   #full-screen {
     display: block;
+  }
+  #credit-main {
+    font-size: 2rem;
   }
   #info-top {
     flex-direction: column;
@@ -479,6 +540,9 @@ h4 {
   }
   #planning-img {
     transform: rotate(90deg);
+  }
+  #info-bot {
+    font-size: 2rem;
   }
 }
 
