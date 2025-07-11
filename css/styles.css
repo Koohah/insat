@@ -371,7 +371,7 @@ div.blur {
     height: 100%;
     width: auto;
     position: relative;
-    top: 0vh;
+    top: -4vh;
 }
 
 .animate-down-arrow {
@@ -380,7 +380,7 @@ div.blur {
 
 @keyframes bounceAnim {
   0%   { top: 0px; }
-  50%  { top: -4vh; }
+  50%  { top: -8vh; }
   100% { top: 0px; }
 }
 
