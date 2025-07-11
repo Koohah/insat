@@ -242,7 +242,7 @@ div.blur {
 }
 
 #full-screen {
-    display: block;
+    display: none;
     position: absolute;
     bottom: 2%;
     right: 2%;
@@ -529,7 +529,7 @@ div.blur {
     font-size: 2rem;
   }
   #corpus {
-    margin: 6vh 13vw;
+    margin: 6vh 13vw 0 13vw;
   }
   .corpus-content {
     font-size: 1.1rem;
