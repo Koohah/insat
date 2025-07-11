@@ -6,10 +6,75 @@ import {GLTFLoader} from './other/GLTFLoader.js';
 // import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.144/examples/jsm/loaders/GLTFLoader.js';
 
 
+const nomsEquipe = [ 'samourai', 'viking', 'inka', 'grec' ];
+let equipeChoisi = undefined;
+
+const equipeLogo = {
+    'samourai': './medias/samourai.svg',
+    'viking': './medias/vikinsa.svg',
+    'inka': './medias/inkas.svg',
+    'grec': './medias/greks.svg',
+}
+
+const getCookie = (name) => {
+    let cookieArr = document.cookie.split(";");
+    for (let i = 0; i < cookieArr.length; i++) {
+        let cookie = cookieArr[i].trim();
+        if (cookie.startsWith(name + "=")) {
+            return cookie.substring(name.length + 1);
+        }
+    }
+    return null;
+}
+
+const setEquipeCookie = async (equipe) => {
+    let date = new Date();
+    if (equipe !== null && nomsEquipe.includes(equipe)) {
+        date.setTime(date.getTime() + (60 * 24 * 60 * 60 * 1000));
+    } else {
+        date.setTime(date.getTime() - 20);
+    }
+    let expires = "expires=" + date.toUTCString();
+    document.cookie = 'equipe' + "=" + equipe + ";" + expires + ";path=/";
+    getEquipeCookie()
+}
+
+const getEquipeCookie = async () => {
+    let cookie = getCookie('equipe');
+    let nomEquipe = ''
+    let equipeClass = '';
+    if (cookie !== null) {
+        nomEquipe = cookie.split(';')[0];
+    }
+    const equipeClasses = [ ...nomsEquipe, 'ss-equipe' ];
+    if (nomsEquipe.includes(nomEquipe)) {
+        equipeChoisi = nomEquipe;
+        equipeClass = equipeChoisi;
+        const logoEl = document.getElementById('team-logo')
+        logoEl.src = equipeLogo[equipeChoisi];
+        if (equipeChoisi === 'viking') {
+            logoEl.classList.add('vikinsize')
+        } else {
+            logoEl.classList.remove('vikinsize')
+        }
+    } else {
+        equipeChoisi = undefined;
+        equipeClass = 'ss-equipe';
+    }
+    const classesToRemove = equipeClasses.filter(value => value !== equipeClass)
+    document.documentElement.classList.remove(...classesToRemove);
+    document.documentElement.classList.add(equipeClass);
+}
+
+getEquipeCookie();
+
+
 const starsUrl = new URL('../medias/stars.jpg', import.meta.url);
 
 const DrakkarUrl = new URL('../medias/drakkar.glb', import.meta.url);
 const GreksUrl = new URL('../medias/ile_greks_2.glb', import.meta.url);
+const InkasUrl = new URL('../medias/ile_inkas.glb', import.meta.url);
+const SamUrl = new URL('../medias/samourais.glb', import.meta.url);
 const LCloudUrl = [
     new URL('../medias/low_poly_cloud.glb', import.meta.url),
     new URL('../medias/cloud1.glb', import.meta.url),
@@ -46,13 +111,13 @@ orbit.enableDamping = true;
 orbit.dampingFactor = 0.035;        // Inertie
 orbit.enablePan = false;            // Pas de deplacements
 orbit.maxDistance = 10;
-orbit.minDistance = 5;              // Zoom
+orbit.minDistance = 4;              // Zoom
 orbit.maxPolarAngle = 3*Math.PI/4;  
 orbit.minPolarAngle = Math.PI/4;    // Hauteur Max et Min
 camera.position.set(4.5, 2.5, 4.5);
 orbit.update();                     // Toujours update apres
 
-window.addEventListener('resize', function() {
+const resizeCanva = () => {
     const containerWidth = sceneContainer.clientWidth;
     const containerHeight = sceneContainer.clientHeight;
 
@@ -62,7 +127,9 @@ window.addEventListener('resize', function() {
 
     // Update renderer size
     renderer.setSize(containerWidth, containerHeight);
-});
+};
+
+window.addEventListener('resize', () => resizeCanva());
 
 // Aides
 
@@ -274,74 +341,73 @@ star.add(starLight);
 // Modeles 3D
 
 const gltfLoader = new GLTFLoader();   // Ce qui charge les modeles 3D
-// Premier modele
-let Drakkar = null;
-let DrakkarPivot = null;
-const drakLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
-gltfLoader.load(DrakkarUrl.href, (gltf) => {
-    gltf.scene.position.set(0, 0, 0);
-    Drakkar = gltf.scene;
-    Drakkar.scale.set(0.1, 0.1, 0.1);
-    Drakkar.userData.modelName = "drakkar";
-    const vec = new THREE.Vector3(
-        Math.cos(Math.PI/4.5)*2.85,
-        Math.sin(Math.PI/4.5)*2.85,
-        0
-    ); // Placement sur la sphere, angle * rayon
-    setupOrbit(vec, Drakkar);
-    drakLight.position.copy(Drakkar.position);
-    DrakkarPivot = new THREE.Object3D();
-    DrakkarPivot.add(Drakkar);
-    DrakkarPivot.add(drakLight);
-    planet.add(DrakkarPivot);
-}, undefined, function(error) {
-    console.error(error);
-});
 
+const modeles = [
+    {
+        nom: 'drakkar',
+        url: DrakkarUrl,
+        scale: 0.1,
+        vector: new THREE.Vector3(Math.cos(Math.PI/4.5)*2.85, Math.sin(Math.PI/4.5)*2.85, 0), // Placement sur la sphere, angle * rayon
+        lightVector: new THREE.Vector3(Math.cos(Math.PI/4.5)*3.2, Math.sin(Math.PI/4.5)*3.2, 0),
+        ajusteDeMerde: null
+    },
+    {
+        nom: 'ileGrk',
+        url: GreksUrl,
+        scale: 0.5,
+        vector: new THREE.Vector3(Math.cos(Math.PI*6.6/8)*3.6, Math.sin(Math.PI*6.6/8)*3.6, 0),
+        lightVector: new THREE.Vector3(Math.cos(Math.PI*6.8/8)*3.2, Math.sin(Math.PI*6.8/8)*3.2, 0),
+        ajusteDeMerde: { posX: -1.4, posY: -1.3, posZ: -1.8, rotZ: 0.06, }
+    },
+    {
+        nom: 'ileInka',
+        url: InkasUrl,
+        scale: 0.02,
+        vector: new THREE.Vector3(0, Math.cos(Math.PI*2.3/4)*2.85, Math.sin(Math.PI*2.3/4)*2.85),
+        lightVector: new THREE.Vector3(0, Math.cos(Math.PI*2.3/4)*3.2, Math.sin(Math.PI*2.3/4)*3.2),
+        ajusteDeMerde: null
+    },
+    {
+        nom: 'samourai',
+        url: SamUrl,
+        scale: 0.02,
+        vector: new THREE.Vector3(0, Math.cos(-2*Math.PI/5)*2.8, Math.sin(-2*Math.PI/5)*2.8),
+        lightVector: new THREE.Vector3(0, Math.cos(-2*Math.PI/5)*3.2, Math.sin(-2*Math.PI/5)*3.2),
+        ajusteDeMerde: null
+    },
+]
 
+const AddModel = (modelObj) => {
+    gltfLoader.load(modelObj.url.href, (gltf) => {
+        gltf.scene.position.set(0, 0, 0);
+        const scene = gltf.scene;
+        scene.scale.set(modelObj.scale, modelObj.scale, modelObj.scale);
+        scene.userData.modelName = modelObj.nom;
+        setupOrbit(modelObj.vector, scene);
+        // console.log(scene.position);
+        
+        const light = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
+        light.position.copy(modelObj.lightVector);
 
+        // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
+        if (modelObj.ajusteDeMerde) {
+            scene.position.x += modelObj.ajusteDeMerde.posX;
+            scene.position.y += modelObj.ajusteDeMerde.posY;
+            scene.position.z += modelObj.ajusteDeMerde.posZ;
+            scene.rotation.z += modelObj.ajusteDeMerde.rotZ;
+        }
 
-// Deuxieme modele
+        const scenePivot = new THREE.Object3D();
+        scenePivot.add(scene);
+        scenePivot.add(light);
+        planet.add(scenePivot);
 
+    }, undefined, function(error) {
+        console.error(error);
+    });
+}
 
-
-let Greks = null;
-let GreksPivot = null;
-const grekLight = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
-gltfLoader.load(GreksUrl.href, (gltf) => {
-    gltf.scene.position.set(0, 0, 0);
-    Greks = gltf.scene;
-    Greks.scale.set(0.5, 0.5, 0.5);
-    Greks.userData.modelName = "ileGrk";
-    const vec = new THREE.Vector3(
-        Math.cos(Math.PI*6.6/8)*3.6,
-        Math.sin(Math.PI*6.6/8)*3.6,
-        0
-    ); // Placement sur la sphere, angle * rayon
-    // console.log(vec);
-
-    setupOrbit(vec, Greks);
-    // console.log(Greks.position);
-
-    grekLight.position.copy(Greks.position);
-
-    // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
-    
-    Greks.position.x += -1.4;
-    Greks.position.y += -1.3;
-    Greks.position.z += -1.8;
-    Greks.rotation.z += 0.06;
-
-    // console.log(Greks.position);
-    GreksPivot = new THREE.Object3D();
-    GreksPivot.add(Greks);
-    GreksPivot.add(grekLight);
-    planet.add(GreksPivot);
-
-}, undefined, function(error) {
-    console.error(error);
-});
-
+modeles.forEach(obj => AddModel(obj));
 //Nuages
 
 const cloudsGroup = new THREE.Group();
@@ -394,109 +460,171 @@ window.addEventListener('mousemove', function(e) {
     mousePosition.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
     rayCaster.setFromCamera(mousePosition, camera);
-    const intersects = rayCaster. intersectObjects(scene.children, true);
+    const intersects = rayCaster.intersectObjects(scene.children, true);
 
     // console.log('Intersects:', intersects); // Log the intersections
 
+    let isClickable = false;
 
     for (let i = 0; i < intersects.length; i++) {
         let obj = intersects[i].object;
-        sceneContainer.style.cursor = 'default';
         while (obj) {
-            if (obj.userData && (obj.userData.modelName === 'drakkar' || obj.userData.modelName === 'ileGrk' || obj.userData.modelName === 'luninsa')) {
-                console.log('Found clickable object:', obj.userData.modelName); // Log when a clickable object is found
-                isHoveringClickable = true;
+            if (obj.userData && [ 'drakkar', 'ileGrk', 'ileInka', 'samourai', 'luninsa' ].includes(obj.userData.modelName)) {
+                // console.log('Found clickable object:', obj.userData.modelName); // Log when a clickable object is found
+                isClickable = true;
                 break; // Found the clickable model, no need to check parents further
-
             }
             obj = obj.parent; // Move up to the parent
         };
     };
+    sceneContainer.style.cursor = isClickable ? 'pointer' : 'default';
 });
 
 // Teams
 
-let teamSelected = 0;
-const teamList = [];
-teamList.push('none');
-teamList.push('./medias/vikinsa.svg');
-teamList.push('./medias/greks.svg');
-
-
-let teamLogo = document.getElementById('team-logo');
-let team = document.getElementById('team');
-
-
 window.addEventListener('click', function() {
     rayCaster.setFromCamera(mousePosition, camera);
-    const intersects = rayCaster. intersectObjects(scene.children, true);
+    const intersects = rayCaster.intersectObjects(scene.children, true);
+    const changeEquipeObj = { // valeur du cookie "equipe" en fonction du nom de l'objet
+        'drakkar': 'viking',
+        'ileGrk': 'grec',
+        'ileInka': 'inka',
+        'samourai': 'samourai',
+    }
 
     for (let i = 0; i < intersects.length; i++) {
         let obj = intersects[i].object;
         while (obj) {
-            if (obj.userData && obj.userData.modelName === 'drakkar') {
-                teamSelected = 1; // Drakkar model was clicked
-                break; // Found the clickable model, no need to check parents further
-            }
-            if (obj.userData && obj.userData.modelName === 'ileGrk') {
-                teamSelected = 2; // Drakkar model was clicked
-                break; // Found the clickable model, no need to check parents further
-            }
-            if (obj.userData.modelName === 'luninsa') {
-                window.open('https://www.insa-toulouse.fr/', '_blank');
+            if (obj.userData) {
+                if (obj.userData.modelName in changeEquipeObj) {
+                    setEquipeCookie(changeEquipeObj[obj.userData.modelName]);
+                    resizeCanva();
+                    break; // Found the clickable model, no need to check parents further
+                }
+                if (obj.userData.modelName === 'luninsa') {
+                    window.open('https://www.insa-toulouse.fr/', '_blank');
+                    break;
+                }
             }
             obj = obj.parent; // Move up to the parent
-        }
-        if (teamSelected !== 0) {
-            teamLogo.src = teamList[teamSelected];
-            teamLogo.classList.remove('no-show');
-            team.classList.add('team-border');
-            if (teamSelected == 1) {
-                teamLogo.classList.add('vikinsize');
-            } else {
-            teamLogo.classList.remove('vikinsize');
-            teamLogo.classList.add('team-logo-Dsize');
-            team
-            }
-            break; // Found a clickable object, no need to check other intersects
         };
     };
 });
 
 
 // Links
-
-let planning = document.getElementById("planning");
+const infos = [ "planning", "blouse", "guide-ppa", "prevention" ]
+/* let planning = document.getElementById("planning");
 let blouse = document.getElementById("blouse");
 let guidePpa = document.getElementById("guide-ppa");
 let prevention = document.getElementById("prevention");
+*/
+
 let parrainage = document.getElementById("parrainage");
 
-let itBureau = document.getElementById("it-bureau");
-let itInsa = document.getElementById("it-insa");
-let itAmicale = document.getElementById("it-amicale");
+const showInfo = (info) => {
+    if ([ ...infos, 'main' ].includes(info)) {
+        renderer.setAnimationLoop(null);
+        document.documentElement.classList.remove(...[ ...infos, 'main' ]);
+        document.documentElement.classList.add(info, 'info');
+        document.querySelectorAll('#down-arrow').forEach(el => el.classList.remove('animate-down-arrow'));
+        const downArrowEl = document.querySelector(`#info-${info} #down-arrow`);
+        if (downArrowEl) {
+            downArrowEl.classList.add('animate-down-arrow');
+        }
+        document.querySelector(`#info-${info}`).scrollTo(0, 0);
+    }
+}
 
-planning.addEventListener('click', () => {
-    window.open('./info.html', '_self');
-    // itBureau.classList.remove('no-show');
-    // itAmicale.classList.remove('no-show');
-    // console.log(itBureau.classList);
+const showMain = () => {
+    document.documentElement.classList.remove(...[ ...infos, 'info' ]);
+    document.documentElement.classList.add('main');
+    renderer.setAnimationLoop(animate);
+}
+
+infos.forEach(id => { 
+    document.getElementById(id).addEventListener('click', () => showInfo(id) );
 });
-blouse.addEventListener('click', () => {
-    window.open('./info.html', '_self');
-});
-guidePpa.addEventListener('click', () => {
-    window.open('./info.html', '_self');
-});
-prevention.addEventListener('click', () => {
-    window.open('./info.html', '_self');
-});
+
 parrainage.addEventListener('click', () => {
-    window.open('./info.html', '_self');
+    window.open('404', '_blank');
 });
+
+
+const mainButton = (element) => {
+    element.addEventListener('click', () => showMain());
+    element.addEventListener('mouseover', () => {
+    element.style.cursor = 'pointer';
+    });
+} ;
+
+mainButton(document.getElementById("back-arrow"));
+mainButton(document.getElementById("back-arrow-2"));
+mainButton(document.getElementById("back-arrow-3"));
+mainButton(document.getElementById("back-arrow-4"));
+
+let toggleFS = -1;
+
+document.getElementById('full-screen').addEventListener('click', () => {
+    toggleFS = -toggleFS;
+    if ( toggleFS === 1 ) {
+    document.documentElement.classList.add('fs');
+    } else { if ( toggleFS === -1 ) {
+    document.documentElement.classList.remove('fs');
+    }};
+    resizeCanva();
+});
+
+let map = document.getElementById("map");
+
+map.addEventListener('mouseover', () => {
+    map.style.cursor = 'pointer';    
+});
+
+sceneContainer.addEventListener('resize', () => resizeCanva());
+
+window.addEventListener('load', () => resizeCanva(), { once: true });
+
+
+const hidePopup = () => [ 'popup', 'backdrop' ].forEach(id => document.getElementById(id).classList.add('no-show'));
+
+const showPopup = (text, tout=0) => {
+            // tout est en secondes, il s'affiche est disparait au bout de x secondes
+            // si tout = 0, reste en permanence 
+    document.getElementById('popup').innerHTML = text;
+    [ 'popup', 'backdrop' ].forEach(id => document.getElementById(id).classList.remove('no-show'));
+    if (tout !== 0) {
+        setTimeout(hidePopup, tout * 1000);
+    }
+}
+
+window.addEventListener('load', () => {
+    document.getElementById('backdrop').addEventListener('click', hidePopup);
+    showPopup("Bonjour ! Ceci est une bulle d'aide ! Vous pouvez l'ouvrir en cliquant sur <b> l'en-tête du bureau </b>.<br><br>- Il est recommandé de naviguer sur ce site avec un ordinateur. Merci également d'utiliser Chrome ou Firefox. En cas de problème quelconque, rechargez la page. Si le problème persiste, passez sur ordinateur.<br>- Pour commencer, choisissez une équipe ! Pour ce faire il suffit de chercher la votre sur la planète, puis de cliquer dessus.<br>- Cliquez sur <img src='./medias/map.svg' style='height:1rem;'/> pour ouvrir une carte de l'INSA faite par le club info.<br><br>Cliquez en dehors de la bulle d'aide pour en sortir. Bonne navigation !");
+    document.getElementById('bureau-header').addEventListener('click', () => showPopup("Bonjour ! Ceci est une bulle d'aide ! Vous pouvez l'ouvrir en cliquant sur <b> l'en-tête du bureau </b>.<br><br>- Il est recommandé de naviguer sur ce site avec un ordinateur. Merci également d'utiliser Chrome ou Firefox. En cas de problème quelconque, rechargez la page. Si le problème persiste, passez sur ordinateur.<br>- Pour commencer, choisissez une équipe ! Pour ce faire il suffit de chercher la votre sur la planète, puis de cliquer dessus.<br>- Cliquez sur <img src='./medias/map.svg' style='height:1rem;'/> pour ouvrir une carte de l'INSA faite par le club info.<br><br>Bonne navigation !"));
+});
+
+const creditText = "Conception du site : Hook Alban (contact : albanhook@gmail.com), Design graphique : Evan De Oliveira (instagram : evan.dlvr) & Audrey Tribet (instagram : audreyy.tribett), Hébergement : Club Info"
+
+let creditMain = document.getElementById('credit-main');
+let creditInfo = document.getElementById('credit-info');
+let creditInfo2 = document.getElementById('credit-info-2');
+let creditInfo3 = document.getElementById('credit-info-3');
+let creditInfo4 = document.getElementById('credit-info-4');
+
+const creditFc = (idEl) => {
+    idEl.addEventListener('click', () => {showPopup(creditText)});
+    idEl.addEventListener('mouseover', () => {idEl.style.cursor = 'pointer'});
+};
+
+creditFc(creditMain);
+creditFc(creditInfo);
+creditFc(creditInfo2);
+creditFc(creditInfo3);
+creditFc(creditInfo4);
+
 
 // Animation
-
 const animate = (time) => {
     time *= 0.001;
     planet.rotation.y += 0.001; // Rotation du groupe planete sur son axe
@@ -511,62 +639,3 @@ const animate = (time) => {
 };
 
 renderer.setAnimationLoop(animate);
-
-
-// const hud = document.getElementById('hud');
-// const toggleButton = document.getElementById('hudToggleButton');
-// let visibleHUD = true;
-
-// toggleButton.addEventListener('click', () => {
-//     visibleHUD = !visibleHUD;
-//     hud.style.display = visibleHUD ? 'block' : 'none';
-//     toggleButton.textContent = visibleHUD ? 'Cacher le HUD' : 'Afficher le HUD';
-// });
-
-
-
-
-// Anciens nuages
-
-// const cloudsGroup = new THREE.Group();
-// const generateClouds = (cNbr) => { // Fonction generer les nuages
-//     const vecList = []; // Initialisation de la liste des vecteurs positions autour de la planete
-//     const cMat = new THREE.MeshStandardMaterial({
-//         color: 0xffffff,
-//         transparent: true,
-//         side: THREE.FrontSide,
-//         opacity: 0.6
-//     }); // Leur Texture
-//     for (let c=0; c<cNbr; c++) {
-//         let localCGroup  = new THREE.Group(); // Le groupe des formes d'un nuage
-//         for (let n=0; n<7; n++) {   // Le nombre de spheres dans le nuage
-//             const cSphereGeo = new THREE.SphereGeometry(0.3);   // Une forme
-//             const cSphere = new THREE.Mesh(cSphereGeo, cMat);   // Creation de la forme
-//             // Position aleatoire dans le groupe de nuage
-//             let factor1 = (Math.random()-0.5)*0.7;
-//             let factor2 = (Math.random()-0.5)*0.8;
-//             cSphere.position.x = factor1;
-//             cSphere.position.y = (factor1-factor2)/4;
-//             cSphere.position.z = factor2;
-//             localCGroup.add(cSphere)    // Ajout des formes dans le groupe
-//         };
-//         let vec;    // Initialisation d'un vecteur deplacement
-//         let correct = false // Incorect tant que non verifie
-//         while (!correct) {
-//             vec = rCoords();    // Position aleatoire autour de la planete
-//             correct = true; // On suppose qu'il est bon
-//             for (let i = 0; i < vecList.length; i++) {
-//                 if (vec.distanceTo(vecList[i]) < 1) {
-//                     correct = false; // Si trop proche d'un autre, on recommence
-//                     break;
-//                 };
-//             };
-//         };
-//         vecList.push(vec);  // Ajout du vecteur dans la liste
-//         setupOrbit(vec, localCGroup);   // Orbite des nuages
-//         cloudsGroup.add(localCGroup);   // Ajout du nuage dans le groupe des nuages
-//     };
-// };
-// generateClouds(22); // Appel de la fonction
-// scene.add(cloudsGroup); // Ajout des nuages a la scene
-// cloudsGroup.castShadow = true;  // Cree des ombres
