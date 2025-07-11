@@ -99,7 +99,6 @@ h4 {
 
 #popup {
     width: calc(min(500px, 100vw - 2rem));
-    height: auto;
     z-index: 20;
     position: fixed;
     background-color: var(--red-insa);
@@ -111,6 +110,7 @@ h4 {
     border-style: solid;
     border-color: #fff;
     border-width: 2px;
+    font-size: 1rem;
 }
 
 #backdrop {
@@ -261,6 +261,14 @@ div.blur {
   width: auto;
 }
 
+#credit-main {
+  color: #fff;
+  position: absolute;
+  bottom: 2%;
+  left: 2%;
+  font-size: 1rem;
+}
+
 #team {
     position: absolute;
     top: 2%;
@@ -401,7 +409,7 @@ div.blur {
 }
 
 #corpus {
-    margin: 6vh 20vw;
+    margin: 6vh 20vw 0 20vw;
     padding-bottom: 4vh;
 }
 
@@ -442,12 +450,21 @@ div.blur {
     scale: 0.35;
 }
 
+#info-bot {
+  height: 5vh;
+  font-size: 1rem;
+  text-align: center;
+}
+
 @media screen and (orientation: portrait) {
   html.fs #bureau-container { display: none; }
   html.fs #scene-container, #scene-container #canvas { height: 100vh; }
   html.ss-equipe #scene-container { height: 65% }
   html.ss-equipe #bureau-container { height: 35% }
 
+  #popup {
+    font-size: 2rem;
+  }
   #home-flex {
     flex-direction: column;
   }
@@ -471,6 +488,9 @@ div.blur {
   }
   #full-screen {
     display: block;
+  }
+  #credit-main {
+    font-size: 2rem;
   }
   #info-top {
     flex-direction: column;
@@ -513,6 +533,9 @@ div.blur {
   }
   #planning-img {
     transform: rotate(90deg);
+  }
+  #info-bot {
+    font-size: 2rem;
   }
 }
 

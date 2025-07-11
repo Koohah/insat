@@ -600,12 +600,29 @@ const showPopup = (text, tout=0) => {
 
 window.addEventListener('load', () => {
     document.getElementById('backdrop').addEventListener('click', hidePopup);
-    showPopup(
-        "Bonjour ! Ceci est une bulle d'aide ! Vous pouvez l'ouvrir en cliquant sur <b> l'en-tête du bureau </b>.<br><br>- Il est recommandé de naviguer sur ce site avec un ordinateur. Merci également d'utiliser Chrome ou Firefox. En cas de problème quelconque, rechargez la page.<br>- Pour commencer, choisissez une équipe ! Pour ce faire il suffit de chercher la votre sur la planète, puis de cliquer dessus.<br>- Cliquez sur <img src='./medias/map.svg' style='height:1rem;'/> pour ouvrir une carte de l'INSA faite par le club info.<br><br>Bonne navigation !",
-        0
-    );
-    document.getElementById('bureau-header').addEventListener('click', () => showPopup('Message ne disparait pas sauf si tu clique à côté (sur le backdrop)'));
+    showPopup("Bonjour ! Ceci est une bulle d'aide ! Vous pouvez l'ouvrir en cliquant sur <b> l'en-tête du bureau </b>.<br><br>- Il est recommandé de naviguer sur ce site avec un ordinateur. Merci également d'utiliser Chrome ou Firefox. En cas de problème quelconque, rechargez la page. Si le problème persiste, passez sur ordinateur.<br>- Pour commencer, choisissez une équipe ! Pour ce faire il suffit de chercher la votre sur la planète, puis de cliquer dessus.<br>- Cliquez sur <img src='./medias/map.svg' style='height:1rem;'/> pour ouvrir une carte de l'INSA faite par le club info.<br><br>Cliquez en dehors de la bulle d'aide pour en sortir. Bonne navigation !");
+    document.getElementById('bureau-header').addEventListener('click', () => showPopup("Bonjour ! Ceci est une bulle d'aide ! Vous pouvez l'ouvrir en cliquant sur <b> l'en-tête du bureau </b>.<br><br>- Il est recommandé de naviguer sur ce site avec un ordinateur. Merci également d'utiliser Chrome ou Firefox. En cas de problème quelconque, rechargez la page. Si le problème persiste, passez sur ordinateur.<br>- Pour commencer, choisissez une équipe ! Pour ce faire il suffit de chercher la votre sur la planète, puis de cliquer dessus.<br>- Cliquez sur <img src='./medias/map.svg' style='height:1rem;'/> pour ouvrir une carte de l'INSA faite par le club info.<br><br>Bonne navigation !"));
 });
+
+const creditText = "Conception du site : Hook Alban (contact : albanhook@gmail.com), Design graphique : Evan De Oliveira (instagram : evan.dlvr) & Audrey Tribet (instagram : audreyy.tribett), Hébergement : Club Info"
+
+let creditMain = document.getElementById('credit-main');
+let creditInfo = document.getElementById('credit-info');
+let creditInfo2 = document.getElementById('credit-info-2');
+let creditInfo3 = document.getElementById('credit-info-3');
+let creditInfo4 = document.getElementById('credit-info-4');
+
+const creditFc = (idEl) => {
+    idEl.addEventListener('click', () => {showPopup(creditText)});
+    idEl.addEventListener('mouseover', () => {idEl.style.cursor = 'pointer'});
+};
+
+creditFc(creditMain);
+creditFc(creditInfo);
+creditFc(creditInfo2);
+creditFc(creditInfo3);
+creditFc(creditInfo4);
+
 
 // Animation
 const animate = (time) => {
