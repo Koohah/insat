@@ -102,7 +102,7 @@ h4 {
 }
 
 #popup {
-    width: calc(min(500px, 100vw - 2rem));
+    width: calc(min(500px, 100dvw - 2rem));
     z-index: 20;
     position: fixed;
     background-color: var(--red-insa);
@@ -122,8 +122,8 @@ h4 {
     z-index: 5;
     left: 0;
     top: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
     /* display: block; */
     background: rgba(0, 0, 0, 0, 0.5);
     display: none;
@@ -144,8 +144,8 @@ div.blur {
 #home-flex {
     display: flex;
     align-content: flex-start;
-    width: 100vw;
-    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
     align-items: stretch;
     flex-direction: row;
 }
@@ -153,24 +153,24 @@ div.blur {
 #bureau-container {
     display: flex;
     flex-direction: column;
-    width: 35vw;
-    height: 100vh;
+    width: 35dvw;
+    height: 100dvh;
     position: relative;
     background-color: var(--red-insa);
 }
 
 #bureau-header {
     display: flex;
-    height: 8vh;
+    height: 8dvh;
     align-items: center;
     justify-content: center;
     background-color: #fff;
 }
 
 #bureau-header img {
-    max-height: 7vh;
-    margin-right: 1vw;
-    padding: 0.5vh;
+    max-height: 7dvh;
+    margin-right: 1dvw;
+    padding: 0.5dvh;
     background-color: white;
 }
 
@@ -179,7 +179,7 @@ div.blur {
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    height: 84vh;
+    height: 84dvh;
     margin: 5% 0 5% 0;
 }
 
@@ -189,7 +189,7 @@ div.blur {
     display: flex;
     flex-wrap: nowrap;
     /* border: #000;
-    border-radius: 3vh;
+    border-radius: 3dvh;
     border-style: solid; */
     align-items: center;
     justify-content: center;
@@ -219,8 +219,8 @@ div.blur {
 }
 
 #scene-container {
-    width: 65vw;
-    height: 100vh;
+    width: 65dvw;
+    height: 100dvh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -249,7 +249,7 @@ div.blur {
 }
 
 #fs-img {
-    height: 5vh;
+    height: 5dvh;
     width: auto;
 }
 
@@ -261,7 +261,7 @@ div.blur {
 }
 
 #map-img {
-  height: 7vh;
+  height: 7dvh;
   width: auto;
 }
 
@@ -300,13 +300,18 @@ div.blur {
     width: auto;
 }
 
-[id^="info-"] {
-  min-height: 100vh;
+/* [id^="info-"] {
+  min-height: 100dvh;
+}
+*/
+
+#info-planning, #info-blouse, #info-guide-ppa, #info-prevention {
+  height: 100dvh;
 }
 
 #info-top {
-    width: 100vw;
-    height: 90vh;
+    width: 100dvw;
+    height: 90dvh;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -315,7 +320,7 @@ div.blur {
 }
 
 #back-arrow, #back-arrow-2, #back-arrow-3, #back-arrow-4 {
-    width: 8vw;
+    width: 8dvw;
     height: auto;
     position: fixed;
     top: 2%;
@@ -327,8 +332,8 @@ div.blur {
     position: fixed;
     left: 9%;
     top: 2%;
-    height: 8vw;
-    width: 8vw;
+    height: 8dvw;
+    width: 8dvw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -360,18 +365,18 @@ div.blur {
 }
 
 #junction {
-    height: 10vh;
-    width: 100vw;
+    height: 10dvh;
+    width: 100dvw;
     display: flex;
     justify-content: center;
-    padding-bottom: 2vh;
+    padding-bottom: 2dvh;
 }
 
 #down-arrow {
     height: 100%;
     width: auto;
     position: relative;
-    top: -4vh;
+    top: 0dvh;
 }
 
 .animate-down-arrow {
@@ -380,19 +385,20 @@ div.blur {
 
 @keyframes bounceAnim {
   0%   { top: 0px; }
-  50%  { top: -8vh; }
+  50%  { top: -4dvh; }
   100% { top: 0px; }
 }
 
 
 
-#info-mid, #info-mid-2, #info-mid-3 #info-mid-4 {
+#info-mid, #info-mid-2, #info-mid-3, #info-mid-4 {
     display: flex;
     background-size: cover;
     background-repeat: repeat;
     flex-direction: column;
-    min-height: 100vh;
-    min-width: 100vw;
+    min-height: 100dvh;
+    min-width: 100dvw;
+    margin-top: 2px;
 }
 
 #info-mid { background-image: url('../medias/pattern_sa.jpg'); }
@@ -401,8 +407,8 @@ div.blur {
 #info-mid-4 { background-image: url('../medias/pattern_prev.jpg'); }
 
 #corpus-title {
-    margin-top: 7vh;
-    margin-right: 7vh;
+    margin-top: 7dvh;
+    margin-right: 7dvh;
     display: flex;
     flex-direction: row;
     justify-content: end;
@@ -416,8 +422,8 @@ div.blur {
 }
 
 #corpus {
-    margin: 6vh 20vw 0 20vw;
-    padding-bottom: 4vh;
+    margin: 6dvh 20dvw 0 20dvw;
+    padding-bottom: 4dvh;
 }
 
 .corpus-content {
@@ -441,7 +447,7 @@ div.blur {
 }
 
 #spec-img {
-  margin-bottom: 2vh;
+  margin-bottom: 2dvh;
 }
 
 #plan-img-container {
@@ -449,8 +455,8 @@ div.blur {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 3vh 0 3vh 0;
-    max-height: 70vh;
+    margin: 3dvh 0 3dvh 0;
+    max-height: 70dvh;
 }
 
 #planning-img {
@@ -458,32 +464,32 @@ div.blur {
 }
 
 #bottom {
-  height: 5vh;
-  max-height: 5vh;
+  height: 5dvh;
+  max-height: 5dvh;
   font-size: 1rem;
   text-align: center;
 }
 
 @media screen and (orientation: portrait) {
   html.fs #bureau-container { display: none; }
-  html.fs #scene-container, #scene-container #canvas { height: 100vh; }
+  html.fs #scene-container, #scene-container #canvas { height: 100dvh; }
   html.ss-equipe #scene-container { height: 65% }
   html.ss-equipe #bureau-container { height: 35% }
 
   #popup {
     font-size: 1.5rem;
     overflow-y: scroll;
-    max-height: 80vh;
+    max-height: 80dvh;
   }
   #home-flex {
     flex-direction: column;
   }
   #bureau-container {
-    height: 50vh;
+    height: 50dvh;
     width: 100%;
   }
   #scene-container {
-    height: 50vh;
+    height: 50dvh;
     width: 100%;
   }
   #menu {
@@ -494,7 +500,7 @@ div.blur {
   }
   #no-t-text {
     color: #fff;
-    font-size: 4vh;
+    font-size: 4dvh;
   }
   #full-screen {
     display: block;
@@ -511,27 +517,28 @@ div.blur {
     max-width: 70%;
   }
   #back-arrow, #back-arrow-2, #back-arrow-3, #back-arrow-4{
-    height: 8vh;
+    height: 8dvh;
     width: auto;
   }
   #ba-tip {
     top: 8%;
     left: 2%;
-    height: 8vh;
-    width: 8vh;
+    height: 8dvh;
+    width: 8dvh;
   }
   #tip-text {
     font-size: 1.2rem;
   }
   #corpus-title {
-    margin-top: 5vh;
-    margin-right: 4vh;
+    padding-top: 5dvh;
+    margin-top: 2px;
+    /* margin-right: 4dvh; */
   }
   .title-content {
     font-size: 2rem;
   }
   #corpus {
-    margin: 6vh 13vw 0 13vw;
+    margin: 6dvh 13dvw 0 13dvw;
   }
   .corpus-content {
     font-size: 1.1rem;
