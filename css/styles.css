@@ -26,10 +26,10 @@ html:not(.viking) #it-vik { display: none; }
 html:not(.grec) #it-grec { display: none; }
 html:not(.inka) #it-inka { display:none; }
 html:not(.samourai) #it-sam { display:none; }
-html.viking #info-mid-2 { background-image: url('../medias/pattern_sa.jpg'); }
-html.samourai #info-mid-2 { background-image: url('../medias/pattern_sa.jpg'); }
-html.grec #info-mid-2 { background-image: url('../medias/pattern_sa.jpg'); }
-html.inka #info-mid-2 { background-image: url('../medias/pattern_sa.jpg'); }
+html.viking #info-mid-2 { background-image: url('../medias/fondviking.png'); }
+html.samourai #info-mid-2 { background-image: url('../medias/fondsamourai.png'); }
+html.grec #info-mid-2 { background-image: url('../medias/fondgrec.png'); }
+html.inka #info-mid-2 { background-image: url('../medias/fondinka.png'); }
 html.loading #home-flex { display: none; }
 html.loading #info { display: none; }
 html:not(.loading) #splash { display: none; }
@@ -393,7 +393,7 @@ div.blur {
 
 #info-mid, #info-mid-2, #info-mid-3, #info-mid-4 {
     display: flex;
-    background-size: cover;
+    background-size: contain;
     background-repeat: repeat;
     flex-direction: column;
     min-height: 100dvh;
@@ -401,7 +401,7 @@ div.blur {
     margin-top: 2px;
 }
 
-#info-mid { background-image: url('../medias/pattern_sa.jpg'); }
+#info-mid { background-image: url('../medias/fondamicale.png'); }
 #info-mid-2 { background-image: url('../medias/pattern_sa.jpg'); }
 #info-mid-3 { background-image: url('../medias/pattern_sa.jpg'); }
 #info-mid-4 { background-image: url('../medias/pattern_prev.jpg'); }
