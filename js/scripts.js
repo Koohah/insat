@@ -547,7 +547,7 @@ infos.forEach(id => {
 });
 
 parrainage.addEventListener('click', () => {
-    window.open('404', '_blank');
+    window.open('https://parrainage.accueil.insat.fr', '_blank');
 });
 
 
