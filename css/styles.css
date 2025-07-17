@@ -401,10 +401,15 @@ div.blur {
     margin-top: 2px;
 }
 
-#info-mid { background-image: url('../medias/fondamicale.png'); }
+#info-mid { background-color: var(--red-insa) };
 #info-mid-2 { background-image: url('../medias/pattern_sa.jpg'); }
 #info-mid-3 { background-image: url('../medias/pattern_sa.jpg'); }
 #info-mid-4 { background-image: url('../medias/pattern_prev.jpg'); }
+
+#info-mid {
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 
 #corpus-title {
     margin-top: 7dvh;
@@ -460,7 +465,7 @@ div.blur {
 }
 
 #planning-img {
-    scale: 0.35;
+    scale: 0.15;
 }
 
 #bottom {
