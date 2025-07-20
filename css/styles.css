@@ -467,8 +467,8 @@ div.blur {
 
 #planning-img {
     /* scale: 0.15; */
-    max-width: 90dvw;
-    max-height: 90dvh;
+    /*max-width: 90dvw;*/
+    max-height: 75dvh;
 }
 
 #bottom {
