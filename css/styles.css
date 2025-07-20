@@ -101,6 +101,7 @@ h4 {
   box-sizing: inherit;
 }
 
+
 #popup {
     width: calc(min(500px, 100dvw - 2rem));
     z-index: 20;
@@ -475,11 +476,24 @@ div.blur {
   text-align: center;
 }
 
+@media screen and (orientation: landscape) {
+  .img-portrait {
+    display:none;
+  }
+
+}
+
+
 @media screen and (orientation: portrait) {
   html.fs #bureau-container { display: none; }
   html.fs #scene-container, #scene-container #canvas { height: 100dvh; }
   html.ss-equipe #scene-container { height: 65% }
   html.ss-equipe #bureau-container { height: 35% }
+ 
+  .img-landscape {
+    display:none;
+  }
+
 
   #popup {
     font-size: 1.5rem;
@@ -553,9 +567,9 @@ div.blur {
     align-items: start;
     margin: 0;
   }
-  #planning-img {
+  /*#planning-img {
     transform: rotate(90deg);
-  }
+  }*/
   #bottom {
     font-size: 2rem;
   }
