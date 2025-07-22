@@ -526,7 +526,14 @@ const showInfo = (info) => {
     if ([ ...infos, 'main' ].includes(info)) {
         renderer.setAnimationLoop(null);
         document.documentElement.classList.remove(...[ ...infos, 'main' ]);
-        document.documentElement.classList.add(info, 'info');
+        document.documentElement.classList.add(info, 'info' );
+
+        // -------- Animation
+
+        document.documentElement.classList.remove( 'main-transition' );
+        document.querySelectorAll('#info-top').forEach(el => el.classList.add( 'transition' ));
+
+
         document.querySelectorAll('#down-arrow').forEach(el => el.classList.remove('animate-down-arrow'));
         const downArrowEl = document.querySelector(`#info-${info} #down-arrow`);
         if (downArrowEl) {
@@ -539,6 +546,13 @@ const showInfo = (info) => {
 const showMain = () => {
     document.documentElement.classList.remove(...[ ...infos, 'info' ]);
     document.documentElement.classList.add('main');
+
+    // -------- Animation
+
+    document.querySelectorAll('#info-top').forEach(el => el.classList.remove( 'transition' ));
+    document.documentElement.classList.add( 'main-transition' );
+
+    
     renderer.setAnimationLoop(animate);
 }
 

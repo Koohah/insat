@@ -487,6 +487,48 @@ div.blur {
   text-align: center;
 }
 
+/* // -------- Animation */
+/* ........................................................; */
+/* ........................................................ */
+
+
+@keyframes fade-in {
+  from {
+    background-color: rgba(#000 0.25);
+    opacity: 0;
+    transform: translateY(50dvh);
+  }
+  to {
+    background-color: rgba(#000 0);
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes main-fade-in {
+  from {
+    background-color: rgba(#000 0.25);
+    opacity: 0;
+  }
+  to {
+    background-color: rgba(#000 0);
+    opacity: 1;
+  }
+}
+
+#info-top.transition {
+  animation: fade-in 1.5s forwards;
+  background-color: rgba(#000 0.25);
+  opacity: 0;
+  transform: translateY(35dvh);
+}
+
+html.main-transition {
+  animation: main-fade-in 1.5s forwards;
+  background-color: rgba(#000 0.25);
+  opacity: 0;
+}
+
 
 @media screen and (orientation: landscape) {
   .img-portrait {
