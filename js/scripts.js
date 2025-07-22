@@ -480,8 +480,14 @@ window.addEventListener('mousemove', function(e) {
             if (obj.userData && [ 'drakkar', 'ileGrk', 'ileInka', 'samourai', 'luninsa' ].includes(obj.userData.modelName)) {
                 // console.log('Found clickable object:', obj.userData.modelName); // Log when a clickable object is found
                 isClickable = true;
-                lastHovered = modeles.find((theObj) => theObj.nom === obj.userData.modelName).lightObj;
-                lastHovered.color = 0xabcdef;
+                const temp = modeles.find((theObj) => theObj.nom === obj.userData.modelName);
+                if (temp) {
+                    lastHovered = temp.lightObj;
+                    lastHovered.color.set(0x76dc2f);
+                    lastHovered.intensity = 1;
+                    console.log(lastHovered);
+                    console.log(lastHovered.color);
+                }
 
                 break; // Found the clickable model, no need to check parents further
             }
@@ -489,9 +495,13 @@ window.addEventListener('mousemove', function(e) {
         };
     };
     sceneContainer.style.cursor = isClickable ? 'pointer' : 'default';
-    if (!isClickable && lastHovered != null) {
-        lastHovered.color = 0xfff;
+    if (!isClickable && lastHovered) {
+        lastHovered.color.set(0xfff);
+        lastHovered.intensity = 0.5;
+        console.log(lastHovered.color);
+
         lastHovered = null;
+
     };
 });
 
