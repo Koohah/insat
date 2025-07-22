@@ -34,6 +34,7 @@ html.loading #home-flex { display: none; }
 html.loading #info { display: none; }
 html:not(.loading) #splash { display: none; }
 html.loading #full-screen { display: none; }
+html.viking #info-mid-2 { color: #fff; }
 /* html:not(.ss-equipe) #team-logo { display: none; } */
 
 body {

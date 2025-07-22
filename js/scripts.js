@@ -483,7 +483,7 @@ window.addEventListener('mousemove', function(e) {
                 const temp = modeles.find((theObj) => theObj.nom === obj.userData.modelName);
                 if (temp) {
                     lastHovered = temp.lightObj;
-                    lastHovered.color.set(0x76dc2f);
+                    lastHovered.color.set(0x00ff00);
                     lastHovered.intensity = 1;
                     console.log(lastHovered);
                     console.log(lastHovered.color);
