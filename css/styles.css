@@ -49,6 +49,11 @@ body {
     box-sizing: border-box;
 }
 
+.gloria-hallelujah-regular {
+  font-family: "Gloria Hallelujah", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
 
 .pf-d-bureau-title {
   font-family: "Playfair Display", serif;
@@ -471,12 +476,17 @@ div.blur {
     max-height: 75dvh;
 }
 
+#last-bls-img {
+  margin-bottom: 5dvh;
+}
+
 #bottom {
   height: 5dvh;
   max-height: 5dvh;
   font-size: 1rem;
   text-align: center;
 }
+
 
 @media screen and (orientation: landscape) {
   .img-portrait {
