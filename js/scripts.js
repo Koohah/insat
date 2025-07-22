@@ -489,8 +489,9 @@ window.addEventListener('mousemove', function(e) {
         };
     };
     sceneContainer.style.cursor = isClickable ? 'pointer' : 'default';
-    if (!isClickable) {
+    if (!isClickable && lastHovered != null) {
         lastHovered.color = 0xfff;
+        lastHovered = null;
     };
 });
 
