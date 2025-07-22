@@ -460,6 +460,7 @@ cloudsGroup.castShadow = true;  // Cree des ombres
 const mousePosition = new THREE.Vector2();
 const rayCaster = new THREE.Raycaster();
 
+let lastHovered = null;
 
 window.addEventListener('mousemove', function(e) {
     const rect = sceneContainer.getBoundingClientRect();
@@ -472,7 +473,6 @@ window.addEventListener('mousemove', function(e) {
     // console.log('Intersects:', intersects); // Log the intersections
 
     let isClickable = false;
-    let lastHovered = null;
 
     for (let i = 0; i < intersects.length; i++) {
         let obj = intersects[i].object;
