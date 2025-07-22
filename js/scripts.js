@@ -349,7 +349,8 @@ const modeles = [
         scale: 0.1,
         vector: new THREE.Vector3(Math.cos(Math.PI/4.5)*2.85, Math.sin(Math.PI/4.5)*2.85, 0), // Placement sur la sphere, angle * rayon
         lightVector: new THREE.Vector3(Math.cos(Math.PI/4.5)*3.2, Math.sin(Math.PI/4.5)*3.2, 0),
-        ajusteDeMerde: null
+        ajusteDeMerde: null,
+        lightObj: null
     },
     {
         nom: 'ileGrk',
@@ -357,7 +358,8 @@ const modeles = [
         scale: 0.5,
         vector: new THREE.Vector3(Math.cos(Math.PI*6.6/8)*3.6, Math.sin(Math.PI*6.6/8)*3.6, 0),
         lightVector: new THREE.Vector3(Math.cos(Math.PI*6.8/8)*3.2, Math.sin(Math.PI*6.8/8)*3.2, 0),
-        ajusteDeMerde: { posX: -1.4, posY: -1.3, posZ: -1.8, rotZ: 0.06, }
+        ajusteDeMerde: { posX: -1.4, posY: -1.3, posZ: -1.8, rotZ: 0.06, },
+        lightObj: null
     },
     {
         nom: 'ileInka',
@@ -365,7 +367,8 @@ const modeles = [
         scale: 0.02,
         vector: new THREE.Vector3(0, Math.cos(Math.PI*2.3/4)*2.85, Math.sin(Math.PI*2.3/4)*2.85),
         lightVector: new THREE.Vector3(0, Math.cos(Math.PI*2.3/4)*3.2, Math.sin(Math.PI*2.3/4)*3.2),
-        ajusteDeMerde: null
+        ajusteDeMerde: null,
+        lightObj: null
     },
     {
         nom: 'samourai',
@@ -373,7 +376,8 @@ const modeles = [
         scale: 0.02,
         vector: new THREE.Vector3(0, Math.cos(-2*Math.PI/5)*2.8, Math.sin(-2*Math.PI/5)*2.8),
         lightVector: new THREE.Vector3(0, Math.cos(-2*Math.PI/5)*3.2, Math.sin(-2*Math.PI/5)*3.2),
-        ajusteDeMerde: null
+        ajusteDeMerde: null,
+        lightObj: null
     },
 ]
 
@@ -388,6 +392,7 @@ const AddModel = (modelObj) => {
         
         const light = new THREE.PointLight( 0xfff, 1/2, 0, 1/2);
         light.position.copy(modelObj.lightVector);
+        modelObj.lightObj = light;
 
         // Ajustements de merde parce que le modele n'est pas au centre de la scene -> changer de modele
         if (modelObj.ajusteDeMerde) {
@@ -408,6 +413,8 @@ const AddModel = (modelObj) => {
 }
 
 modeles.forEach(obj => AddModel(obj));
+
+
 //Nuages
 
 const cloudsGroup = new THREE.Group();
@@ -465,6 +472,7 @@ window.addEventListener('mousemove', function(e) {
     // console.log('Intersects:', intersects); // Log the intersections
 
     let isClickable = false;
+    let lastHovered = null;
 
     for (let i = 0; i < intersects.length; i++) {
         let obj = intersects[i].object;
@@ -472,12 +480,18 @@ window.addEventListener('mousemove', function(e) {
             if (obj.userData && [ 'drakkar', 'ileGrk', 'ileInka', 'samourai', 'luninsa' ].includes(obj.userData.modelName)) {
                 // console.log('Found clickable object:', obj.userData.modelName); // Log when a clickable object is found
                 isClickable = true;
+                lastHovered = modeles.find((theObj) => theObj.nom === obj.userData.modelName).lightObj;
+                lastHovered.color = 0xabcdef;
+
                 break; // Found the clickable model, no need to check parents further
             }
             obj = obj.parent; // Move up to the parent
         };
     };
     sceneContainer.style.cursor = isClickable ? 'pointer' : 'default';
+    if (!isClickable) {
+        lastHovered.color = 0xfff;
+    };
 });
 
 // Teams
@@ -552,7 +566,7 @@ const showMain = () => {
     document.querySelectorAll('#info-top').forEach(el => el.classList.remove( 'transition' ));
     document.documentElement.classList.add( 'main-transition' );
 
-    
+
     renderer.setAnimationLoop(animate);
 }
 
