@@ -38,6 +38,9 @@ html.viking #info-mid-2 { color: #fff; }
 html.fs #fs-img { content:url("../medias/fsexit.svg"); }
 /* html:not(.ss-equipe) #team-logo { display: none; } */
 
+html.main { background-color: var(--red-insa) }
+
+
 body {
     margin: 0;
     /* padding: 0; */
@@ -264,7 +267,7 @@ div.blur {
 #map {
   display: block;
   position: absolute;
-  top: 2%;
+  bottom: 2%;
   right: 2%;
 }
 
@@ -284,7 +287,7 @@ div.blur {
 #team {
     position: absolute;
     top: 2%;
-    left: 2%;
+    right: 2%;
     height: 25%;
     display: flex;
     flex-direction: column;
@@ -487,6 +490,7 @@ div.blur {
   max-height: 5dvh;
   font-size: 1rem;
   text-align: center;
+  margin-bottom: 5dvh;
 }
 
 /* // -------- Animation */
@@ -518,6 +522,15 @@ div.blur {
   }
 }
 
+@keyframes info-main-fade-in {
+  from {
+    transform: translateX(50dvw);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 #info-top.transition {
   animation: fade-in 1.5s forwards;
   background-color: rgba(#000 0.25);
@@ -526,9 +539,14 @@ div.blur {
 }
 
 html.main-transition {
-  animation: main-fade-in 1.5s forwards;
+  animation: main-fade-in 0.5s forwards;
   background-color: rgba(#000 0.25);
   opacity: 0;
+}
+
+html.info-main-transition {
+  animation: info-main-fade-in 1s forwards;
+  transform: translateX(50dvw);
 }
 
 

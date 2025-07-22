@@ -569,13 +569,21 @@ const showInfo = (info) => {
 }
 
 const showMain = () => {
-    document.documentElement.classList.remove(...[ ...infos, 'info' ]);
+    document.documentElement.classList.add( 'info-main-transition' );
+    
+    setTimeout(document.documentElement.classList.remove(...[ ...infos, 'info', 'info-main-transition']), 1000);
+
     document.documentElement.classList.add('main');
+    document.documentElement.classList.add( 'main-transition' );
+    
+
+
+
 
     // -------- Animation
 
     document.querySelectorAll('#info-top').forEach(el => el.classList.remove( 'transition' ));
-    document.documentElement.classList.add( 'main-transition' );
+
 
 
     renderer.setAnimationLoop(animate);
