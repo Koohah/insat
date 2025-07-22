@@ -483,7 +483,7 @@ window.addEventListener('mousemove', function(e) {
                 const temp = modeles.find((theObj) => theObj.nom === obj.userData.modelName);
                 if (temp) {
                     lastHovered = temp.lightObj;
-                    lastHovered.color.set(0x00ff00);
+                    lastHovered.color.set(0xffec00);
                     lastHovered.intensity = 1;
                     console.log(lastHovered);
                     console.log(lastHovered.color);
@@ -641,13 +641,13 @@ let bureauHeader = document.getElementById('bureau-header');
 
 window.addEventListener('load', () => {
     document.getElementById('backdrop').addEventListener('click', hidePopup);
-    showPopup("Bonjour ! Ceci est une bulle d'aide ! Vous pouvez l'ouvrir en cliquant sur <b> l'en-tête du bureau </b>.<br><br>- Il est recommandé de naviguer sur ce site avec un ordinateur. Merci également d'utiliser Chrome ou Firefox. En cas de problème quelconque, rechargez la page. Si le problème persiste, passez sur ordinateur.<br>- Pour commencer, choisissez une équipe ! Pour ce faire il suffit de chercher la vôtre sur la planète, puis de cliquer dessus.<br>- Cliquez sur <img src='./medias/map.svg' style='height:1rem;'/> pour ouvrir une carte de l'INSA faite par le club info.<br><br>Cliquez en dehors de la bulle d'aide pour en sortir. Bonne navigation !");
-    bureauHeader.addEventListener('click', () => showPopup("Bonjour ! Ceci est une bulle d'aide ! Vous pouvez l'ouvrir en cliquant sur <b> l'en-tête du bureau </b>.<br><br>- Il est recommandé de naviguer sur ce site avec un ordinateur. Merci également d'utiliser Chrome ou Firefox. En cas de problème quelconque, rechargez la page. Si le problème persiste, passez sur ordinateur.<br>- Pour commencer, choisissez une équipe ! Pour ce faire il suffit de chercher la votre sur la planète, puis de cliquer dessus.<br>- Cliquez sur <img src='./medias/map.svg' style='height:1rem;'/> pour ouvrir une carte de l'INSA faite par le club info.<br><br>Bonne navigation !"));
+    showPopup("<span class='chokokutai-regular'>ATTENTION, VEUILLEZ LIRE ATTENTIVEMENT !</span><br><br>Bonjour ! Ceci est une bulle d'aide ! Vous pouvez l'ouvrir en cliquant sur <b> l'en-tête du bureau </b>.<br><br>- Il est VIVEMENT recommandé de naviguer sur ce site avec un ordinateur. Merci également d'utiliser Chrome ou Firefox. En cas de problème quelconque, rechargez la page. Si le problème persiste, passez sur ordinateur.<br>- Pour commencer, choisissez une équipe ! Pour ce faire il suffit de chercher la vôtre sur la planète, puis de cliquer dessus.<br>- Cliquez sur <img src='./medias/map.svg' style='height:1rem;'/> pour ouvrir une carte de l'INSA faite par le club info.<br><br>Cliquez en dehors de la bulle d'aide pour en sortir. Bonne navigation !");
+    bureauHeader.addEventListener('click', () => showPopup("Bonjour ! Ceci est une bulle d'aide ! Vous pouvez l'ouvrir en cliquant sur <b> l'en-tête du bureau </b>.<br><br>- Il est VIVEMENT recommandé de naviguer sur ce site avec un ordinateur. Merci également d'utiliser Chrome ou Firefox. En cas de problème quelconque, rechargez la page. Si le problème persiste, passez sur ordinateur.<br>- Pour commencer, choisissez une équipe ! Pour ce faire il suffit de chercher la votre sur la planète, puis de cliquer dessus.<br>- Cliquez sur <img src='./medias/map.svg' style='height:1rem;'/> pour ouvrir une carte de l'INSA faite par le club info.<br><br>Bonne navigation !"));
 });
 
 bureauHeader.addEventListener('mouseover', () => {bureauHeader.style.cursor = 'pointer'});
 
-const creditText = "Conception du site : Hook Alban (contact : albanhook@gmail.com), Design graphique : Evan De Oliveira (instagram : evan.dlvr) & Audrey Tribet (instagram : audreyy.tribett), Hébergement : Club Info"
+const creditText = "Conception du site : Hook Alban (contact : albanhook@gmail.com)<br>Design graphique : Evan De Oliveira (instagram : evan.dlvr)<br>& Audrey Tribet (instagram : audreyy.tribett)<br>Hébergement : Club Info<br>En collaboration avec le bureau de la semaine d'accueil" // <img style='max-height: 7dvh;' src='./medias/logo-bureau.svg'>
 
 let creditMain = document.getElementById('credit-main');
 let creditInfo = document.getElementById('credit-info');

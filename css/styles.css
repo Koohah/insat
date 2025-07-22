@@ -35,6 +35,7 @@ html.loading #info { display: none; }
 html:not(.loading) #splash { display: none; }
 html.loading #full-screen { display: none; }
 html.viking #info-mid-2 { color: #fff; }
+html.fs #fs-img { content:url("../medias/fsexit.svg"); }
 /* html:not(.ss-equipe) #team-logo { display: none; } */
 
 body {
