@@ -72,8 +72,15 @@
     <div id="home-flex">
         <div id="bureau-container">
             <header id="bureau-header">
-                <img src="./medias/logo-bureau.svg"/>
-                <h1 class ="pf-d-bureau-title">Le bureau</h1>
+                <script>
+                    function hideMenu() {
+                        document.getElementById('bureau-container').style.display = 'none';
+                        document.getElementById('menu-img').style.display = 'block';
+                        document.getElementById('credit-main').style.display = 'block';
+                    }
+                </script>
+                <img id="logo-nav" src="./medias/logo-bureau.svg"/>
+                <img id="close-nav" src="./medias/x-circle.svg" onclick="hideMenu()"/>
             </header>
             <div id="menu">
                 <div id="planning" class="menu-item"><h4 class="chokokutai-regular">Au planning</h4></div>
@@ -87,9 +94,17 @@
             </div>
         </div>
         <div id="scene-container">
+            <script>
+                function showMenu() {
+                    document.getElementById('bureau-container').style.display = 'flex';
+                    document.getElementById('menu-img').style.display = 'none';
+                    document.getElementById('credit-main').style.display = 'none';
+                }
+            </script>
             <div id="team" class="team-border"><img id="team-logo" class="team-logo-Dsize"/></div>
             <div id="full-screen"><img id="fs-img" src="./medias/fullscreen.svg"/></div>
             <div id="map" onclick="window.open('./mapinsa/index.html', '_blank')" onmouseenter="document.getElementById('map-img').src = './medias/maphover.svg'" onmouseleave="document.getElementById('map-img').src = './medias/map.svg'"><img id="map-img" src="./medias/map.svg"/></div>
+            <div id="menu-nav" onclick="showMenu()" onmouseenter="document.getElementById('menu-img').src = './medias/list.svg'" onmouseleave="document.getElementById('menu-img').src = './medias/list.svg'"><img id="menu-img" src="./medias/list.svg"/></div>
             <span class="chokokutai-regular" id="credit-main">Crédits</span>
         </div>
     </div>
