@@ -1,5 +1,6 @@
 :root {
     --red-insa: #e42418;
+    --nav-bg: rgba(0, 0, 0, 0.4);
     --sumeria: 5, 64, 62;
 }
 
@@ -159,6 +160,7 @@ div.blur {
     height: 100dvh;
     align-items: stretch;
     flex-direction: row;
+    position: relative;
 }
 
 #bureau-container {
@@ -166,16 +168,20 @@ div.blur {
     flex-direction: column;
     width: 35dvw;
     height: 100dvh;
-    position: relative;
-    background-color: var(--red-insa);
+    background-color: var(--nav-bg);
+    display: none;
+    position: absolute;
+    z-index: 1;
+
 }
 
 #bureau-header {
     display: flex;
     height: 8dvh;
     align-items: center;
-    justify-content: center;
     background-color: #fff;
+    justify-content: space-between;
+    padding: 0 20px;
 }
 
 #bureau-header img {
@@ -183,8 +189,11 @@ div.blur {
     margin-right: 1dvw;
     padding: 0.5dvh;
     background-color: white;
+    cursor: pointer;
 }
-
+#close-nav {
+    height: 8dvh;
+}
 #menu {
     display: flex;
     flex-direction: column;
@@ -208,11 +217,13 @@ div.blur {
     width: 85%;
     font-size: 1.4rem;
     cursor: pointer;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    box-shadow: none;
     background-color: #fff;
+    transition: .3s;
+    border-radius: 25px
 }
 .menu-item:hover {
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
 
 #no-team {
@@ -230,91 +241,104 @@ div.blur {
 }
 
 #scene-container {
-    width: 65dvw;
+    width: 100dvw;
     height: 100dvh;
     display: flex;
     justify-content: center;
     align-items: center;
     border: 0.5rem solid;
-    border-color: var(--red-insa);
     position: relative;
 }
 
 #scene-container canvas {
     display: block; /* Ensure it's a block element */
-    max-width: 100%;
-    max-height: 100%;
-}
+    /*  max-width: 100%;
+     max-height: 100%;*/
+    width: 100vw !important;
+    height: 100vh !important;
+ }
 
 
 
-.fs #scene-container {
-    height: 100%;
-}
+ .fs #scene-container {
+     height: 100%;
+ }
 
-#full-screen {
-    display: none;
-    position: absolute;
-    bottom: 2%;
-    right: 2%;
-}
+ #full-screen {
+     display: none;
+     position: absolute;
+     bottom: 2%;
+     right: 2%;
+ }
 
-#fs-img {
-    height: 5dvh;
-    width: auto;
-}
+ #fs-img {
+     height: 5dvh;
+     width: auto;
+ }
 
-#map {
-  display: block;
-  position: absolute;
-  bottom: 2%;
-  right: 2%;
-}
+ #map {
+   display: block;
+   position: absolute;
+   bottom: 2%;
+   right: 2%;
+ }
 
-#map-img {
-  height: 7dvh;
-  width: auto;
-}
+ #map-img {
+   height: 7dvh;
+   width: auto;
+ }
 
-#credit-main {
-  color: #fff;
-  position: absolute;
-  bottom: 2%;
-  left: 2%;
-  font-size: 1rem;
-}
-
-#team {
+#menu-nav {
+    display: block;
     position: absolute;
     top: 2%;
-    right: 2%;
-    height: 25%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    left: 2%;
 }
 
-.team-border {
-    border-style: solid;
-    border-color: #fff;
-    border-radius: 3px;
-}
-
-.team-logo-Dsize {
-    height: 100%;
-    width: auto;
-    padding: 2px;
-}
-
-.vikinsize {
-    height: 100%;
+#menu-img {
+    height: 7dvh;
     width: auto;
 }
 
-/* [id^="info-"] {
-  min-height: 100dvh;
-}
-*/
+ #credit-main {
+   color: #fff;
+   position: absolute;
+   bottom: 2%;
+   left: 2%;
+   font-size: 1rem;
+ }
+
+ #team {
+     position: absolute;
+     top: 2%;
+     right: 2%;
+     height: 25%;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+ }
+
+ .team-border {
+     border-style: solid;
+     border-color: #fff;
+     border-radius: 3px;
+ }
+
+ .team-logo-Dsize {
+     height: 100%;
+     width: auto;
+     padding: 2px;
+ }
+
+ .vikinsize {
+     height: 100%;
+     width: auto;
+ }
+
+ /* [id^="info-"] {
+   min-height: 100dvh;
+ }
+ */
 
 #info-planning, #info-blouse, #info-guide-ppa, #info-prevention {
   height: 100dvh;
@@ -578,13 +602,10 @@ html.info-main-transition {
     flex-direction: column;
   }
   #bureau-container {
-    height: 50dvh;
+    height: 100dvh;
     width: 100%;
   }
-  #scene-container {
-    height: 50dvh;
-    width: 100%;
-  }
+
   #menu {
     height: 84%;
   }
