@@ -585,7 +585,7 @@ html.info-main-transition {
 @media screen and (orientation: portrait) {
   html.fs #bureau-container { display: none; }
   html.fs #scene-container, #scene-container #canvas { height: 100dvh; }
-  html.ss-equipe #scene-container { height: 65% }
+  html.ss-equipe #scene-container {  height: 100dvh;}
   html.ss-equipe #bureau-container { height: 35% }
  
   .img-landscape {
