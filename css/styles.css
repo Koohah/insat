@@ -39,7 +39,7 @@ html.viking #info-mid-2 { color: #fff; }
 html.fs #fs-img { content:url("../medias/fsexit.svg"); }
 /* html:not(.ss-equipe) #team-logo { display: none; } */
 
-html.main { background-color: var(--red-insa) }
+html.main { background-color: #ffffff; }
 
 
 body {
@@ -196,7 +196,11 @@ div.blur {
     cursor: pointer;
 }
 #close-nav {
-    height: 8dvh;
+    height: 5dvh;
+    transition: transform 0.3s ease-in-out;
+}
+#close-nav:hover {
+    transform: scale(1.1);
 }
 #menu {
     display: flex;
@@ -368,12 +372,16 @@ div.blur {
 }
 
 #back-arrow, #back-arrow-2, #back-arrow-3, #back-arrow-4 {
-    width: 8dvw;
+    width: 4dvw;
     height: auto;
     position: fixed;
-    top: 2%;
-    left: 2%;
+    top: 5.5%;
+    left: 5.5%;
     z-index: 1;
+    transition: 0.3s ease-in-out;
+}
+#back-arrow:hover, #back-arrow-2:hover, #back-arrow-3:hover, #back-arrow-4:hover {
+    transform: scale(1.25);
 }
 
 #ba-tip {
@@ -652,6 +660,10 @@ html.info-main-transition {
   #back-arrow, #back-arrow-2, #back-arrow-3, #back-arrow-4{
     height: 8dvh;
     width: auto;
+      left: 0;
+    top: 0;
+      margin-top: 15px;
+      margin-left: 5px;
   }
   #ba-tip {
     top: 8%;
