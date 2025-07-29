@@ -169,10 +169,14 @@ div.blur {
     width: 35dvw;
     height: 100dvh;
     background-color: var(--nav-bg);
-    display: none;
     position: absolute;
     z-index: 1;
+    transform: translateX(-35dvw);
+    transition: transform 0.5s ease-in-out;
 
+}
+.bureau-ouvert {
+    transform: translateX(0) !important;
 }
 
 #bureau-header {
@@ -298,7 +302,13 @@ div.blur {
 #menu-img {
     height: 7dvh;
     width: auto;
+    cursor: pointer;
+    transition: height 0.3s ease-in-out;
 }
+#menu-img:hover {
+    height: 8dvh;
+}
+
 
  #credit-main {
    color: #fff;
@@ -307,6 +317,9 @@ div.blur {
    left: 2%;
    font-size: 2rem;
  }
+#credit-main:hover {
+    color: #9a9898;
+}
 
  #team {
      position: absolute;
@@ -583,7 +596,7 @@ html.info-main-transition {
 
 
 @media screen and (orientation: portrait) {
-  html.fs #bureau-container { display: none; }
+  html.fs #bureau-container { }
   html.fs #scene-container, #scene-container #canvas { height: 100dvh; }
   html.ss-equipe #scene-container {  height: 100dvh;}
   html.ss-equipe #bureau-container { height: 35% }
@@ -602,9 +615,15 @@ html.info-main-transition {
     flex-direction: column;
   }
   #bureau-container {
-    height: 100dvh;
+      display: flex;
+      height: 100dvh;
     width: 100%;
+      transform: translateY(-100dvh);
+      transition: transform 0.5s ease-in-out;
   }
+    .bureau-ouvert {
+        transform: translateY(0) !important;
+    }
 
   #menu {
     height: 84%;
