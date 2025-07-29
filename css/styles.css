@@ -617,7 +617,7 @@ html.info-main-transition {
     font-size: 4dvh;
   }
   #full-screen {
-    display: block;
+    display: none;
   }
   #credit-main {
     font-size: 2rem;
