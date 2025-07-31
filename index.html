@@ -74,9 +74,10 @@
             <header id="bureau-header">
                 <script>
                     function hideMenu() {
-                        document.getElementById('bureau-container').style.display = 'none';
+                        document.getElementById('bureau-container').style.display = 'flex';
                         document.getElementById('menu-img').style.display = 'block';
                         document.getElementById('credit-main').style.display = 'block';
+                        document.getElementById('bureau-container').classList.remove('bureau-ouvert');
                     }
                 </script>
                 <img id="logo-nav" src="./medias/logo-bureau.svg"/>
@@ -99,6 +100,7 @@
                     document.getElementById('bureau-container').style.display = 'flex';
                     document.getElementById('menu-img').style.display = 'none';
                     document.getElementById('credit-main').style.display = 'none';
+                    document.getElementById('bureau-container').classList.add('bureau-ouvert');
                 }
             </script>
             <div id="team" class="team-border"><img id="team-logo" class="team-logo-Dsize"/></div>
